@@ -16,7 +16,7 @@ public class Novel {
     @Id
     private int colocacao;
 
-    @Column(name = "lugar_mes")
+    @Column(name = "lugar_mes", unique = true)
     private int colocacaoMensal;
 
     @Column(name = "total")
