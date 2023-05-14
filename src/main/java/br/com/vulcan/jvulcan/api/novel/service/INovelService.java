@@ -25,4 +25,5 @@ public interface INovelService
      * @return 'true' caso a novel seja salva, 'false' caso contrário.
      */
     boolean salvar(Novel novel);
+
 }
