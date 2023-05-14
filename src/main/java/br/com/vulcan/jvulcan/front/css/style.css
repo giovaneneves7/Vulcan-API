@@ -1,0 +1,21 @@
+.info {
+    text-align: center;
+    padding: 5px;
+    align-items: center;
+}
+
+.info h3 {
+    color: rgb(0, 184, 55);
+}
+
+.info p span {
+    color: rgb(255, 72, 0);
+}
+
+
+/* Tela de cadatro */
+.form-container {
+    padding: 10px;
+    align-items: center;
+
+}
