@@ -17,11 +17,16 @@ public class NovelController
     @Autowired
     IFacade facade;
 
+    /**
+     * Retorna uma lista com todas as novels na base de dados.
+     * @param nacionalidade (Opicional) A nacionalidade das novels que serão retornadas.
+     * @return Lista de novels da base de dados.
+     */
     @GetMapping(path = "/novels")
     public ResponseEntity<List<Novel>> listarTodas(@RequestParam(name = "nacionalidade", required = false) String nacionalidade)
     {
 
-        if(!nacionalidade.isEmpty())
+        if(nacionalidade != null)
         {
             return ResponseEntity.ok(this.facade.listarTodasNovels(nacionalidade));
         }
