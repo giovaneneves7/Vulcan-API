@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "nekoyasha7/api/jvulcan1000-beta")
+@RequestMapping(path = "nekoyasha7/jvulcan-api/v1")
 public class NovelController
 {
 
