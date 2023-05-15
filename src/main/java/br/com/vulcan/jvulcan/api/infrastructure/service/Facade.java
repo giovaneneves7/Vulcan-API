@@ -52,7 +52,22 @@ public class Facade implements IFacade
         return this.novelService.salvar(novel);
     }
 
+
     //====================={ BANNER - METODOS }=====================//
+
+    /**
+     * Adiciona um banner no banco de dados.
+     * @param banner O Banner que será cadastrado.
+     * @return 'True' caso o banner seja cadastrado, 'false' caso contrário.
+     */
+    @Override
+    public boolean salvarBanner(Banner banner)
+    {
+
+        return this.bannerService.salvar(banner);
+
+    }
+
     /**
      * Retorna um banner aleatório da base de dados.
      * @return um banner aleatório.

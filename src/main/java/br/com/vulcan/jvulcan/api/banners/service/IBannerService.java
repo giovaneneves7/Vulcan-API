@@ -10,7 +10,7 @@ public interface IBannerService
      * @param banner -O Banner que será cadastrado.
      * @return 'True' caso o banner seja cadastrado, 'false' caso contrário.
      */
-    boolean cadastrarBanner(Banner banner);
+    boolean salvar(Banner banner);
 
     /**
      * Retorna um banner aleatório da base de dados.
