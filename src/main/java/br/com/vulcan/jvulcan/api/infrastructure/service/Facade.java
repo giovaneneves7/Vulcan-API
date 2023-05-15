@@ -1,5 +1,7 @@
 package br.com.vulcan.jvulcan.api.infrastructure.service;
 
+import br.com.vulcan.jvulcan.api.banners.model.Banner;
+import br.com.vulcan.jvulcan.api.banners.service.IBannerService;
 import br.com.vulcan.jvulcan.api.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.novel.service.INovelService;
 
@@ -11,8 +13,12 @@ import java.util.List;
 @Service
 public class Facade implements IFacade
 {
+
     @Autowired
     INovelService novelService;
+
+    @Autowired
+    IBannerService bannerService;
 
     //====================={ NOVEL - METODOS }=====================//
     /**
@@ -44,5 +50,18 @@ public class Facade implements IFacade
     public boolean salvarNovel(Novel novel)
     {
         return this.novelService.salvar(novel);
+    }
+
+    //====================={ BANNER - METODOS }=====================//
+    /**
+     * Retorna um banner aleatório da base de dados.
+     * @return um banner aleatório.
+     */
+    @Override
+    public Banner pegarBannerAleatorio()
+    {
+
+        return this.bannerService.pegarBannerAleatorio();
+
     }
 }

@@ -1,11 +1,13 @@
 package br.com.vulcan.jvulcan.api.infrastructure.service;
 
+import br.com.vulcan.jvulcan.api.banners.model.Banner;
 import br.com.vulcan.jvulcan.api.novel.model.Novel;
 
 import java.util.List;
 
 public interface IFacade {
 
+    //=========================={ NOVELS }==========================//
     /**
      * Retorna uma lista com todas as novels.
      * @return uma lista com todas as novels.
@@ -24,4 +26,11 @@ public interface IFacade {
      * @return 'true' caso a novel seja salva, 'false' caso contrário.
      */
     boolean salvarNovel(Novel novel);
+
+    //=========================={ BANNERS }==========================//
+    /**
+     * Retorna um banner aleatório da base de dados.
+     * @return um banner aleatório.
+     */
+    Banner pegarBannerAleatorio();
 }
