@@ -23,7 +23,7 @@ public class BannerService implements IBannerService
      * @return 'True' caso o banner seja cadastrado, 'false' caso contrário.
      */
     @Override
-    public boolean cadastrarBanner(Banner banner) {
+    public boolean salvar(Banner banner) {
 
         Optional<Banner> optionalBanner = bannerRepository.findBannerByNome(banner.getNome());
 
