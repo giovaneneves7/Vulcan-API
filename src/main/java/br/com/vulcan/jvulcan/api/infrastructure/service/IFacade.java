@@ -27,6 +27,13 @@ public interface IFacade {
      */
     boolean salvarNovel(Novel novel);
 
+    /**
+     * Busca uma novel pelo slug passado.
+     * @param slug O slug da novel.
+     * @return A novel com o slug passado por parâmetro, 'null' caso ela não exista.
+     */
+    Novel buscarNovelPorSlug(String slug);
+
     //=========================={ BANNERS }==========================//
 
     /**
@@ -41,4 +48,6 @@ public interface IFacade {
      * @return um banner aleatório.
      */
     Banner pegarBannerAleatorio();
+
+
 }

@@ -52,6 +52,19 @@ public class Facade implements IFacade
         return this.novelService.salvar(novel);
     }
 
+    /**
+     * Busca uma novel pelo slug passado.
+     * @param slug O slug da novel.
+     * @return A novel com o slug passado por parâmetro, 'null' caso ela não exista.
+     */
+    @Override
+    public Novel buscarNovelPorSlug(String slug)
+    {
+
+        return this.novelService.buscarPorSlug(slug);
+
+    }
+
 
     //====================={ BANNER - METODOS }=====================//
 

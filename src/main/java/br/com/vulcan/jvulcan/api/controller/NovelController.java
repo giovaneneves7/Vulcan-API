@@ -48,4 +48,12 @@ public class NovelController
 
         }
     }
+
+    @GetMapping(path = "/novels/novel/{slug}")
+    public ResponseEntity<Novel> buscarPorSlug(@PathVariable(name = "slug") String slug)
+    {
+
+        return ResponseEntity.ok(facade.buscarNovelPorSlug(slug));
+
+    }
 }
