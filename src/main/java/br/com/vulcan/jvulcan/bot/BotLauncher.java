@@ -13,10 +13,13 @@ import javax.security.auth.login.LoginException;
 public class BotLauncher extends ListenerAdapter
 {
 
-    @Value("${token}")
     private String TOKEN;
 
-    public BotLauncher() throws LoginException
+    public BotLauncher(@Value("${token}") String token) {
+        TOKEN = token;
+    }
+
+    public void iniciarBot() throws LoginException
     {
         JDABuilder.createDefault(TOKEN)
                 .addEventListeners(this)
@@ -30,5 +33,5 @@ public class BotLauncher extends ListenerAdapter
         super.onReady(event);
     }
 
-//--+ Eventos aqui +--//
+    //--+ Eventos aqui +--//
 }
