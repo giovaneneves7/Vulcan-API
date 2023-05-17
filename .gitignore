@@ -1,8 +1,7 @@
 HELP.md
-mvnw.cmd
-mvnw
 
-src/main/resources/
+### Configurações ###
+/src/main/resources/application.properties
 
 target/
 !.mvn/wrapper/maven-wrapper.jar
