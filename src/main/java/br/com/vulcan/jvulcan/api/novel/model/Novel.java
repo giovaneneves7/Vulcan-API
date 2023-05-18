@@ -4,19 +4,24 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 
 import lombok.Data;
 
 @Entity
-@Table(name = "api_todas")
+@Table(name = "api_novels")
 @Data
 public class Novel {
 
-    @Column(name = "lugar")
+    @Column(name = "id")
     @Id
-    private int colocacao;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    @Column(name = "lugar_mes", unique = true)
+    @Column(name = "lugar", unique = true)
+    private int colocacao;
+    @Column(name = "lugar_mes")
     private int colocacaoMensal;
 
     @Column(name = "total")
