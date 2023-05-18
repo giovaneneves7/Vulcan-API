@@ -26,4 +26,13 @@ public interface INovelService
      */
     boolean salvar(Novel novel);
 
+    /**
+     * Busca uma novel pelo slug passado.
+     * @param slug O slug da novel.
+     * @return A novel com o slug passado por parâmetro, 'null' caso ela não exista.
+     */
+    Novel buscarPorSlug(String slug);
+
+
+    void atualizarViews(String slug);
 }

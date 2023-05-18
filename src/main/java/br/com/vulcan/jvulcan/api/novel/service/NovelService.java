@@ -3,9 +3,11 @@ package br.com.vulcan.jvulcan.api.novel.service;
 import br.com.vulcan.jvulcan.api.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.novel.repository.NovelRepository;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,9 +46,10 @@ public class NovelService implements INovelService
      * @return 'true' caso a novel seja salva, 'false' caso contrário.
      */
     @Override
+    @Transactional
     public boolean salvar(Novel novel)
     {
-        List<Novel> novels = listarTodas();
+        List<Novel> novels = this.novelRepository.findAll();
 
         //--+ Verifica se há registro no banco de dados +--//
         if(novels.isEmpty())
@@ -69,37 +72,13 @@ public class NovelService implements INovelService
         {
             novels.add(novel);
 
+            //--+ Reordena a lista +--//
             reorganizarPorViewsMensais(novels);
             reorganizarPorViewsTotais(novels);
 
-            for(Novel nvl : novels)
-            {
-                Optional<Novel> existeNoBanco = novelRepository.findById((long) nvl.getColocacao());
+            this.novelRepository.saveAll(novels);
 
-                if(existeNoBanco.isPresent())
-                {
-                    Novel novelAtualizada = existeNoBanco.get();
-                    novelAtualizada.setColocacaoMensal(nvl.getColocacaoMensal());
-                    novelAtualizada.setViewsTotais(nvl.getViewsTotais());
-                    novelAtualizada.setViewsMensais(nvl.getViewsMensais());
-                    novelAtualizada.setSlug(nvl.getSlug());
-                    novelAtualizada.setNome(nvl.getNome());
-                    novelAtualizada.setNacionalidade(nvl.getNacionalidade());
-                    novelAtualizada.setCapa(nvl.getCapa());
-                    novelAtualizada.setIndice(nvl.getIndice());
-                    novelAtualizada.setAutor(nvl.getAutor());
-                    novelAtualizada.setQuantidadeCapitulos(nvl.getQuantidadeCapitulos());
-                    novelAtualizada.setCargo(nvl.getCargo());
-                    novelAtualizada.setGeneros(nvl.getGeneros());
-                    novelAtualizada.setEscritor(nvl.getEscritor());
-                    novelAtualizada.setEstrelas(nvl.getEstrelas());
-                    novelAtualizada.setDataCriacaoIndice(nvl.getDataCriacaoIndice());
-                    novelAtualizada.setSinopse(nvl.getSinopse());
-                    this.novelRepository.save(novelAtualizada);
-                } else{
-                    this.novelRepository.save(nvl);
-                }
-            }
+
 
             return true;
         }
@@ -108,8 +87,45 @@ public class NovelService implements INovelService
         return false;
     }
 
+    /**
+     * Busca uma novel pelo slug passado.
+     * @param slug O slug da novel.
+     * @return A novel com o slug passado por parâmetro, 'null' caso ela não exista.
+     */
+    @Override
+    public Novel buscarPorSlug(String slug) {
+
+        Optional<Novel> optionalNovel = this.novelRepository.findBySlug(slug);
+
+        if(optionalNovel.isPresent())
+        {
+            return optionalNovel.get();
+        }
+
+        return null;
+
+    }
+
+    @Override
+    public void atualizarViews(String slug)
+    {
+
+        Optional<Novel> optionalNovel = novelRepository.findBySlug(slug);
+
+        if(!optionalNovel.isPresent())
+        {
+            System.out.println("Novel não encontrada");
+            return;
+        }
+
+        Novel novel = optionalNovel.get();
+
+    }
+
     private void reorganizarPorViewsMensais(List<Novel> novels)
     {
+        novels.sort((n1, n2) -> Integer.compare(n2.getViewsMensais(), n1.getViewsMensais()));
+
         for(int i = 0; i < novels.size(); i++)
         {
             novels.get(i).setColocacaoMensal(i + 1);
