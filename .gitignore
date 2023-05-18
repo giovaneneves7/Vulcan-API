@@ -1,5 +1,8 @@
 HELP.md
 
+### Testes ###
+/src/main/test
+
 ### Configurações ###
 /src/main/resources/application.properties
 
