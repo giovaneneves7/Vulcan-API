@@ -1,7 +1,7 @@
 package br.com.vulcan.jvulcan.api.controller.v1;
 
 import br.com.vulcan.jvulcan.api.infrastructure.service.IFacade;
-import br.com.vulcan.jvulcan.api.novel.model.Novel;
+import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

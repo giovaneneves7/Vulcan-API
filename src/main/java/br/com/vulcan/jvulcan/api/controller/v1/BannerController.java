@@ -1,6 +1,6 @@
-package br.com.vulcan.jvulcan.api.controller;
+package br.com.vulcan.jvulcan.api.controller.v1;
 
-import br.com.vulcan.jvulcan.api.banners.model.Banner;
+import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
 import br.com.vulcan.jvulcan.api.infrastructure.service.IFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
