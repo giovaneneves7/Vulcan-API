@@ -1,6 +1,6 @@
-package br.com.vulcan.jvulcan.api.novel.repository;
+package br.com.vulcan.jvulcan.api.entity.novel.repository;
 
-import br.com.vulcan.jvulcan.api.novel.model.Novel;
+import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

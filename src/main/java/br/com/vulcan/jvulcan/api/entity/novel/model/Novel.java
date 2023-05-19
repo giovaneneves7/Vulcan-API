@@ -1,4 +1,4 @@
-package br.com.vulcan.jvulcan.api.novel.model;
+package br.com.vulcan.jvulcan.api.entity.novel.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

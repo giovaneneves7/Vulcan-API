@@ -1,4 +1,4 @@
-package br.com.vulcan.jvulcan.api.banners.model;
+package br.com.vulcan.jvulcan.api.entity.banners.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

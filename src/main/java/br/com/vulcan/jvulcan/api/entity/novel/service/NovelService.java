@@ -1,13 +1,12 @@
-package br.com.vulcan.jvulcan.api.novel.service;
+package br.com.vulcan.jvulcan.api.entity.novel.service;
 
-import br.com.vulcan.jvulcan.api.novel.model.Novel;
-import br.com.vulcan.jvulcan.api.novel.repository.NovelRepository;
+import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
+import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

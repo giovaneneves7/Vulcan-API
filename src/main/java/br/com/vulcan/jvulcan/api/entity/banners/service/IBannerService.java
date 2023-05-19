@@ -1,6 +1,6 @@
-package br.com.vulcan.jvulcan.api.banners.service;
+package br.com.vulcan.jvulcan.api.entity.banners.service;
 
-import br.com.vulcan.jvulcan.api.banners.model.Banner;
+import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
 
 public interface IBannerService
 {

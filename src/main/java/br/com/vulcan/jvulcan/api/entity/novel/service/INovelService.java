@@ -1,6 +1,6 @@
-package br.com.vulcan.jvulcan.api.novel.service;
+package br.com.vulcan.jvulcan.api.entity.novel.service;
 
-import br.com.vulcan.jvulcan.api.novel.model.Novel;
+import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 
 import java.util.List;
 
