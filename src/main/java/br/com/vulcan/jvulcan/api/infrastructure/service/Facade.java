@@ -1,10 +1,12 @@
 package br.com.vulcan.jvulcan.api.infrastructure.service;
 
-import br.com.vulcan.jvulcan.api.banners.model.Banner;
-import br.com.vulcan.jvulcan.api.banners.service.IBannerService;
-import br.com.vulcan.jvulcan.api.novel.model.Novel;
-import br.com.vulcan.jvulcan.api.novel.service.INovelService;
+import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
+import br.com.vulcan.jvulcan.api.entity.banners.service.IBannerService;
+import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
+import br.com.vulcan.jvulcan.api.entity.novel.service.INovelService;
 
+import br.com.vulcan.jvulcan.api.entity.post.model.Post;
+import br.com.vulcan.jvulcan.api.entity.post.service.IPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,9 @@ public class Facade implements IFacade
 
     @Autowired
     IBannerService bannerService;
+
+    @Autowired
+    IPostService postService;
 
     //====================={ NOVEL - METODOS }=====================//
     /**
@@ -92,4 +97,20 @@ public class Facade implements IFacade
         return this.bannerService.pegarBannerAleatorio();
 
     }
+
+    //====================={ POST - METODOS }=====================//
+
+    /**
+     * Envia uma embed via Webhook com informações de uma nova postagem no site.
+     * @param post O post que será notificado via Webhook.
+     */
+    @Override
+    public void notificarNovaPostagem(Post post)
+    {
+
+        this.postService.notificarNovaPostagem(post);
+
+    }
+
 }
+
