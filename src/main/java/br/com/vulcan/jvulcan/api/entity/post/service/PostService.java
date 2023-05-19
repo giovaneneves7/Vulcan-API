@@ -3,7 +3,12 @@ package br.com.vulcan.jvulcan.api.entity.post.service;
 import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 
+import jakarta.annotation.PostConstruct;
+import lombok.NoArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.net.URI;
@@ -14,12 +19,27 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
 @Service
+@NoArgsConstructor
+@PropertySource("classpath:application.properties")
 public class PostService implements IPostService
 {
-    private final String WEBHOOK_URL = "https://discord.com/api/webhooks/1109128565141798943/yLKCpYd7YBJhpAfHZ5jR8WRYks9t6IGLWoYcXIIhV2xbZmObnwGBpD1x9L6Wmb44g_HM";
+
+    @Value("${webhook_url}")
+    private String webhookUrl;
+
     @Autowired
     NovelRepository novelRepository;
 
+    @PostConstruct
+    public void init()
+    {
+        System.out.println("Conectado no WebHook: ".concat(webhookUrl));
+    }
+
+    /**
+     * Envia uma embed via Webhook com informações de uma nova postagem no site.
+     * @param post O post que será notificado via Webhook.
+     */
     @Override
     public void notificarNovaPostagem(Post post) {
 
@@ -45,7 +65,7 @@ public class PostService implements IPostService
 
             HttpClient cliente  = HttpClient.newHttpClient();
             HttpRequest requisicao = HttpRequest.newBuilder()
-                                                .uri(URI.create(WEBHOOK_URL))
+                                                .uri(URI.create(this.webhookUrl))
                                                 .header("Content-Type", "application/json")
                                                 .POST(HttpRequest.BodyPublishers.ofString(mensagemJson, StandardCharsets.UTF_8))
                                                 .build();
