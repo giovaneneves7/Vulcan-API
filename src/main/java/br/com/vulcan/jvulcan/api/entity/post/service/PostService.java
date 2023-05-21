@@ -2,6 +2,7 @@ package br.com.vulcan.jvulcan.api.entity.post.service;
 
 import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
+import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 
 import jakarta.annotation.PostConstruct;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 @Service
 @NoArgsConstructor
@@ -45,10 +47,27 @@ public class PostService implements IPostService
 
         try{
 
+            Optional<Novel> optionalNovel = novelRepository.findByNome(post.getCategoria());
+
+            String cargoMarcado = "";
+            String capaUrl = "";
+            var autor = "Vulcan";
+
+            if(optionalNovel.isPresent())
+            {
+                Novel novel = optionalNovel.get();
+
+                cargoMarcado = novel.getIdCargo();
+                String capa = novel.getCapa();
+                String padrao = "-\\\\d+x\\\\d+";
+                capaUrl = capa.replaceAll(padrao, "");
+                autor = novel.getAutor();
+            }
+
             String mensagemJson =
             """
                     {
-                        "content:" : "",
+                        "content" : "Um novo capítulo acaba de sair do forno, <@&%s>",
                         "embeds" : [
                                         {
                                             "title" : "%s",
@@ -56,12 +75,17 @@ public class PostService implements IPostService
                                             "author" : {
                                                 "name" : "%s",
                                                 "icon_url" : "%s"
+                                            },
+                                            "color" : 47615,
+                                            "footer" : {
+                                                "text" : "Clique no título para ler o capítulo",
+                                                "icon_url" : "%s"
                                             }
-                                            
+    
                                         }
                                     ]
                     }
-            """.formatted(post.getTitulo(), post.getLink(), post.getAutor(), post.getLinkAvatarAutor());
+            """.formatted(cargoMarcado, post.getTitulo(), post.getLink(), autor, post.getLinkAvatarAutor(), capaUrl);
 
             HttpClient cliente  = HttpClient.newHttpClient();
             HttpRequest requisicao = HttpRequest.newBuilder()
