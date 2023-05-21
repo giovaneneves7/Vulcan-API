@@ -13,6 +13,9 @@ public class Post
     @JsonProperty("nome_novel")
     private String nomeNovel;
 
+    @JsonProperty("categoria")
+    private String categoria;
+
     @JsonProperty("titulo_postagem")
     private String titulo;
 
