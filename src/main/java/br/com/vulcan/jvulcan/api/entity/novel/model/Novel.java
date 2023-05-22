@@ -12,7 +12,7 @@ import jakarta.persistence.GenerationType;
 import lombok.Data;
 
 @Entity
-@Table(name = "api_novels")
+@Table(name = "api_todas")
 @Data
 public class Novel {
 
@@ -22,7 +22,7 @@ public class Novel {
     @JsonIgnore
     private int id;
 
-    @Column(name = "lugar", unique = true)
+    @Column(name = "colocacao_total")
     @JsonProperty("colocacao_total")
     private int colocacao;
 
