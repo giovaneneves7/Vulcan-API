@@ -49,9 +49,9 @@ public class PostService implements IPostService
 
             Optional<Novel> optionalNovel = novelRepository.findByNome(post.getCategoria());
 
-            String cargoMarcado = "";
+            String cargoMarcado = "ROLE_NOT_FOUND";
             String capaUrl = "";
-            var autor = "Vulcan";
+            var autor = "USERNAME_UNDEFINED";
 
             if(optionalNovel.isPresent())
             {
@@ -67,7 +67,7 @@ public class PostService implements IPostService
             String mensagemJson =
             """
                     {
-                        "content" : "Um novo capítulo acaba de sair do forno, <@&%s>",
+                        "content" : " ⚡ <@&863456249873825812> <@&%s>",
                         "embeds" : [
                                         {
                                             "title" : "%s",
