@@ -1,6 +1,7 @@
 package br.com.vulcan.jvulcan.api.controller.v1;
 
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
+import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.NovelNotFoundException;
 import br.com.vulcan.jvulcan.api.infrastructure.service.IFacade;
 
@@ -38,6 +39,11 @@ public class PostController
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                                  .body(ex.getMessage());
 
+        } catch (MessageNotSentException ex)
+        {
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .body(ex.getMessage());
         }
 
     }
