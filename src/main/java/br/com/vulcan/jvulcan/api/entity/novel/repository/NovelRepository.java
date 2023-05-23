@@ -12,4 +12,5 @@ public interface NovelRepository extends JpaRepository<Novel, Long>
 {
     List<Novel> findByNacionalidade(String nacionalidade);
     Optional<Novel> findBySlug(String slug);
+    Optional<Novel> findByNome(String nome);
 }
