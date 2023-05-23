@@ -23,15 +23,14 @@ public class PostController
      * @param post O post que será notificado via WebHoook.
      */
     @PostMapping("/posts/post")
-    public ResponseEntity<String> pegarPostsRecentes(@RequestBody Post post)
+    public ResponseEntity<?> pegarPostsRecentes(@RequestBody Post post)
     {
 
         try
         {
 
             this.facade.notificarNovaPostagem(post);
-            return ResponseEntity.status(HttpStatus.OK)
-                          .body("Notificação enviada com sucesso!");
+            return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (NovelNotFoundException ex)
         {
