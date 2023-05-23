@@ -4,6 +4,7 @@ import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 
+import br.com.vulcan.jvulcan.api.infrastructure.exception.NovelNotFoundException;
 import jakarta.annotation.PostConstruct;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +27,7 @@ import java.util.Optional;
 public class PostService implements IPostService
 {
 
+    private final String NOVEL_NOT_FOUND = "A novel requisitada não existe na base de dados!";
     @Value("${webhook_url}")
     private String webhookUrl;
 
@@ -43,7 +45,7 @@ public class PostService implements IPostService
      * @param post O post que será notificado via Webhook.
      */
     @Override
-    public void notificarNovaPostagem(Post post) {
+    public void notificarNovaPostagem(Post post) throws NovelNotFoundException {
 
         try{
 
@@ -62,6 +64,11 @@ public class PostService implements IPostService
                 String padrao = "-\\\\d+x\\\\d+";
                 capaUrl = capa.replaceAll(padrao, "");
                 autor = novel.getAutor();
+            } else
+            {
+
+                throw new NovelNotFoundException(NOVEL_NOT_FOUND);
+
             }
 
             String mensagemJson =

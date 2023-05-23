@@ -1,8 +1,10 @@
 package br.com.vulcan.jvulcan.api.infrastructure.service;
 
 import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
+import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
+import br.com.vulcan.jvulcan.api.infrastructure.exception.NovelNotFoundException;
 
 import java.util.List;
 
@@ -28,6 +30,14 @@ public interface IFacade {
      */
     boolean salvarNovel(Novel novel);
 
+    /**
+     * Atualiza o cargo das novels.
+     * @param cargos A lista com cargos do servidor do discord da Vulcan.
+     * @return Lista com as novels na base de dados.
+     */
+    List<Novel> atualizarCargoDasNovels(List<Cargo> cargos);
+
+    void deletarNovelPorId(long id);
     /**
      * Busca uma novel pelo slug passado.
      * @param slug O slug da novel.
@@ -56,7 +66,7 @@ public interface IFacade {
      * Envia uma embed via Webhook com informações de uma nova postagem no site.
      * @param post O post que será notificado via Webhook.
      */
-    void notificarNovaPostagem(Post post);
+    void notificarNovaPostagem(Post post) throws NovelNotFoundException;
 
 
 }

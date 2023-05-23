@@ -2,11 +2,13 @@ package br.com.vulcan.jvulcan.api.infrastructure.service;
 
 import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
 import br.com.vulcan.jvulcan.api.entity.banners.service.IBannerService;
+import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.novel.service.INovelService;
 
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.post.service.IPostService;
+import br.com.vulcan.jvulcan.api.infrastructure.exception.NovelNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +60,27 @@ public class Facade implements IFacade
     }
 
     /**
+     * Atualiza o cargo das novels.
+     * @param cargos A lista com cargos do servidor do discord da Vulcan.
+     * @return Lista com as novels na base de dados.
+     */
+    @Override
+    public List<Novel> atualizarCargoDasNovels(List<Cargo> cargos)
+    {
+
+        return this.novelService.atualizarCargo(cargos);
+
+    }
+
+    @Override
+    public void deletarNovelPorId(long id)
+    {
+
+        this.novelService.deletar(id);
+
+    }
+
+    /**
      * Busca uma novel pelo slug passado.
      * @param slug O slug da novel.
      * @return A novel com o slug passado por parâmetro, 'null' caso ela não exista.
@@ -105,7 +128,7 @@ public class Facade implements IFacade
      * @param post O post que será notificado via Webhook.
      */
     @Override
-    public void notificarNovaPostagem(Post post)
+    public void notificarNovaPostagem(Post post) throws NovelNotFoundException
     {
 
         this.postService.notificarNovaPostagem(post);

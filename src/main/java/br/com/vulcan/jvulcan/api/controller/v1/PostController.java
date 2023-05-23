@@ -1,9 +1,12 @@
 package br.com.vulcan.jvulcan.api.controller.v1;
 
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
+import br.com.vulcan.jvulcan.api.infrastructure.exception.NovelNotFoundException;
 import br.com.vulcan.jvulcan.api.infrastructure.service.IFacade;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,11 +17,28 @@ public class PostController
     @Autowired
     IFacade facade;
 
+    /**
+     * Notifica as novas postagens via WebHook (Discord).
+     * @param post O post que será notificado via WebHoook.
+     */
     @PostMapping("/posts/post")
-    public void pegarPostsRecentes(@RequestBody Post post)
+    public ResponseEntity<String> pegarPostsRecentes(@RequestBody Post post)
     {
 
-        this.facade.notificarNovaPostagem(post);
+        try
+        {
+
+            this.facade.notificarNovaPostagem(post);
+            return ResponseEntity.status(HttpStatus.OK)
+                          .body("Notificação enviada com sucesso!");
+
+        } catch (NovelNotFoundException ex)
+        {
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(ex.getMessage());
+
+        }
 
     }
 
