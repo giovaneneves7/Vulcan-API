@@ -1,24 +1,18 @@
 package br.com.vulcan.jvulcan.api.infrastructure.exception;
 
-public class NovelNotFoundException extends Exception
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class ObjectNotFoundException extends EntityNotFoundException
 {
-    public NovelNotFoundException() {
+    public ObjectNotFoundException() {
         super();
     }
 
-    public NovelNotFoundException(String message) {
+    public ObjectNotFoundException(String message) {
         super(message);
     }
 
-    public NovelNotFoundException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public NovelNotFoundException(Throwable cause) {
-        super(cause);
-    }
-
-    protected NovelNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }
