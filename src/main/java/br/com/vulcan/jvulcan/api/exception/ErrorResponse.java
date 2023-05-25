@@ -15,7 +15,7 @@ public class ErrorResponse
 {
     private final int status;
     private final String message;
-    private final String stackTrace;
+    private String Stacktrace;
     private List<ValidationError> erros;
 
     @Data
