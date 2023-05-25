@@ -5,7 +5,7 @@ import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
-import br.com.vulcan.jvulcan.api.infrastructure.exception.NovelNotFoundException;
+import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 
 import java.util.List;
 
@@ -67,7 +67,7 @@ public interface IFacade {
      * Envia uma embed via Webhook com informações de uma nova postagem no site.
      * @param post O post que será notificado via Webhook.
      */
-    void notificarNovaPostagem(Post post) throws NovelNotFoundException, MessageNotSentException;
+    void notificarNovaPostagem(Post post) throws ObjectNotFoundException, MessageNotSentException;
 
 
 }

@@ -9,7 +9,7 @@ import br.com.vulcan.jvulcan.api.entity.novel.service.INovelService;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.post.service.IPostService;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
-import br.com.vulcan.jvulcan.api.infrastructure.exception.NovelNotFoundException;
+import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -129,7 +129,7 @@ public class Facade implements IFacade
      * @param post O post que será notificado via Webhook.
      */
     @Override
-    public void notificarNovaPostagem(Post post) throws NovelNotFoundException, MessageNotSentException
+    public void notificarNovaPostagem(Post post) throws ObjectNotFoundException, MessageNotSentException
     {
 
         this.postService.notificarNovaPostagem(post);

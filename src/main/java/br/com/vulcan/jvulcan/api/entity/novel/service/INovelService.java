@@ -1,5 +1,6 @@
 package br.com.vulcan.jvulcan.api.entity.novel.service;
 
+import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public interface INovelService
      * @return 'true' caso a novel seja salva, 'false' caso contrário.
      */
     boolean salvar(Novel novel);
+    void deletar(long id);
 
     /**
      * Busca uma novel pelo slug passado.
@@ -33,6 +35,12 @@ public interface INovelService
      */
     Novel buscarPorSlug(String slug);
 
+    /**
+     * Atualiza o cargo das novels.
+     * @param cargos A lista com cargos do servidor do discord da Vulcan.
+     * @return Lista com as novels na base de dados.
+     */
+    List<Novel> atualizarCargo(List<Cargo> cargos);
 
     void atualizarViews(String slug);
 }

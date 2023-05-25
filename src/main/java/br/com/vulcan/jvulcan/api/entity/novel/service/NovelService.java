@@ -1,5 +1,6 @@
 package br.com.vulcan.jvulcan.api.entity.novel.service;
 
+import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 
@@ -86,6 +87,14 @@ public class NovelService implements INovelService
         return false;
     }
 
+    @Override
+    public void deletar(long id)
+    {
+
+        this.novelRepository.deleteById(id);
+
+    }
+
     /**
      * Busca uma novel pelo slug passado.
      * @param slug O slug da novel.
@@ -102,6 +111,32 @@ public class NovelService implements INovelService
         }
 
         return null;
+
+    }
+
+    /**
+     * Atualiza o cargo das novels.
+     * @param cargos A lista com cargos do servidor do discord da Vulcan.
+     * @return Lista com as novels na base de dados.
+     */
+    @Override
+    public List<Novel> atualizarCargo(List<Cargo> cargos)
+    {
+        for(Cargo cargo : cargos)
+        {
+
+            Optional<Novel> optionalNovel = this.novelRepository.findByNome(cargo.getNome());
+
+            if(optionalNovel.isPresent())
+            {
+                Novel novel = optionalNovel.get();
+                novel.setIdCargo(cargo.getId());
+
+                this.novelRepository.save(novel);
+            }
+        }
+
+        return this.novelRepository.findAll();
 
     }
 
