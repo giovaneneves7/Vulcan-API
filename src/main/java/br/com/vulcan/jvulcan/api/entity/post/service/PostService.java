@@ -5,7 +5,7 @@ import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
-import br.com.vulcan.jvulcan.api.infrastructure.exception.NovelNotFoundException;
+import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import jakarta.annotation.PostConstruct;
 import lombok.NoArgsConstructor;
 
@@ -31,6 +31,8 @@ public class PostService implements IPostService
     private final String NOVEL_NOT_FOUND = "A novel requisitada não existe na base de dados!";
     private final String MESSAGE_NOT_SENT = "A mensagem não foi enviada.";
 
+    private int idUltimoPost = 0;
+
     @Value("${webhook_url}")
     private String webhookUrl;
 
@@ -48,7 +50,7 @@ public class PostService implements IPostService
      * @param post O post que será notificado via Webhook.
      */
     @Override
-    public void notificarNovaPostagem(Post post) throws NovelNotFoundException, MessageNotSentException {
+    public void notificarNovaPostagem(Post post) throws ObjectNotFoundException, MessageNotSentException {
 
         try{
 
@@ -70,47 +72,50 @@ public class PostService implements IPostService
             } else
             {
 
-                throw new NovelNotFoundException(NOVEL_NOT_FOUND);
+                throw new ObjectNotFoundException(NOVEL_NOT_FOUND);
 
             }
 
-            String mensagemJson =
-            """
-                    {
-                        "content" : " ⚡ <@&863456249873825812> <@&%s>",
-                        "embeds" : [
-                                        {
-                                            "title" : "%s",
-                                            "url" : "%s",
-                                            "author" : {
-                                                "name" : "%s",
-                                                "icon_url" : "%s"
-                                            },
-                                            "color" : 47615,
-                                            "footer" : {
-                                                "text" : "Clique no título para ler o capítulo",
-                                                "icon_url" : "%s"
-                                            }
-    
-                                        }
-                                    ]
-                    }
-            """.formatted(cargoMarcado, post.getTitulo(), post.getLink(), autor, post.getLinkAvatarAutor(), capaUrl);
 
-            HttpClient cliente  = HttpClient.newHttpClient();
-            HttpRequest requisicao = HttpRequest.newBuilder()
-                                                .uri(URI.create(this.webhookUrl))
-                                                .header("Content-Type", "application/json")
-                                                .POST(HttpRequest.BodyPublishers.ofString(mensagemJson, StandardCharsets.UTF_8))
-                                                .build();
+                String mensagemJson =
+                        """
+                                {
+                                    "content" : " ⚡ <@&863456249873825812> <@&%s>",
+                                    "embeds" : [
+                                                    {
+                                                        "title" : "%s",
+                                                        "url" : "%s",
+                                                        "author" : {
+                                                            "name" : "%s",
+                                                            "icon_url" : "%s"
+                                                        },
+                                                        "color" : 47615,
+                                                        "footer" : {
+                                                            "text" : "Clique no título para ler o capítulo",
+                                                            "icon_url" : "%s"
+                                                        }
+                
+                                                    }
+                                                ]
+                                }
+                        """.formatted(cargoMarcado, post.getTitulo(), post.getLink(), autor, post.getLinkAvatarAutor(), capaUrl);
 
-            HttpResponse<String> response = cliente.send(requisicao, HttpResponse.BodyHandlers.ofString());
+                HttpClient cliente  = HttpClient.newHttpClient();
+                HttpRequest requisicao = HttpRequest.newBuilder()
+                        .uri(URI.create(this.webhookUrl))
+                        .header("Content-Type", "application/json")
+                        .POST(HttpRequest.BodyPublishers.ofString(mensagemJson, StandardCharsets.UTF_8))
+                        .build();
 
-            if (response.statusCode() == 204) {
-                System.out.println("Mensagem enviada com sucesso!");
-            } else {
-                throw new MessageNotSentException(MESSAGE_NOT_SENT);
-            }
+                HttpResponse<String> response = cliente.send(requisicao, HttpResponse.BodyHandlers.ofString());
+
+                if (response.statusCode() == 204) {
+                    System.out.println("Mensagem enviada com sucesso!");
+                } else {
+                    throw new MessageNotSentException(MESSAGE_NOT_SENT);
+                }
+
+
 
         } catch(Exception ex) {
             ex.printStackTrace();

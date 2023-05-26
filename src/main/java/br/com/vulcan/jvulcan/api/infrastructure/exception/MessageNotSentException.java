@@ -1,24 +1,15 @@
 package br.com.vulcan.jvulcan.api.infrastructure.exception;
 
-public class MessageNotSentException extends Exception
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.RestClientException;
+
+@ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+public class MessageNotSentException extends RestClientException
 {
-    public MessageNotSentException() {
-        super();
-    }
 
-    public MessageNotSentException(String message) {
+    public MessageNotSentException(String message)
+    {
         super(message);
-    }
-
-    public MessageNotSentException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public MessageNotSentException(Throwable cause) {
-        super(cause);
-    }
-
-    protected MessageNotSentException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
     }
 }

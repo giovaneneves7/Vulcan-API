@@ -2,7 +2,7 @@ package br.com.vulcan.jvulcan.api.controller.v1;
 
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
-import br.com.vulcan.jvulcan.api.infrastructure.exception.NovelNotFoundException;
+import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import br.com.vulcan.jvulcan.api.infrastructure.service.IFacade;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class PostController
             this.facade.notificarNovaPostagem(post);
             return new ResponseEntity<>(HttpStatus.OK);
 
-        } catch (NovelNotFoundException ex)
+        } catch (ObjectNotFoundException ex)
         {
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
