@@ -26,6 +26,11 @@ public interface INovelService
      * @return 'true' caso a novel seja salva, 'false' caso contrário.
      */
     boolean salvar(Novel novel);
+
+    /**
+     * Deleta a novel com o ID passado por parâmetro.
+     * @param id O ID da novel a ser deletada.
+     */
     void deletar(long id);
 
     /**

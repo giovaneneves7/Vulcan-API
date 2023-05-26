@@ -73,6 +73,10 @@ public class Facade implements IFacade
 
     }
 
+    /**
+     * Deleta a novel com o ID passado por parâmetro.
+     * @param id O ID da novel a ser deletada.
+     */
     @Override
     public void deletarNovelPorId(long id)
     {

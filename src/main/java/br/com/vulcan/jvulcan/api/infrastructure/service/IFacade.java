@@ -38,7 +38,12 @@ public interface IFacade {
      */
     List<Novel> atualizarCargoDasNovels(List<Cargo> cargos);
 
+    /**
+     * Deleta a novel com o ID passado por parâmetro.
+     * @param id O ID da novel a ser deletada.
+     */
     void deletarNovelPorId(long id);
+
     /**
      * Busca uma novel pelo slug passado.
      * @param slug O slug da novel.
