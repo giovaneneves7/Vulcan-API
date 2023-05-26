@@ -105,12 +105,7 @@ public class NovelService implements INovelService
 
         Optional<Novel> optionalNovel = this.novelRepository.findBySlug(slug);
 
-        if(optionalNovel.isPresent())
-        {
-            return optionalNovel.get();
-        }
-
-        return null;
+        return optionalNovel.orElse(null);
 
     }
 
