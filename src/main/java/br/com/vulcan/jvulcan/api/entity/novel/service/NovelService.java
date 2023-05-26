@@ -49,6 +49,7 @@ public class NovelService implements INovelService
     @Transactional
     public boolean salvar(Novel novel)
     {
+
         List<Novel> novels = this.novelRepository.findAll();
 
         //--+ Verifica se há registro no banco de dados +--//
@@ -63,6 +64,7 @@ public class NovelService implements INovelService
 
         boolean slugExiste = novels.stream()
                                       .anyMatch(n -> n.getSlug().equals(novel.getSlug()));
+
         boolean indiceExiste = novels.stream()
                 .anyMatch(n -> n.getSlug().equals(novel.getIndice()));
 
@@ -78,15 +80,17 @@ public class NovelService implements INovelService
 
             this.novelRepository.saveAll(novels);
 
-
-
             return true;
         }
 
-
         return false;
+
     }
 
+    /**
+     * Deleta a novel com o ID passado por parâmetro.
+     * @param id O ID da novel a ser deletada.
+     */
     @Override
     public void deletar(long id)
     {
@@ -115,6 +119,7 @@ public class NovelService implements INovelService
      * @return Lista com as novels na base de dados.
      */
     @Override
+    @Transactional
     public List<Novel> atualizarCargo(List<Cargo> cargos)
     {
         for(Cargo cargo : cargos)
@@ -151,6 +156,10 @@ public class NovelService implements INovelService
 
     }
 
+    /**
+     * Reorganiza uma lista de novels pelo total de views mensais.
+     * @param novels A lista com as novels que serão reorganizadas.
+     */
     private void reorganizarPorViewsMensais(List<Novel> novels)
     {
         novels.sort((n1, n2) -> Integer.compare(n2.getViewsMensais(), n1.getViewsMensais()));
@@ -161,6 +170,10 @@ public class NovelService implements INovelService
         }
     }
 
+    /**
+     * Reorganiza uma lista de novels pela quantidade de views totais.
+     * @param novels A lista de novels que será reorganizada.
+     */
     private void reorganizarPorViewsTotais(List<Novel> novels)
     {
         novels.sort((n1, n2) -> Integer.compare(n2.getViewsTotais(), n1.getViewsTotais()));
