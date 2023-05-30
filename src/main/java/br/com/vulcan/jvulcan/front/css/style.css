@@ -73,6 +73,13 @@ body {
     outline: 0;
 }
 
+.login-form .other-login-opt {
+    margin-top: 2px;
+    text-align: center;
+    color: var(--white);
+}
+
+
 /* Info API */
 .info {
     text-align: center;
