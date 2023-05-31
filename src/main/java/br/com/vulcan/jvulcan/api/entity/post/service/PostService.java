@@ -76,11 +76,10 @@ public class PostService implements IPostService
 
             }
 
-
                 String mensagemJson =
                         """
                                 {
-                                    "content" : " ⚡ <@&863456249873825812> <@&%s>",
+                                    "content" : "🆕| <@&%s> <@&863456249873825812>",
                                     "embeds" : [
                                                     {
                                                         "title" : "%s",
@@ -91,7 +90,7 @@ public class PostService implements IPostService
                                                         },
                                                         "color" : 47615,
                                                         "footer" : {
-                                                            "text" : "Clique no título para ler o capítulo",
+                                                            "text" : "⚡ Clique no título para ler o capítulo",
                                                             "icon_url" : "%s"
                                                         }
                 
