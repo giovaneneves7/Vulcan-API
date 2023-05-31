@@ -5,17 +5,32 @@ import br.com.vulcan.jvulcan.api.entity.novel.resource.NovelViewResource;
 import br.com.vulcan.jvulcan.api.infrastructure.service.IFacade;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping(path = "nekoyasha7/jvulcan-api/v1")
 public class NovelController
 {
+
+    @Value("${api_key}")
+    private String API_KEY;
+
+    @PostConstruct
+    public void init()
+    {
+        if(!API_KEY.isEmpty())
+            log.info("Enpoint usando api");
+    }
+
 
     @Autowired
     IFacade facade;
