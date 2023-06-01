@@ -46,7 +46,7 @@ public class PostController {
      */
     @PostMapping("/posts/post")
     public ResponseEntity<?> pegarPostsRecentes(@RequestBody Post post,
-            @RequestHeader(name = "api_key") String chaveAPI) {
+            @RequestHeader(name = "Api-Key") String chaveAPI) {
 
         // --+ Verifica se a chave de API é válida +--//
         if (!API_KEY.equals(chaveAPI)) {
