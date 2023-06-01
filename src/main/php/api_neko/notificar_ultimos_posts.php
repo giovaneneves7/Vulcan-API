@@ -42,6 +42,7 @@
                     // Montar os dados do post para enviar no corpo da requisição
                     $info_post = array(
 
+                        'post_id' => $post_id,
                         'nome_novel' => $post->post_title,
                         'titulo_postagem' => $post->post_title,
                         'autor_postagem' => $autor_nome,
