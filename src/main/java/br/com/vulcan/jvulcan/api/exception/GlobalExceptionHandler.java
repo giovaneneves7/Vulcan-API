@@ -82,7 +82,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 request);
     }
 
-    @ExceptionHandler(ObjectNotFoundException.class)
+    @ExceptionHandler(MessageNotSentException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<Object> handleMessageNotSentException(
             MessageNotSentException messageNotSentException,
