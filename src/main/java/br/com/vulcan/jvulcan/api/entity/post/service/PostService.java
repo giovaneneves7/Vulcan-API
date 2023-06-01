@@ -25,8 +25,7 @@ import java.util.Optional;
 @Service
 @NoArgsConstructor
 @PropertySource("classpath:application.properties")
-public class PostService implements IPostService
-{
+public class PostService implements IPostService {
 
     private final String NOVEL_NOT_FOUND = "A novel requisitada não existe na base de dados!";
     private final String MESSAGE_NOT_SENT = "A mensagem não foi enviada.";
@@ -40,44 +39,43 @@ public class PostService implements IPostService
     NovelRepository novelRepository;
 
     @PostConstruct
-    public void init()
-    {
+    public void init() {
         System.out.println("Conectado no WebHook: ".concat(webhookUrl));
     }
 
     /**
      * Envia uma embed via Webhook com informações de uma nova postagem no site.
+     * 
      * @param post O post que será notificado via Webhook.
      */
     @Override
     public void notificarNovaPostagem(Post post) throws ObjectNotFoundException, MessageNotSentException {
 
-        try{
+        if (post.getPostId() != idUltimoPost) {
 
-            Optional<Novel> optionalNovel = novelRepository.findByNome(post.getCategoria());
+            try {
 
-            String cargoMarcado = "ROLE_NOT_FOUND";
-            String capaUrl = "";
-            var autor = "USERNAME_UNDEFINED";
+                Optional<Novel> optionalNovel = novelRepository.findByNome(post.getCategoria());
 
-            if(optionalNovel.isPresent())
-            {
-                Novel novel = optionalNovel.get();
+                String cargoMarcado = "ROLE_NOT_FOUND";
+                String capaUrl = "";
+                var autor = "USERNAME_UNDEFINED";
 
-                cargoMarcado = novel.getIdCargo();
-                String capa = novel.getCapa();
-                String padrao = "-\\\\d+x\\\\d+";
-                capaUrl = capa.replaceAll(padrao, "");
-                autor = novel.getAutor();
-            } else
-            {
+                if (optionalNovel.isPresent()) {
+                    Novel novel = optionalNovel.get();
 
-                throw new ObjectNotFoundException(NOVEL_NOT_FOUND);
+                    cargoMarcado = novel.getIdCargo();
+                    String capa = novel.getCapa();
+                    String padrao = "-\\\\d+x\\\\d+";
+                    capaUrl = capa.replaceAll(padrao, "");
+                    autor = novel.getAutor();
+                } else {
 
-            }
+                    throw new ObjectNotFoundException(NOVEL_NOT_FOUND);
 
-                String mensagemJson =
-                        """
+                }
+
+                String mensagemJson = """
                                 {
                                     "content" : "🆕| <@&%s> <@&863456249873825812>",
                                     "embeds" : [
@@ -93,13 +91,14 @@ public class PostService implements IPostService
                                                             "text" : "⚡ Clique no título para ler o capítulo",
                                                             "icon_url" : "%s"
                                                         }
-                
+
                                                     }
                                                 ]
                                 }
-                        """.formatted(cargoMarcado, post.getTitulo(), post.getLink(), autor, post.getLinkAvatarAutor(), capaUrl);
+                        """.formatted(cargoMarcado, post.getTitulo(), post.getLink(), autor, post.getLinkAvatarAutor(),
+                        capaUrl);
 
-                HttpClient cliente  = HttpClient.newHttpClient();
+                HttpClient cliente = HttpClient.newHttpClient();
                 HttpRequest requisicao = HttpRequest.newBuilder()
                         .uri(URI.create(this.webhookUrl))
                         .header("Content-Type", "application/json")
@@ -114,10 +113,12 @@ public class PostService implements IPostService
                     throw new MessageNotSentException(MESSAGE_NOT_SENT);
                 }
 
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
 
+            idUltimoPost = post.getPostId();
 
-        } catch(Exception ex) {
-            ex.printStackTrace();
         }
 
     }
