@@ -1,5 +1,5 @@
 <?php
 
-    define('API_KEY', 'negkvBFG283f-skfnb_vEntoegoStosAo_sndfnvzwWRTHFVBN69431');
+    define('API_KEY', 'MINHA_CHAVE_API');
 
 ?>
