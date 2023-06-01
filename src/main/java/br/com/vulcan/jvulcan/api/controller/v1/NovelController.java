@@ -1,7 +1,6 @@
 package br.com.vulcan.jvulcan.api.controller.v1;
 
 import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
-import br.com.vulcan.jvulcan.api.entity.novel.resource.NovelViewResource;
 import br.com.vulcan.jvulcan.api.infrastructure.service.IFacade;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 
@@ -84,14 +83,6 @@ public class NovelController
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @PutMapping("novels/novel/views")
-    public void atualizarViews(@RequestBody NovelViewResource novelViewResource)
-    {
-
-        System.out.println("Obra: ".concat(novelViewResource.getCategoria()).concat("\nViews totais: ").concat(String.valueOf(novelViewResource.getViews())));
-    }
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("novels/novel")
     public ResponseEntity<List<Novel>> atualizarCargo(@RequestBody List<Cargo> cargos)
     {
@@ -114,14 +105,6 @@ public class NovelController
         }
     }
 
-    @DeleteMapping(path = "/novels/novel/{id}")
-    public ResponseEntity<String> deletarPorId(@PathVariable(name = "id") long id)
-    {
-
-        this.facade.deletarNovelPorId(id);
-        return ResponseEntity.ok("Novel deletada com sucesso!");
-
-    }
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping(path = "/novels/novel/{slug}")
     public ResponseEntity<Novel> buscarPorSlug(@PathVariable(name = "slug") String slug)
