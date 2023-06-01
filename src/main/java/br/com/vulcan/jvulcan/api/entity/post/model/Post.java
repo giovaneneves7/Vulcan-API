@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
-
 @Component
 @Data
-public class Post
-{
+public class Post {
+
+    @JsonProperty("post_id")
+    private int postId;
 
     @JsonProperty("nome_novel")
     private String nomeNovel;
