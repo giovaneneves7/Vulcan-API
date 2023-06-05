@@ -5,26 +5,18 @@ import br.com.vulcan.jvulcan.api.entity.chibata.repository.OlhoDaChibataReposito
 
 import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
+import br.com.vulcan.jvulcan.api.infrastructure.service.discord.IWebHookMessageDelivererService;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-
-import java.nio.charset.StandardCharsets;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -36,8 +28,11 @@ public class OlhoDaChibataService implements IOlhoDaChibataService
     private final long MES = 30;
     private final long ANO = 1;
 
-    @Value("${webhoook_url}")
+    @Value("${cobranca_webhook_url}")
     private String webhookUrl;
+
+    @Autowired
+    IWebHookMessageDelivererService webHookService;
     @Autowired
     NovelRepository novelRepository;
 
@@ -58,8 +53,9 @@ public class OlhoDaChibataService implements IOlhoDaChibataService
     @Override
     public boolean cadastrar(OlhoDaChibata dadosChibata) {
 
-        if(!novelRepository.findAll().stream().anyMatch(novel -> novel.getNome().equals(dadosChibata.getNovel())))
+        if(novelRepository.findAll().stream().noneMatch(novel -> novel.getNome().equals(dadosChibata.getNovel())))
         {
+            //--+ A novel ainda não existe na tabela de novels +--//
             return false;
         }
 
@@ -82,13 +78,49 @@ public class OlhoDaChibataService implements IOlhoDaChibataService
     }
 
     /**
+     * Atualiza os dados de um registro existente.
+     *
+     * @param dadosChibata Os dados a serem atualizados
+     * @return 'true' caso os dados sejam atualizados com sucesse, 'false' caso contrário.
+     */
+    @Override
+    public boolean atualizar(OlhoDaChibata dadosChibata)
+    {
+
+        if(!chibataRepository.findAll().contains(dadosChibata))
+        {
+            return false;
+        }
+
+        log.info("Registro atualizado com sucesso!");
+        this.chibataRepository.save(dadosChibata);
+        return true;
+    }
+
+    /**
+     * Busca um cadastro por id.
+     *
+     * @param id O ID do registro a ser buscado.
+     * @return O objeto caso ele exista, 'null' caso não.
+     */
+    @Override
+    public OlhoDaChibata encontrarPorId(long id)
+    {
+
+        Optional<OlhoDaChibata> optionalDadosChibata = this.chibataRepository.findById(id);
+
+        return optionalDadosChibata.orElse(null);
+
+    }
+
+    /**
      * Cobra membros com 7 dias sem postagem.
      * @return 'true' caso a cobrança seja realizada com sucesso, 'false' caso não.
      */
     @Override
     public boolean cobrarBaianos()
     {
-        HashMap<Long, String> baianos = new HashMap<>();
+        HashMap<String, List<?>> baianos = new HashMap<>();
 
         List<OlhoDaChibata> dados = chibataRepository.findAll();
 
@@ -97,6 +129,7 @@ public class OlhoDaChibataService implements IOlhoDaChibataService
             return false;
         }
 
+        int cont =  0;
         for(OlhoDaChibata dado : dados)
         {
 
@@ -108,59 +141,59 @@ public class OlhoDaChibataService implements IOlhoDaChibataService
 
             if(diasSemPostar > 7)
             {
-                baianos.put(diasSemPostar, dado.getAutorOuTradutor().getDiscordId());
+
+            baianos.put("Membro ".concat(String.valueOf(cont)), new ArrayList<>(List.of(dado.getAutorOuTradutor().getDiscordId(), diasSemPostar, dado.getNovel())));
+            cont++;
+
             }
 
         }
 
-        HttpClient cliente = HttpClient.newHttpClient();
-        HttpRequest requisicao = HttpRequest.newBuilder()
-                .uri(URI.create(this.webhookUrl))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(criarMensagemCobranca(baianos).toString(), StandardCharsets.UTF_8))
-                .build();
-
-        try{
-
-            HttpResponse<String> response = cliente.send(requisicao, HttpResponse.BodyHandlers.ofString());
-
-            if (response.statusCode() == 204) {
-                log.info("Mensagem enviada com sucesso!");
-            } else {
-
-                log.error("Mensagem não enviada");
-                throw new MessageNotSentException(MESSAGE_NOT_SENT);
-            }
-        } catch(Exception ex)
+        //--+ Envia mensagem para o WebHook especificado +--//
+        if (!webHookService.enviarMensagem(this.webhookUrl, criarMensagemCobranca(baianos).toString()))
         {
-            ex.printStackTrace();
-            return false;
+
+            log.error("Mensagem não enviada");
+            throw new MessageNotSentException(MESSAGE_NOT_SENT);
+
         }
 
+        log.info("Mensagem enviada com sucesso!");
         return true;
+
     }
 
-    private StringBuilder criarMensagemCobranca(HashMap<Long, String> baianos)
+    /**
+     * Cria uma mensagem de cobrança de membros que estão há mais de 7 dias sem postar.
+     *
+     * @param baianosMap O HashMap com informações dos membros com postagens atrasadas.
+     * @return A mensagem que será enviada.
+     */
+    private StringBuilder criarMensagemCobranca(HashMap<String, List<?>> baianosMap)
     {
 
         String mensagemAviso = " ";
         StringBuilder mensagem = null;
 
-        for(Map.Entry<Long, String> baiano : baianos.entrySet())
+        for(Map.Entry<String, List<?>> baiano : baianosMap.entrySet())
         {
 
-            if(baiano.getKey() > 60)
+            long diasSemPostar = (long) baiano.getValue().get(1);
+
+            if(diasSemPostar > 60)
             {
                 mensagemAviso = "Sua novel será colocada como dropada caso não haja novas postagens.";
             }
             mensagem.append
                             (
-                                "<@%".concat(baiano.getValue())
+                                "<@%".concat(String.valueOf(baiano.getValue().get(0)))
                                      .concat(">, ")
-                                     .concat(contarDias(baiano.getKey()))
-                                     .concat(" sem postar")
-                                     .concat(mensagemAviso)
+                                     .concat(contarDias(diasSemPostar))
+                                     .concat(" sem postar capítulos de ")
+                                     .concat(String.valueOf(baiano.getValue().get(2)))
+                                     .concat("( ".concat(mensagemAviso).concat(")"))
                                      .concat("\n")
+                                        .concat("◆━━━━━━◆❃◆━━━━━━◆\n")
                             );
 
         }
@@ -168,6 +201,18 @@ public class OlhoDaChibataService implements IOlhoDaChibataService
         return mensagem;
     }
 
+    /**
+     * Conta os dias sem postar de um usuário.
+     *
+     * @param diasSemPostar O total de dias sem postar.
+     * @return O total de tempo sem postar. Retornos:
+     *                                               1 semana;
+     *                                               {variável} semanas;
+     *                                               1 mês;
+     *                                               {variável} meses;
+     *                                               1 ano;
+     *                                               {variável} anos.
+     */
     public String contarDias(long diasSemPostar)
     {
 
@@ -186,12 +231,21 @@ public class OlhoDaChibataService implements IOlhoDaChibataService
 
     }
 
+    /**
+     * Conta os dias sem postar de um usuário e retorna o tempo sem postar.
+     * @param diasSemPostar A quantidade de dias sem postar.
+     * @param salto O salto do contador. Saltos válidos: {const} SEMANA, {const} MÊS, {const} ANO.
+     * @return o tempo sem postar. Retornos:
+     *                                      Total de semanas sem postar (if salto == {const} SEMANA);
+     *                                      Total de meses sem postar (if salto == {const} MES);
+     *                                      Total de anos sem postar (if salto == {const} ANOS).
+     */
     private long contador(long diasSemPostar, long salto)
     {
 
         int cont = 0;
 
-        for(;diasSemPostar != 0; diasSemPostar -= salto )
+        for(;diasSemPostar >= salto; diasSemPostar -= salto )
         {
             cont++;
         }

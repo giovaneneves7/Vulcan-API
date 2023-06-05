@@ -21,6 +21,22 @@ public interface IOlhoDaChibataService
     List<OlhoDaChibata> listarTodos();
 
     /**
+     * Atualiza os dados de um registro existente.
+     *
+     * @param dadosChibata Os dados a serem atualizados
+     * @return 'true' caso os dados sejam atualizados com sucesse, 'false' caso contrário.
+     */
+    boolean atualizar(OlhoDaChibata dadosChibata);
+
+    /**
+     * Busca um cadastro por id.
+     *
+     * @param id O ID do registro a ser buscado.
+     * @return O objeto caso ele exista, 'null' caso não.
+     */
+    OlhoDaChibata encontrarPorId(long id);
+
+    /**
      * Cobra membros com 7 dias sem postagem.
      * @return 'true' caso a cobrança seja realizada com sucesso, 'false' caso não.
      */
