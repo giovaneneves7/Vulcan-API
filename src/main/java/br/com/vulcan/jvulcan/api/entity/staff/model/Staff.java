@@ -29,6 +29,6 @@ public class Staff
     @OneToMany(mappedBy = "olhoDaChibata")
     private List<OlhoDaChibata> olhoDaChibata;
 
-    @Column(name = "nick_discord")
-    private String nickDiscord;
+    @Column(name = "id_discord")
+    private String discordId;
 }
