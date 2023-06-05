@@ -159,5 +159,27 @@ public class Facade implements IFacade
         return this.chibataService.cadastrar(dadosChibata);
     }
 
+    /**
+     * Lista todos os dados do Olho da Chibata.
+     * @return Lista com dados do Olho da Chibata.
+     */
+    @Override
+    public List<OlhoDaChibata> listarOlhoDaChibata()
+    {
+        return this.chibataService.listarTodos();
+    }
+
+    @Override
+    public boolean atualizarDadosChibata(OlhoDaChibata dadosChibata)
+    {
+        return this.chibataService.atualizar(dadosChibata);
+    }
+
+    @Override
+    public boolean descerAChibata()
+    {
+        return this.chibataService.cobrarBaianos();
+    }
+
 }
 
