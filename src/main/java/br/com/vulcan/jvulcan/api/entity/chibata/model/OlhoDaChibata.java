@@ -1,7 +1,9 @@
 package br.com.vulcan.jvulcan.api.entity.chibata.model;
 
 import br.com.vulcan.jvulcan.api.entity.staff.model.Staff;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
@@ -31,7 +33,7 @@ public class OlhoDaChibata
     private String ultimaPostagem;
 
     @JsonProperty("autor_ou_tradutor")
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name  = "staff_id")
     private Staff autorOuTradutor;
 
