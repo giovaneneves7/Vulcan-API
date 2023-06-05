@@ -2,6 +2,7 @@ package br.com.vulcan.jvulcan.api.infrastructure.service;
 
 import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
 import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
+import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
@@ -73,6 +74,15 @@ public interface IFacade {
      * @param post O post que será notificado via Webhook.
      */
     void notificarNovaPostagem(Post post) throws ObjectNotFoundException, MessageNotSentException;
+
+    //=========================={ OLHO DA CHIBATA }==========================//
+
+    /**
+     * Cadastra dados de ‘staffs’ e novels na base de dados.
+     * @param dadosChibata Os dados que serão cadastrados.
+     * @return 'true' caso seja cadastrado com sucesso, 'false' caso não.
+     */
+    boolean cadastrarDadosChibata(OlhoDaChibata dadosChibata);
 
 
 }
