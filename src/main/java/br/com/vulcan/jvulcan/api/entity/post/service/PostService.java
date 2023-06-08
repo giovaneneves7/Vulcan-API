@@ -77,7 +77,7 @@ public class PostService implements IPostService {
 
                 String mensagemJson = """
                                 {
-                                    "content" : "🆕| <@&%s> <@&863456249873825812>",
+                                    "content" : "🗞| <@&%s> <@&863456249873825812>",
                                     "embeds" : [
                                                     {
                                                         "title" : "%s",
