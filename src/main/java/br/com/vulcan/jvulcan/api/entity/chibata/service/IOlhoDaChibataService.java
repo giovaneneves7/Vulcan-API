@@ -9,10 +9,10 @@ public interface IOlhoDaChibataService
 
     /**
      * Cadastra dados de staffs e novels na base de dados.
+     *
      * @param dadosChibata Os dados que serão cadastrados.
-     * @return 'true' caso seja cadastrado com sucesso, 'false' caso não.
      */
-    boolean cadastrar(OlhoDaChibata dadosChibata);
+    void cadastrarDadosChibata(OlhoDaChibata dadosChibata);
 
     /**
      * Lista todos os dados do Olho da Chibata.

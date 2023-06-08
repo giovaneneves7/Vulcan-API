@@ -4,7 +4,9 @@ import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
 import br.com.vulcan.jvulcan.api.entity.chibata.repository.OlhoDaChibataRepository;
 
 import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
+import br.com.vulcan.jvulcan.api.infrastructure.exception.EmptyListException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
+import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import br.com.vulcan.jvulcan.api.infrastructure.service.discord.IWebHookMessageDelivererService;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +18,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -24,6 +30,8 @@ public class OlhoDaChibataService implements IOlhoDaChibataService
 {
 
     private final String MESSAGE_NOT_SENT = "Mensagem não enviada devido a conflitos com o provedor do serviço";
+    private final String NOVEL_NOT_FOUND = "A novel não relacionada ao membro da staff não existe na base de dados.";
+    private final String EMPTY_LIST = "A lista de novels está vazia.";
     private final long SEMANA = 7;
     private final long MES = 30;
     private final long ANO = 1;
@@ -47,21 +55,20 @@ public class OlhoDaChibataService implements IOlhoDaChibataService
 
     /**
      * Cadastra dados de ‘staffs’ e novels na base de dados.
+     *
      * @param dadosChibata Os dados que serão cadastrados.
-     * @return 'true' caso seja cadastrado com sucesso, 'false' caso não.
      */
     @Override
-    public boolean cadastrar(OlhoDaChibata dadosChibata) {
+    public void cadastrarDadosChibata(OlhoDaChibata dadosChibata) {
 
-        if(novelRepository.findAll().stream().noneMatch(novel -> novel.getNome().equals(dadosChibata.getNovel())))
-        {
-            //--+ A novel ainda não existe na tabela de novels +--//
-            return false;
-        }
+        if(novelRepository.findAll().isEmpty())
+            throw new EmptyListException(EMPTY_LIST);
+
+        if(novelRepository.findAll().stream()
+                                    .noneMatch(novel -> novel.getNome().equals(dadosChibata.getNovel())))
+            throw new ObjectNotFoundException(NOVEL_NOT_FOUND);
 
         this.chibataRepository.save(dadosChibata);
-
-        return true;
 
     }
 
