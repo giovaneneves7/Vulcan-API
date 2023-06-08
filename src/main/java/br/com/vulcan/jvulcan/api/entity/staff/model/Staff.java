@@ -32,6 +32,7 @@ public class Staff
     @OneToMany(mappedBy = "autorOuTradutor")
     private List<OlhoDaChibata> olhoDaChibata;
 
+    @JsonProperty("discord_id")
     @Column(name = "discord_id")
     private String discordId;
 }
