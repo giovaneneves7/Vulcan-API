@@ -2,6 +2,7 @@ package br.com.vulcan.jvulcan.api.infrastructure.service;
 
 import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
 import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
+import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
@@ -73,6 +74,35 @@ public interface IFacade {
      * @param post O post que será notificado via Webhook.
      */
     void notificarNovaPostagem(Post post) throws ObjectNotFoundException, MessageNotSentException;
+
+    //=========================={ OLHO DA CHIBATA }==========================//
+
+    /**
+     * Cadastra dados de ‘staffs’ e novels na base de dados.
+     * @param dadosChibata Os dados que serão cadastrados.
+     */
+    void cadastrarDadosChibata(OlhoDaChibata dadosChibata);
+
+    /**
+     * Lista todos os dados do Olho da Chibata.
+     *
+     * @return Lista com dados do Olho da Chibata.
+     */
+    List<OlhoDaChibata> listarOlhoDaChibata();
+
+    /**
+     * Atualiza os dados de um registro existente.
+     *
+     * @param dadosChibata Os dados a serem atualizados
+     * @return 'true' caso os dados sejam atualizados com sucesse, 'false' caso contrário.
+     */
+    boolean atualizarDadosChibata(OlhoDaChibata dadosChibata);
+
+    /**
+     * Cobra membros com 7 dias sem postagem.
+     * @return 'true' caso a cobrança seja realizada com sucesso, 'false' caso não.
+     */
+    boolean descerAChibata();
 
 
 }

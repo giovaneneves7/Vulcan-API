@@ -3,6 +3,8 @@ package br.com.vulcan.jvulcan.api.infrastructure.service;
 import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
 import br.com.vulcan.jvulcan.api.entity.banners.service.IBannerService;
 import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
+import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
+import br.com.vulcan.jvulcan.api.entity.chibata.service.IOlhoDaChibataService;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.novel.service.INovelService;
 
@@ -27,6 +29,10 @@ public class Facade implements IFacade
 
     @Autowired
     IPostService postService;
+
+    @Autowired
+    IOlhoDaChibataService chibataService;
+
 
     //====================={ NOVEL - METODOS }=====================//
     /**
@@ -138,6 +144,41 @@ public class Facade implements IFacade
 
         this.postService.notificarNovaPostagem(post);
 
+    }
+
+    //====================={ OLHO DA CHIBATA - METODOS }=====================//
+
+    /**
+     * Cadastra dados de ‘staffs’ e novels na base de dados.
+     *
+     * @param dadosChibata Os dados que serão cadastrados.
+     */
+    @Override
+    public void cadastrarDadosChibata(OlhoDaChibata dadosChibata)
+    {
+        this.chibataService.cadastrarDadosChibata(dadosChibata);
+    }
+
+    /**
+     * Lista todos os dados do Olho da Chibata.
+     * @return Lista com dados do Olho da Chibata.
+     */
+    @Override
+    public List<OlhoDaChibata> listarOlhoDaChibata()
+    {
+        return this.chibataService.listarTodos();
+    }
+
+    @Override
+    public boolean atualizarDadosChibata(OlhoDaChibata dadosChibata)
+    {
+        return this.chibataService.atualizar(dadosChibata);
+    }
+
+    @Override
+    public boolean descerAChibata()
+    {
+        return this.chibataService.cobrarBaianos();
     }
 
 }
