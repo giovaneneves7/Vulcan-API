@@ -57,8 +57,8 @@ function exibirAvisoCamposVazios() {
 
 function fazerRequisicao(dados) {
 
-    var host = "https://spring-api.thankfulriver-9e15c811.eastus.azurecontainerapps.io";
-    var url = "/nekoyasha7/jvulcan-api/v1/posts/post";
+    var host = "https://1a34-45-181-199-212.ngrok-free.app";
+    var url = "/nekoyasha7/jvulcan-api/v1/novels/novel";
 
     fetch(host.concat(url), {
         method: "POST",
@@ -89,6 +89,8 @@ function fazerRequisicao(dados) {
 
     }).catch(function (error) {
 
+        document.getElementById('failure-registration').style.display = "block";
+        document.getElementById('success-registration').style.display = "none";
         console.error(error);
 
     });
