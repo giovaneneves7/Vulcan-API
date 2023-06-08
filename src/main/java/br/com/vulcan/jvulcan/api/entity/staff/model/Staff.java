@@ -1,6 +1,7 @@
 package br.com.vulcan.jvulcan.api.entity.staff.model;
 
 import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -22,13 +23,15 @@ public class Staff
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @JsonProperty("nome")
     private String nome;
 
+    @JsonProperty("cargo")
     private String cargo;
 
-    @OneToMany(mappedBy = "olhoDaChibata")
+    @OneToMany(mappedBy = "autorOuTradutor")
     private List<OlhoDaChibata> olhoDaChibata;
 
-    @Column(name = "id_discord")
+    @Column(name = "discord_id")
     private String discordId;
 }
