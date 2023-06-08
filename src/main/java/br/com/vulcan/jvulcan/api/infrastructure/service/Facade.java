@@ -110,7 +110,7 @@ public class Facade implements IFacade
     public boolean salvarBanner(Banner banner)
     {
 
-        return this.bannerService.salvar(banner);
+        return this.bannerService.cadastrarBanner(banner);
 
     }
 
