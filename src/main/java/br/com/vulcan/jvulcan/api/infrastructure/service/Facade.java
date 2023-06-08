@@ -150,13 +150,13 @@ public class Facade implements IFacade
 
     /**
      * Cadastra dados de ‘staffs’ e novels na base de dados.
+     *
      * @param dadosChibata Os dados que serão cadastrados.
-     * @return 'true' caso seja cadastrado com sucesso, 'false' caso não.
      */
     @Override
-    public boolean cadastrarDadosChibata(OlhoDaChibata dadosChibata)
+    public void cadastrarDadosChibata(OlhoDaChibata dadosChibata)
     {
-        return this.chibataService.cadastrar(dadosChibata);
+        this.chibataService.cadastrarDadosChibata(dadosChibata);
     }
 
     /**
