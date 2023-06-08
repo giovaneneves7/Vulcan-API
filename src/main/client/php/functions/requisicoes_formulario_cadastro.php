@@ -25,7 +25,7 @@
                         if(!in_array($autor_ou_tradutor, $membros_adicionados))
                         {
                             $membros_adicionados[] = $autor_ou_tradutor;
-                            $value = $novel['membro'];
+                            $value = $novel['autor_ou_tradutor'];
                             echo '<option value="' . $value . '">' . $autor_ou_tradutor . '</option>';
                         }
                     }
