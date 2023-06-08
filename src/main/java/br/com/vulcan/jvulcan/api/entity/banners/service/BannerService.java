@@ -2,6 +2,7 @@ package br.com.vulcan.jvulcan.api.entity.banners.service;
 
 import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
 import br.com.vulcan.jvulcan.api.entity.banners.repository.BannerRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
+@Slf4j
 @Service
 public class BannerService implements IBannerService
 {
@@ -20,20 +22,22 @@ public class BannerService implements IBannerService
     /**
      * Adiciona um banner no banco de dados.
      * @param banner O Banner que será cadastrado.
-     * @return 'True' caso o banner seja cadastrado, 'false' caso contrário.
      */
     @Override
-    public boolean salvar(Banner banner) {
+    public void cadastrarBanner(Banner banner) {
 
-        Optional<Banner> optionalBanner = bannerRepository.findBannerByNome(banner.getNome());
+        boolean nomeExiste = bannerRepository.findAll().stream()
+                                                        .map(Banner::getNome)
+                                                        .anyMatch(nomeBanner -> nomeBanner.equals(banner.getNome()));
 
-        if(optionalBanner.isPresent())
+        if(nomeExiste)
         {
-            return false;
+            log.info("Já existe um banner com este nome na base de dados!");
+            return;
         }
 
         bannerRepository.save(banner);
-        return true;
+
     }
 
     /**
