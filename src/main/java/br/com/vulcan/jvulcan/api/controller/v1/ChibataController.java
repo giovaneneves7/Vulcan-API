@@ -10,7 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 
 @RestController
 @Slf4j
@@ -18,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 public class ChibataController
 {
 
+    private final HashMap<String, String> errorResponses = new HashMap<>();
     private final String NOVEL_NOT_FOUND = "A novel requisitada não existe na base de dados";
 
     @Value("${api_key}")
@@ -34,18 +43,22 @@ public class ChibataController
 
     @PostMapping(path = "/olho-da-chibata/membros/membro")
     public ResponseEntity<?> cadastrar(@RequestBody OlhoDaChibata dadosChibata,
-                                       @RequestHeader("Api-Key") String chaveAPI) throws ObjectNotFoundException
+                                       @RequestHeader("Api-Key") String chaveAPI)
     {
+
+        log.info(dadosChibata.toString());
 
         if(!chaveAPI.equals(API_KEY))
         {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Você não tem permissão para acessar este recurso, bleh!");
+            if(!errorResponses.containsKey("Api_Permission_Error"))
+                errorResponses.put("Api_Permission_Error", "Você não tem permissão para acessar este recurso, bleh!");
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponses);
         }
 
-        if(!this.facade.cadastrarDadosChibata(dadosChibata))
-        {
-            throw new ObjectNotFoundException(NOVEL_NOT_FOUND);
-        }
+        this.facade.cadastrarDadosChibata(dadosChibata);
+
+        log.info("Dados com o id %d cadastrados com sucesso!".formatted(dadosChibata.getId()));
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Dados registrados com sucesso!");
 
