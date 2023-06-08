@@ -1,5 +1,6 @@
 package br.com.vulcan.jvulcan.api.exception;
 
+import br.com.vulcan.jvulcan.api.infrastructure.exception.EmptyListException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -68,6 +69,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     // --+ Tratamento de exceções personalizadas +--//
+
+    @ExceptionHandler(EmptyListException.class)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Object> handleEmptyListException(
+            EmptyListException emptyListException,
+            WebRequest request)
+    {
+        log.error("Parece que está lista está vazia 👻");
+
+        return construirMensagemDeErro(
+                emptyListException,
+                emptyListException.getMessage(),
+                HttpStatus.NOT_FOUND,
+                request);
+    }
+
     @ExceptionHandler(ObjectNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Object> handleObjectNotFoundException(
