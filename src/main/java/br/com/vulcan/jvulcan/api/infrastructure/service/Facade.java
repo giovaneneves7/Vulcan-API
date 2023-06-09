@@ -143,6 +143,18 @@ public class Facade implements IFacade
         return this.bannerService.listarTodosBanners();
     }
 
+    /**
+     * Deleta o banner que tiver o ID passado por parâmetro.
+     *
+     * @param id O ID do banner que será deletado.
+     * @return as informações do banner que foi deletado.
+     */
+    @Override
+    public Banner deletarBannerPorId(Long id)
+    {
+        return this.bannerService.deletarBannerPorId(id);
+    }
+
     //====================={ POST - METODOS }=====================//
 
     /**

@@ -74,6 +74,14 @@ public interface IFacade {
      */
     List<Banner> listarTodosBanners();
 
+    /**
+     * Deleta o banner que tiver o ID passado por parâmetro.
+     *
+     * @param id O ID do banner que será deletado.
+     * @return as informações do banner que foi deletado.
+     */
+     Banner deletarBannerPorId(Long id);
+
     //=========================={ POST }==========================//
 
     /**

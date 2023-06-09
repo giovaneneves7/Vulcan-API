@@ -4,6 +4,7 @@ import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
 import br.com.vulcan.jvulcan.api.entity.banners.repository.BannerRepository;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.EmptyListException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectAlreadyExistsException;
+import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import br.com.vulcan.jvulcan.api.infrastructure.origin.OrigensAutorizadas;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,30 @@ import java.util.stream.Stream;
 public class BannerService implements IBannerService
 {
 
+    private final String BANNER_NOT_FOUND = "O banner requisitado não existe na base de dados";
     private final String ALREADY_EXISTS_BANNER = "Já existe um banner com este nome na base de dados";
     private final String EMPTY_BANNER_LIST = "A lista de banners está vazia";
 
     @Autowired
     BannerRepository bannerRepository;
 
+    /**
+     * Deleta o banner que tiver o ID passado por parâmetro.
+     *
+     * @param id O ID do banner que será deletado.
+     * @return as informações do banner que foi deletado.
+     */
+    @Override
+    public Banner deletarBannerPorId(Long id)
+    {
+        return this.bannerRepository.findById(id)
+                                    .filter(banner -> {
+                                        this.bannerRepository.delete(banner);
+                                        return true;
+                                    })
+                                    .orElseThrow(ObjectNotFoundException::new);
+
+    }
 
     /**
      * Adiciona um banner no banco de dados.
