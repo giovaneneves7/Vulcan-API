@@ -2,13 +2,14 @@ package br.com.vulcan.jvulcan.api.entity.banners.service;
 
 import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
 
+import java.util.List;
+
 public interface IBannerService
 {
 
     /**
      * Adiciona um banner no banco de dados.
      * @param banner -O Banner que será cadastrado.
-     * @return 'True' caso o banner seja cadastrado, 'false' caso contrário.
      */
     void cadastrarBanner(Banner banner);
 
@@ -18,4 +19,10 @@ public interface IBannerService
      */
     Banner pegarBannerAleatorio();
 
+    /**
+     * Lista todos os banners da base de dados.
+     *
+     * @return lista com todos os banners cadastrados na base de dados, ou nulo, caso não haja registros.
+     */
+    List<Banner> listarTodosBanners();
 }

@@ -113,10 +113,10 @@ public class Facade implements IFacade
      * @return 'True' caso o banner seja cadastrado, 'false' caso contrário.
      */
     @Override
-    public boolean salvarBanner(Banner banner)
+    public void salvarBanner(Banner banner)
     {
 
-        return this.bannerService.cadastrarBanner(banner);
+        this.bannerService.cadastrarBanner(banner);
 
     }
 
@@ -130,6 +130,17 @@ public class Facade implements IFacade
 
         return this.bannerService.pegarBannerAleatorio();
 
+    }
+
+    /**
+     * Lista todos os banners da base de dados.
+     *
+     * @return lista com todos os banners cadastrados na base de dados.
+     */
+    @Override
+    public List<Banner> listarTodosBanners()
+    {
+        return this.bannerService.listarTodosBanners();
     }
 
     //====================={ POST - METODOS }=====================//

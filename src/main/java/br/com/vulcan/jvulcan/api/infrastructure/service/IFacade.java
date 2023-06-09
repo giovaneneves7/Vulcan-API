@@ -59,13 +59,20 @@ public interface IFacade {
      * @param banner O Banner que será cadastrado.
      * @return 'True' caso o banner seja cadastrado, 'false' caso contrário.
      */
-    boolean salvarBanner(Banner banner);
+    void salvarBanner(Banner banner);
 
     /**
      * Retorna um banner aleatório da base de dados.
      * @return um banner aleatório.
      */
     Banner pegarBannerAleatorio();
+
+    /**
+     * Lista todos os banners da base de dados.
+     *
+     * @return lista com todos os banners cadastrados na base de dados.
+     */
+    List<Banner> listarTodosBanners();
 
     //=========================={ POST }==========================//
 
