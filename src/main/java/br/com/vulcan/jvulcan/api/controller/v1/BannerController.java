@@ -11,13 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -109,6 +103,23 @@ public class BannerController
 
         this.facade.salvarBanner(banner);
         return ResponseEntity.status(HttpStatus.CREATED).body("Bannner cadastrado com sucesso.");
+
+    }
+
+    @DeleteMapping(path = "/banners/banner/{id}")
+    public ResponseEntity<?> deletarBanner(@PathVariable(name = "id") Long id,
+                                           @RequestHeader(name = "Api-Keey") String chaveApi)
+    {
+
+        if(!chaveApi.equals(API_KEY))
+        {
+            if(!erros.containsKey("api_permission_error"))
+                erros.put("api_permission_erros", "Você não tem permissão para acessar este endpoint, bleh!");
+
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erros);
+        }
+
+
 
     }
 }
