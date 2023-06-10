@@ -1,11 +1,18 @@
 package br.com.vulcan.jvulcan.api.entity.banners.service;
 
 import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
+import br.com.vulcan.jvulcan.api.entity.banners.model.dto.BannerDto;
+import br.com.vulcan.jvulcan.api.entity.banners.model.dto.CadastrarBannerDto;
 import br.com.vulcan.jvulcan.api.entity.banners.repository.BannerRepository;
+import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
+import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.EmptyListException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectAlreadyExistsException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import br.com.vulcan.jvulcan.api.infrastructure.origin.OrigensAutorizadas;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,15 +24,21 @@ import java.util.stream.Stream;
 
 @Slf4j
 @Service
+@AllArgsConstructor
+@NoArgsConstructor
 public class BannerService implements IBannerService
 {
 
+    private final String NOVEL_NOT_FOUND = "A novel associada a este banner não existe na base de dados";
     private final String BANNER_NOT_FOUND = "O banner requisitado não existe na base de dados";
     private final String ALREADY_EXISTS_BANNER = "Já existe um banner com este nome na base de dados";
     private final String EMPTY_BANNER_LIST = "A lista de banners está vazia";
 
     @Autowired
     BannerRepository bannerRepository;
+
+    @Autowired
+    NovelRepository novelRepository;
 
     /**
      * Deleta o banner que tiver o ID passado por parâmetro.
@@ -48,14 +61,15 @@ public class BannerService implements IBannerService
     /**
      * Adiciona um banner no banco de dados.
      *
-     * @param banner O Banner que será cadastrado.
+     * @param bannerDto - Os dados do Banner que será cadastrado.
      */
     @Override
-    public void cadastrarBanner(Banner banner) {
+    @Transactional
+    public void cadastrarBanner(CadastrarBannerDto bannerDto) {
 
         boolean nomeExiste = bannerRepository.findAll().stream()
                                                         .map(Banner::getNome)
-                                                        .anyMatch(nomeBanner -> nomeBanner.equals(banner.getNome()));
+                                                        .anyMatch(nomeBanner -> nomeBanner.equals(bannerDto.getNome()));
 
         if(nomeExiste)
         {
@@ -63,7 +77,15 @@ public class BannerService implements IBannerService
             throw new ObjectAlreadyExistsException(ALREADY_EXISTS_BANNER);
         }
 
-        bannerRepository.save(banner);
+        novelRepository.findByNome(bannerDto.getNovel().getNome())
+                        .filter(novel -> {
+                                Banner banner;
+                                banner = converterParaBanner(bannerDto);
+                                banner.setNovel(novel);
+                                bannerRepository.save(banner);
+                                return true;
+                        }).orElseThrow(() -> new ObjectNotFoundException("A novel ".concat(bannerDto.getNovel().getNome())
+                                                                                   .concat(" não existe na base de dados.")));
 
     }
 
@@ -103,5 +125,15 @@ public class BannerService implements IBannerService
             throw new EmptyListException(EMPTY_BANNER_LIST);
 
         return banners;
+    }
+
+    private Banner converterParaBanner(CadastrarBannerDto bannerDto)
+    {
+
+        Banner banner = new Banner();
+        banner.setNome(bannerDto.getNome());
+        banner.setLink(bannerDto.getLink());
+
+        return banner;
     }
 }

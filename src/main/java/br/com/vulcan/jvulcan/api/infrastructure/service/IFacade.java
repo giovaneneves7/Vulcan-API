@@ -1,6 +1,7 @@
 package br.com.vulcan.jvulcan.api.infrastructure.service;
 
 import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
+import br.com.vulcan.jvulcan.api.entity.banners.model.dto.CadastrarBannerDto;
 import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
@@ -56,10 +57,10 @@ public interface IFacade {
 
     /**
      * Adiciona um banner no banco de dados.
-     * @param banner O Banner que será cadastrado.
-     * @return 'True' caso o banner seja cadastrado, 'false' caso contrário.
+     *
+     * @param bannerDto - Os dados do Banner que será cadastrado.
      */
-    void salvarBanner(Banner banner);
+    void salvarBanner(CadastrarBannerDto bannerDto);
 
     /**
      * Retorna um banner aleatório da base de dados.

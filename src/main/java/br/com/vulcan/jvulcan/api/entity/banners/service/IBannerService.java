@@ -1,6 +1,7 @@
 package br.com.vulcan.jvulcan.api.entity.banners.service;
 
 import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
+import br.com.vulcan.jvulcan.api.entity.banners.model.dto.CadastrarBannerDto;
 
 import java.util.List;
 
@@ -9,9 +10,9 @@ public interface IBannerService
 
     /**
      * Adiciona um banner no banco de dados.
-     * @param banner -O Banner que será cadastrado.
+     * @param bannerDto - Os dados do Banner que será cadastrado.
      */
-    void cadastrarBanner(Banner banner);
+    void cadastrarBanner(CadastrarBannerDto bannerDto);
 
     /**
      * Retorna um banner aleatório da base de dados.
