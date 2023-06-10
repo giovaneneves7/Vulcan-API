@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,5 +32,11 @@ public class BannerDto
         this.link = banner.getLink();
         this.indice_novel = banner.getNovel().getIndice();
 
+    }
+
+    public static List<BannerDto> converterLista(List<Banner> banners)
+    {
+        return banners.stream().map(BannerDto::new)
+                .collect(Collectors.toList());
     }
 }
