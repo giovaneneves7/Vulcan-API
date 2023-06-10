@@ -2,6 +2,7 @@ package br.com.vulcan.jvulcan.api.exception;
 
 import br.com.vulcan.jvulcan.api.infrastructure.exception.EmptyListException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
+import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectAlreadyExistsException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -70,6 +71,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     // --+ Tratamento de exceções personalizadas +--//
 
+    @ExceptionHandler(ObjectAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Object> handleEmptyListException(
+            ObjectAlreadyExistsException objectAlreadyExistsException,
+            WebRequest request)
+    {
+
+        return construirMensagemDeErro(
+                objectAlreadyExistsException,
+                objectAlreadyExistsException.getMessage(),
+                HttpStatus.CONFLICT,
+                request);
+    }
+
     @ExceptionHandler(EmptyListException.class)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Object> handleEmptyListException(
@@ -81,7 +96,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return construirMensagemDeErro(
                 emptyListException,
                 emptyListException.getMessage(),
-                HttpStatus.NOT_FOUND,
+                HttpStatus.NO_CONTENT,
                 request);
     }
 
