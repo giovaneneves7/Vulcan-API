@@ -1,6 +1,7 @@
 package br.com.vulcan.jvulcan.api.controller.v1;
 
 import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
+import br.com.vulcan.jvulcan.api.entity.banners.model.dto.BannerDto;
 import br.com.vulcan.jvulcan.api.infrastructure.service.IFacade;
 
 import jakarta.annotation.PostConstruct;
@@ -58,6 +59,7 @@ public class BannerController
 
         log.info("Listando todas os banners");
         List<Banner> banners = new ArrayList<>(this.facade.listarTodosBanners());
+        List<BannerDto> bannersRetornados = new ArrayList<>();
 
         if(max != null)
         {
@@ -74,10 +76,12 @@ public class BannerController
                     .distinct()
                     .collect(Collectors.toList());
 
-            return ResponseEntity.status(HttpStatus.OK).body(bannersAleatorios);
+            bannersRetornados = BannerDto.converterLista(bannersAleatorios);
+
+            return ResponseEntity.status(HttpStatus.OK).body(bannersRetornados);
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(banners);
+        return ResponseEntity.status(HttpStatus.OK).body(bannersRetornados);
     }
 
     @GetMapping(path = "/banners/banner")
@@ -132,4 +136,5 @@ public class BannerController
                              .body(this.facade.deletarBannerPorId(id));
 
     }
+
 }
