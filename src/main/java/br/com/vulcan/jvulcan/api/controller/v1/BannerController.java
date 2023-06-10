@@ -2,6 +2,7 @@ package br.com.vulcan.jvulcan.api.controller.v1;
 
 import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
 import br.com.vulcan.jvulcan.api.entity.banners.model.dto.BannerDto;
+import br.com.vulcan.jvulcan.api.entity.banners.model.dto.CadastrarBannerDto;
 import br.com.vulcan.jvulcan.api.infrastructure.service.IFacade;
 
 import jakarta.annotation.PostConstruct;
@@ -59,7 +60,6 @@ public class BannerController
 
         log.info("Listando todas os banners");
         List<Banner> banners = new ArrayList<>(this.facade.listarTodosBanners());
-        List<BannerDto> bannersRetornados = new ArrayList<>();
 
         if(max != null)
         {
@@ -76,12 +76,14 @@ public class BannerController
                     .distinct()
                     .collect(Collectors.toList());
 
-            bannersRetornados = BannerDto.converterLista(bannersAleatorios);
+            List<BannerDto> bannersRetornados = BannerDto.converterLista(bannersAleatorios);
 
             return ResponseEntity.status(HttpStatus.OK).body(bannersRetornados);
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(bannersRetornados);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(banners.stream().map(BannerDto::new)
+                                      .collect(Collectors.toList()));
     }
 
     @GetMapping(path = "/banners/banner")
@@ -101,9 +103,11 @@ public class BannerController
     }
 
     @PostMapping(path = "banners/banner")
-    public ResponseEntity<?> salvarBanner(@RequestBody Banner banner,
+    public ResponseEntity<?> salvarBanner(@RequestBody CadastrarBannerDto bannerDto,
                                           @RequestHeader(name = "Api-Key") String chaveApi)
     {
+
+        log.info(bannerDto.toString());
 
         if(!chaveApi.equals(API_KEY))
         {
@@ -113,7 +117,7 @@ public class BannerController
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erros);
         }
 
-        this.facade.salvarBanner(banner);
+        this.facade.salvarBanner(bannerDto);
         return ResponseEntity.status(HttpStatus.CREATED).body("Bannner cadastrado com sucesso.");
 
     }
