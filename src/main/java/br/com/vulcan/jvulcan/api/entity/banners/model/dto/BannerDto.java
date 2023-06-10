@@ -30,7 +30,7 @@ public class BannerDto
     {
         this.nome = banner.getNome();
         this.link = banner.getLink();
-        this.indice_novel = banner.getNovel().getIndice();
+        this.indice_novel = "https://vulcannovel.com.br/".concat(banner.getNovel().getIndice());
 
     }
 
