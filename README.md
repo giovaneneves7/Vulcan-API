@@ -27,3 +27,14 @@ A API responde a requisições vindas tanto do client quanto do plugin e trata o
 > [Client](https://github.com/NeveScript/Vulcan-API/tree/master/src/main/client): Diretório da interface construída para que o usuário possa interagir com a API. <br>
 > [Plugins (PHP)](https://github.com/NeveScript/Vulcan-API/tree/master/src/main/php): Diretório com códigos PHP do plugin para Wordpress que capta eventos do website, faz requisições à API e gerencia alguns recursos. <br>
 > [API](https://github.com/NeveScript/Vulcan-API/tree/master/src/main/java/br/com/vulcan/jvulcan/api): Diretório com o código Java da API Spring Boot responsável por alimentar o site com recursos da base de dados.
+
+## Lista de endpoints
+Todos os endpoints com ``v1`` são privados necessitam de um cabeçalho chamado ``Api-Key`` para serem acessados, caso não haja chave de acesso, o endpoint retornará o status code 401 (UNAUTHORIZED) com uma mensagem descrevendo o erro.
+
+### Novels
+
+| Método  | Endpoint                                   | Parâmetros                                          | Descrição                                   |
+|---------|--------------------------------------------|-----------------------------------------------------|---------------------------------------------|
+| **GET** |``/nekoyasha7/jvulcan-api/v1/novels``       | ``?nacionalidade`` (opcional), ``?tipo`` (opcional) |                                             |
+| **GET** |``/nekoyasha7/jvulcan-api/v1/novels/novel/{slug}`` |---                                                  |                                             |
+| **PUT** |``/nekoyasha7/jvulcan-api/v1/novels/novel`` |---                                                  |                                             |
