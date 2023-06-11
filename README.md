@@ -8,7 +8,7 @@ O client é responsável por fornecer uma interface agradável para que o usuár
 A API responde a requisições vindas tanto do client quanto do plugin e trata os dados recebidos antes de salvá-los na base de dados, assim como retorna os dados requisitados de maneira precisa, utilizando JSON como linguagem de comunicação.
 
 ### ⚙ Ferrmentas e Linguagens Utilizadas:
-![Java](https://img.shields.io/badge/Java-orange?style=for-the-badge&logo=Java&logoColor=white) 
+![Java](https://img.shields.io/badge/Java-orange?style=for-the-badge&logo=java-8&logoColor=white) 
 ![Azure](https://img.shields.io/badge/Azure-blue?style=for-the-badge&logo=microsoft-azure&logoColor=white) 
 ![Spring](https://img.shields.io/badge/Spring%20Boot-green?style=for-the-badge&logo=spring-boot&logoColor=white) 
 ![PHP](https://img.shields.io/badge/PHP-blue?style=for-the-badge&logo=php&logoColor=white) 
@@ -17,6 +17,11 @@ A API responde a requisições vindas tanto do client quanto do plugin e trata o
 ![JS](https://img.shields.io/badge/JavaScript-yellow?style=for-the-badge&logo=javascript&logoColor=white)
 ![Intellij](https://img.shields.io/badge/Intellij%20IDEA-gray?style=for-the-badge&logo=intellij-idea&logoColor=white) 
 ![Wordpress](https://img.shields.io/badge/Wordpress-black?style=for-the-badge&logo=wordpress&logoColor=white) 
+![MySQL](https://img.shields.io/badge/MySQL-red?style=for-the-badge&logo=mysql&logoColor=white) 
+![Bootstrap](https://img.shields.io/badge/Bootstrap-cyan?style=for-the-badge&logo=bootstrap&logoColor=black) 
+![JSON](https://img.shields.io/badge/JSON-yellow?style=for-the-badge&logo=json&logoColor=black) 
+![POSTMAN](https://img.shields.io/badge/postman-white?style=for-the-badge&logo=postman&logoColor=red) 
+![Ngrok](https://img.shields.io/badge/ngrok-black?style=for-the-badge&logo=ngrok&logoColor=red) 
 
 ### 📁 Diretórios:
 > [Client](https://github.com/NeveScript/Vulcan-API/tree/master/src/main/client): Diretório da interface construída para que o usuário possa interagir com a API. <br>
