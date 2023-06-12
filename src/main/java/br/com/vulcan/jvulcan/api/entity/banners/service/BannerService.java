@@ -26,12 +26,11 @@ import java.util.stream.Stream;
 @Service
 @AllArgsConstructor
 @NoArgsConstructor
-public class BannerService implements IBannerService
-{
+public class BannerService implements IBannerService {
 
     private final String NOVEL_NOT_FOUND = "A novel associada a este banner não existe na base de dados";
     private final String BANNER_NOT_FOUND = "O banner requisitado não existe na base de dados";
-    private final String ALREADY_EXISTS_BANNER = "Já existe um banner com este nome na base de dados";
+    private final String ALREADY_EXISTS_BANNER = "Já existe um banner com este nome ou link na base de dados";
     private final String EMPTY_BANNER_LIST = "A lista de banners está vazia";
 
     @Autowired
@@ -47,14 +46,13 @@ public class BannerService implements IBannerService
      * @return as informações do banner que foi deletado.
      */
     @Override
-    public Banner deletarBannerPorId(Long id)
-    {
+    public Banner deletarBannerPorId(Long id) {
         return this.bannerRepository.findById(id)
-                                    .filter(banner -> {
-                                        this.bannerRepository.delete(banner);
-                                        return true;
-                                    })
-                                    .orElseThrow(ObjectNotFoundException::new);
+                .filter(banner -> {
+                    this.bannerRepository.delete(banner);
+                    return true;
+                })
+                .orElseThrow(ObjectNotFoundException::new);
 
     }
 
@@ -68,24 +66,21 @@ public class BannerService implements IBannerService
     public void cadastrarBanner(CadastrarBannerDto bannerDto) {
 
         boolean nomeExiste = bannerRepository.findAll().stream()
-                                                        .map(Banner::getNome)
-                                                        .anyMatch(nomeBanner -> nomeBanner.equals(bannerDto.getNome()));
+                .map(Banner::getNome)
+                .anyMatch(nomeBanner -> nomeBanner.equals(bannerDto.getNome()));
 
-        if(nomeExiste)
-        {
-            log.info("Já existe um banner com este nome na base de dados!");
+        boolean linkExiste = bannerRepository.findAll().stream()
+                .map(Banner::getLink)
+                .anyMatch(linkBanner -> linkBanner.equals(bannerDto.getLink()));
+
+        if (nomeExiste || linkExiste) {
             throw new ObjectAlreadyExistsException(ALREADY_EXISTS_BANNER);
         }
 
-        novelRepository.findByNome(bannerDto.getNovel().getNome())
-                        .filter(novel -> {
-                                Banner banner;
-                                banner = converterParaBanner(bannerDto);
-                                banner.setNovel(novel);
-                                bannerRepository.save(banner);
-                                return true;
-                        }).orElseThrow(() -> new ObjectNotFoundException("A novel ".concat(bannerDto.getNovel().getNome())
-                                                                                   .concat(" não existe na base de dados.")));
+        //--+ Salva o banner convertido na base de dados. +--//
+        Banner banner;
+        banner = converterParaBanner(bannerDto);
+        bannerRepository.save(banner);
 
     }
 
@@ -95,12 +90,11 @@ public class BannerService implements IBannerService
      * @return um banner aleatório.
      */
     @Override
-    public Banner pegarBannerAleatorio()
-    {
+    public Banner pegarBannerAleatorio() {
 
         List<Banner> banners = bannerRepository.findAll();
 
-        if(banners.isEmpty())
+        if (banners.isEmpty())
             throw new EmptyListException(EMPTY_BANNER_LIST);
 
         Random rand = new Random();
@@ -117,18 +111,16 @@ public class BannerService implements IBannerService
      * @return lista com todos os banners cadastrados na base de dados, ou nulo, caso não haja registros.
      */
     @Override
-    public List<Banner> listarTodosBanners()
-    {
+    public List<Banner> listarTodosBanners() {
         List<Banner> banners = bannerRepository.findAll();
 
-        if(banners.isEmpty())
+        if (banners.isEmpty())
             throw new EmptyListException(EMPTY_BANNER_LIST);
 
         return banners;
     }
 
-    private Banner converterParaBanner(CadastrarBannerDto bannerDto)
-    {
+    private Banner converterParaBanner(CadastrarBannerDto bannerDto) {
 
         Banner banner = new Banner();
         banner.setNome(bannerDto.getNome());
