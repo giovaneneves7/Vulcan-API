@@ -22,15 +22,14 @@ public class BannerDto
     @JsonProperty(value = "link")
     private String link;
 
-    @JsonProperty(value = "indice_novel")
-    private String indice_novel;
-
+    @JsonProperty(value = "url_redirecionamento")
+    private String urlRedirecionamento;
 
     public BannerDto(Banner banner)
     {
         this.nome = banner.getNome();
         this.link = banner.getLink();
-        this.indice_novel = "https://vulcannovel.com.br/".concat(banner.getNovel().getIndice());
+        this.urlRedirecionamento = banner.getUrlRedirecionamento();
 
     }
 
