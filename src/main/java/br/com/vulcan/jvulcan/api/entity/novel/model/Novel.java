@@ -1,6 +1,5 @@
 package br.com.vulcan.jvulcan.api.entity.novel.model;
 
-import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,14 +8,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Entity
 @Table(name = "api_todas")
@@ -119,9 +115,6 @@ public class Novel {
     @Column(name = "id_cargo")
     @JsonProperty("id_cargo")
     private String idCargo;
-
-    @OneToMany(mappedBy = "novel")
-    private List<Banner> banner;
 
 }
 
