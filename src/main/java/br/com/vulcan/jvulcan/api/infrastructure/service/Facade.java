@@ -14,9 +14,11 @@ import br.com.vulcan.jvulcan.api.entity.post.service.IPostService;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class Facade implements IFacade
@@ -185,12 +187,14 @@ public class Facade implements IFacade
 
     /**
      * Lista todos os dados do Olho da Chibata.
+     *
+     * @param pageable (Opcional) o objeto pagebla, caso esteja presenta, retornará um lista pagindada.
      * @return Lista com dados do Olho da Chibata.
      */
     @Override
-    public List<OlhoDaChibata> listarOlhoDaChibata()
+    public List<OlhoDaChibata> listarOlhoDaChibata(Optional<Pageable> pageable)
     {
-        return this.chibataService.listarTodos();
+        return this.chibataService.listarTodos(pageable);
     }
 
     @Override

@@ -8,8 +8,10 @@ import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IFacade {
 
@@ -102,9 +104,10 @@ public interface IFacade {
     /**
      * Lista todos os dados do Olho da Chibata.
      *
+     * @param pageable (Opcional) o objeto pagebla, caso esteja presenta, retornará um lista pagindada.
      * @return Lista com dados do Olho da Chibata.
      */
-    List<OlhoDaChibata> listarOlhoDaChibata();
+    List<OlhoDaChibata> listarOlhoDaChibata(Optional<Pageable> pageable);
 
     /**
      * Atualiza os dados de um registro existente.
