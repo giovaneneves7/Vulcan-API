@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +17,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -65,7 +69,8 @@ public class ChibataController
     }
 
     @GetMapping("/olho-da-chibata/membros")
-    public ResponseEntity<?> listarTodos(@RequestHeader("Api-Key") String chaveAPI)
+    public ResponseEntity<?> listarTodos(@RequestHeader("Api-Key") String chaveAPI,
+                                         @RequestParam(value = "pageable", required = false) Pageable pageable)
     {
 
         if(!chaveAPI.equals(API_KEY))
@@ -73,9 +78,11 @@ public class ChibataController
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Você não tem permissão para acessar este recurso, bleh!");
         }
 
-        return (facade.listarOlhoDaChibata().isEmpty())
+        List<OlhoDaChibata> dadosChibata = this.facade.listarOlhoDaChibata(pageable.toOptional());
+
+        return (dadosChibata.isEmpty())
                 ? ResponseEntity.status(HttpStatus.NO_CONTENT).body("Ops, nada a ser exibido aqui 👀")
-                : ResponseEntity.ok(this.facade.listarOlhoDaChibata());
+                : ResponseEntity.status(HttpStatus.OK).body(dadosChibata);
 
     }
 
