@@ -12,6 +12,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -77,10 +78,11 @@ public class OlhoDaChibataService implements IOlhoDaChibataService
      * @return Lista com dados do Olho da Chibata.
      */
     @Override
-    public List<OlhoDaChibata> listarTodos()
+    public List<OlhoDaChibata> listarTodos(Optional<Pageable> optionalPageable)
     {
 
-        return this.chibataRepository.findAll();
+        return optionalPageable.map(pageable -> chibataRepository.findAll(pageable).getContent())
+                .orElseGet(() -> chibataRepository.findAll());
 
     }
 

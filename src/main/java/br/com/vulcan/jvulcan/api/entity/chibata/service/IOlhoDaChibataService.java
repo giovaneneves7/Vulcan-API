@@ -1,8 +1,10 @@
 package br.com.vulcan.jvulcan.api.entity.chibata.service;
 
 import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IOlhoDaChibataService
 {
@@ -18,7 +20,7 @@ public interface IOlhoDaChibataService
      * Lista todos os dados do Olho da Chibata.
      * @return Lista com dados do Olho da Chibata.
      */
-    List<OlhoDaChibata> listarTodos();
+    List<OlhoDaChibata> listarTodos(Optional<Pageable> pageableOptional);
 
     /**
      * Atualiza os dados de um registro existente.
