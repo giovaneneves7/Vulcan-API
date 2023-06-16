@@ -7,12 +7,15 @@ import br.com.vulcan.jvulcan.api.infrastructure.service.IFacade;
 
 import jakarta.annotation.PostConstruct;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -103,11 +106,10 @@ public class BannerController
     }
 
     @PostMapping(path = "banners/banner")
-    public ResponseEntity<?> salvarBanner(@RequestBody CadastrarBannerDto bannerDto,
-                                          @RequestHeader(name = "Api-Key") String chaveApi)
+    public ResponseEntity<?> salvarBanner(@RequestHeader(name = "Api-Key") String chaveApi,
+                                          @Valid @RequestBody CadastrarBannerDto bannerDto,
+                                          BindingResult bindingResult)
     {
-
-        log.info(bannerDto.toString());
 
         if(!chaveApi.equals(API_KEY))
         {
@@ -115,6 +117,14 @@ public class BannerController
                 erros.put("api_permission_erros", "Você não tem permissão para acessar este endpoint, bleh!");
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erros);
+        }
+
+        if(bindingResult.hasErrors())
+        {
+            for(FieldError erro : bindingResult.getFieldErrors())
+                erros.put(erro.getField(), erro.getDefaultMessage());
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erros);
         }
 
         this.facade.salvarBanner(bannerDto);
