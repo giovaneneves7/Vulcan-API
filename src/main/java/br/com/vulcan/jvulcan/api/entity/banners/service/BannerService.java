@@ -125,6 +125,7 @@ public class BannerService implements IBannerService {
         Banner banner = new Banner();
         banner.setNome(bannerDto.getNome());
         banner.setLink(bannerDto.getLink());
+        banner.setUrlRedirecionamento(bannerDto.getUrlRedirecionamento());
 
         return banner;
     }
