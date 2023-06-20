@@ -101,6 +101,10 @@ public class BannerController
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erros);
         }
 
+        if(!erros.isEmpty())
+        {
+            erros.remove("api_permission_erros");
+        }
         return ResponseEntity.status(HttpStatus.OK).body(facade.pegarBannerAleatorio());
 
     }
@@ -128,6 +132,12 @@ public class BannerController
         }
 
         this.facade.salvarBanner(bannerDto);
+
+        if(!erros.isEmpty())
+        {
+            erros.remove("api_permission_erros");
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body("Bannner cadastrado com sucesso.");
 
     }
@@ -146,6 +156,10 @@ public class BannerController
                           .body(erros);
         }
 
+        if(!erros.isEmpty())
+        {
+            erros.remove("api_permission_erros");
+        }
         return ResponseEntity.status(HttpStatus.OK)
                              .body(this.facade.deletarBannerPorId(id));
 
