@@ -1,7 +1,12 @@
 package br.com.vulcan.jvulcan.api.entity.servidores.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
+import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,14 +23,14 @@ public class ServidorAutor {
     private long id;
 
     @Column
-    @Size(min = 5, message = "A URL do webhoook precisa ter entre 5 e 80 caracteres")
     private String webhook;
 
     @Column
-    @Size(min = 5, message = "A descrição precisa ter entre 5 e 50 caracteres")
     private String mensagem;
 
     @Column(name = "id_cargo")
     private String idCargo;
 
+    @Column(name = "novel")
+    private Novel novel;
 }
