@@ -16,7 +16,7 @@ public record CadastrarServidorAutorDto(@NotNull(message = "O webhook é obrigat
                                         @JsonProperty(value = "id_cargo") String idCargo,
                                         @NotNull(message = "A novel é obrigatória") @JsonProperty(value = "novel") NovelServidorAutorDto novel) {
 
-    void converterParaServidorAutor(ServidorAutor servidorAutor, Optional<Novel> novel)
+    public void converterParaServidorAutor(ServidorAutor servidorAutor, Optional<Novel> novel)
     {
 
         servidorAutor.setNovel(novel.orElseThrow(ObjectNotFoundException::new));
