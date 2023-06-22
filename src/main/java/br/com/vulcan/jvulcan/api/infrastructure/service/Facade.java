@@ -11,6 +11,8 @@ import br.com.vulcan.jvulcan.api.entity.novel.service.INovelService;
 
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.post.service.IPostService;
+import br.com.vulcan.jvulcan.api.entity.servidores.model.dto.CadastrarServidorAutorDto;
+import br.com.vulcan.jvulcan.api.entity.servidores.service.IServidorAutorService;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,9 @@ public class Facade implements IFacade
 
     @Autowired
     IOlhoDaChibataService chibataService;
+
+    @Autowired
+    IServidorAutorService servidorAutorService;
 
 
     //====================={ NOVEL - METODOS }=====================//
@@ -207,6 +212,19 @@ public class Facade implements IFacade
     public boolean descerAChibata()
     {
         return this.chibataService.cobrarBaianos();
+    }
+
+    //====================={ SERVIDOR AUTOR - METODOS }=====================//
+    /**
+     * Cadastra um servidor de autor na base de dados.
+     *
+     * @param servidorAutorDto O servidor de autor a ser cadastrado.
+     * @return informações do servidor cadastrado.
+     */
+    @Override
+    public CadastrarServidorAutorDto cadastrarServidorAutor(CadastrarServidorAutorDto servidorAutorDto)
+    {
+        return this.servidorAutorService.cadastrarServidorAutor(servidorAutorDto);
     }
 
 }

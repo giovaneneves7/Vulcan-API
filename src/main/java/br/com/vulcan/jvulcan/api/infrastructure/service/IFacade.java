@@ -6,6 +6,7 @@ import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
+import br.com.vulcan.jvulcan.api.entity.servidores.model.dto.CadastrarServidorAutorDto;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import org.springframework.data.domain.Pageable;
@@ -122,6 +123,15 @@ public interface IFacade {
      * @return 'true' caso a cobrança seja realizada com sucesso, 'false' caso não.
      */
     boolean descerAChibata();
+
+    //=========================={ SERVIDOR AUTOR }==========================//
+    /**
+     * Cadastra um servidor de autor na base de dados.
+     *
+     * @param servidorAutorDto O servidor de autor a ser cadastrado.
+     * @return informações do servidor cadastrado.
+     */
+    CadastrarServidorAutorDto cadastrarServidorAutor(CadastrarServidorAutorDto servidorAutorDto);
 
 
 }
