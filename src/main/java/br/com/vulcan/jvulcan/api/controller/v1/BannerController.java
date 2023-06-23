@@ -39,7 +39,7 @@ import java.util.stream.IntStream;
 public class BannerController
 {
 
-    private final HashMap<String, String> erros = new HashMap<>();
+    private HashMap<String, String> erros;
 
     @Value("${api_key}")
     private String API_KEY;
@@ -51,17 +51,23 @@ public class BannerController
     public void init()
     {
         if(!API_KEY.isEmpty())
-            log.warn("Endpoint privado");
+            log.debug("Endpoint usando chave de API");
     }
 
     @GetMapping(path = "/banners")
     public ResponseEntity<?> listarTodosBanners(@RequestParam(name = "max", required = false) Integer max,
                                                 @RequestHeader("Api-Key") String chaveApi){
 
-        if(!chaveApi.equals(API_KEY))
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Você não tem permissão para acessar este endoint, bleh!");
+        erros = new HashMap<>();
 
-        log.info("Listando todas os banners");
+        if(!chaveApi.equals(API_KEY))
+        {
+
+            erros.put("api_permission_erros", "Você não tem permissão para acessar este endpoint, bleh!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erros);
+
+        }
+
         List<Banner> banners = new ArrayList<>(this.facade.listarTodosBanners());
 
         if(max != null)
@@ -93,18 +99,14 @@ public class BannerController
     public ResponseEntity<?> pegarBannerAleatorio(@RequestHeader("Api-Key") String chaveApi)
     {
 
+        erros = new HashMap<>();
+
         if(!chaveApi.equals(API_KEY))
         {
-            if(!erros.containsKey("api_permission_error"))
-                erros.put("api_permission_erros", "Você não tem permissão para acessar este endpoint, bleh!");
-
+            erros.put("api_permission_erros", "Você não tem permissão para acessar este endpoint, bleh!");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erros);
         }
 
-        if(!erros.isEmpty())
-        {
-            erros.remove("api_permission_erros");
-        }
         return ResponseEntity.status(HttpStatus.OK).body(facade.pegarBannerAleatorio());
 
     }
@@ -114,11 +116,10 @@ public class BannerController
                                           @Valid @RequestBody CadastrarBannerDto bannerDto,
                                           BindingResult bindingResult)
     {
-
+        erros = new HashMap<>();
         if(!chaveApi.equals(API_KEY))
         {
-            if(!erros.containsKey("api_permission_error"))
-                erros.put("api_permission_erros", "Você não tem permissão para acessar este endpoint, bleh!");
+            erros.put("api_permission_erros", "Você não tem permissão para acessar este endpoint, bleh!");
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erros);
         }
@@ -133,11 +134,6 @@ public class BannerController
 
         this.facade.salvarBanner(bannerDto);
 
-        if(!erros.isEmpty())
-        {
-            erros.remove("api_permission_erros");
-        }
-
         return ResponseEntity.status(HttpStatus.CREATED).body("Bannner cadastrado com sucesso.");
 
     }
@@ -147,19 +143,15 @@ public class BannerController
                                            @RequestHeader(name = "Api-Key") String chaveApi)
     {
 
+        erros = new HashMap<>();
         if(!chaveApi.equals(API_KEY))
         {
-            if(!erros.containsKey("api_permission_error"))
-                erros.put("api_permission_erros", "Você não tem permissão para acessar este endpoint, bleh!");
+            erros.put("api_permission_erros", "Você não tem permissão para acessar este endpoint, bleh!");
 
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                           .body(erros);
         }
 
-        if(!erros.isEmpty())
-        {
-            erros.remove("api_permission_erros");
-        }
         return ResponseEntity.status(HttpStatus.OK)
                              .body(this.facade.deletarBannerPorId(id));
 
