@@ -2,6 +2,7 @@ package br.com.vulcan.jvulcan.api.controller.v1;
 
 import br.com.vulcan.jvulcan.api.entity.servidores.model.dto.CadastrarServidorAutorDto;
 import br.com.vulcan.jvulcan.api.entity.servidores.service.IServidorAutorService;
+import br.com.vulcan.jvulcan.api.infrastructure.annotation.ValidApiKey;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +28,13 @@ public class ServidorAutorController {
     @Autowired
     IServidorAutorService servidorAutorService;
 
-    @Value("${api_key}")
-    private String API_KEY;
+
+    private final String API_KEY;
+
+    public ServidorAutorController(@Value("${api_key}") String apiKey)
+    {
+        API_KEY = apiKey;
+    }
 
     private HashMap<String, String> erros;
 
@@ -42,7 +48,7 @@ public class ServidorAutorController {
     }
 
     @PostMapping("/servidores-autores/servidor")
-    ResponseEntity<?> cadastrarServidorAutor(@RequestHeader(name = "Api-Key") String chaveApi,
+    ResponseEntity<?> cadastrarServidorAutor(@ValidApiKey(apiKey = "#{String.valueOf(environment.getProperty('api_key'))}") @RequestHeader(name = "Api-Key") String chaveApi,
                                              @RequestBody @Valid CadastrarServidorAutorDto servidorAutorDto,
                                              BindingResult result)
     {
