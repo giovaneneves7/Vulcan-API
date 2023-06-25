@@ -1,5 +1,8 @@
 package br.com.vulcan.jvulcan.api.infrastructure.service.discord;
 
+import br.com.vulcan.jvulcan.api.infrastructure.service.discord.model.embeds.MensagemJson;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 public interface IWebHookMessageDelivererService
 {
 
@@ -10,5 +13,5 @@ public interface IWebHookMessageDelivererService
      * @param mensagem A mensagem a ser enviada para o WebHoook.
      * @return 'true' caso a mensagem seja enviada com sucesso, 'false' caso não.
      */
-    boolean enviarMensagem(String weebHookUrl, String mensagem);
+    boolean enviarMensagem(String weebHookUrl, MensagemJson mensagem);
 }
