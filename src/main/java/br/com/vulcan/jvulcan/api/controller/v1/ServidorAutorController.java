@@ -2,10 +2,11 @@ package br.com.vulcan.jvulcan.api.controller.v1;
 
 import br.com.vulcan.jvulcan.api.entity.servidores.model.dto.CadastrarServidorAutorDto;
 import br.com.vulcan.jvulcan.api.entity.servidores.service.IServidorAutorService;
-import br.com.vulcan.jvulcan.api.infrastructure.annotation.ValidApiKey;
+
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -42,20 +43,19 @@ public class ServidorAutorController {
     public void init()
     {
         if(!API_KEY.isEmpty())
-            log.info("Endpoint usando API");
+            log.debug("Endpoint usando API");
 
-        log.info("Endpoint público");
     }
 
     @PostMapping("/servidores-autores/servidor")
-    ResponseEntity<?> cadastrarServidorAutor(@ValidApiKey(apiKey = "#{String.valueOf(environment.getProperty('api_key'))}") @RequestHeader(name = "Api-Key") String chaveApi,
+    ResponseEntity<?> cadastrarServidorAutor(@RequestHeader(name = "Api-Key") String chaveApi,
                                              @RequestBody @Valid CadastrarServidorAutorDto servidorAutorDto,
-                                             BindingResult result)
-    {
+                                             BindingResult result) {
         erros = new HashMap<>();
 
         if(!chaveApi.equals(API_KEY))
         {
+            log.error("Acesso negado ao endpoint, chave de API incorretada.");
             erros.put("api_permission_error", "Você não tem autorização para acessar este endpoint, bleh!");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                                  .body(erros);
@@ -75,7 +75,6 @@ public class ServidorAutorController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                              .body(servidorAutorService.cadastrarServidorAutor(servidorAutorDto));
-
 
     }
 }
