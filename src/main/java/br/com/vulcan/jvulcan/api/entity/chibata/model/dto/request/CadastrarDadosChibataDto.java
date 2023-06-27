@@ -35,7 +35,7 @@ public record CadastrarDadosChibataDto(
    * @param dadosChibata A instância de OlhoDaChibata que recebrá os dados.
    * @param novel A novel associada aos dados chibata.
    */
-  void converter(OlhoDaChibata dadosChibata, Optional<Novel> novel)
+  public void converter(OlhoDaChibata dadosChibata, Optional<Novel> novel)
   {
 
     dadosChibata.setNovel(novel.orElseThrow(ObjectNotFoundException::new));
