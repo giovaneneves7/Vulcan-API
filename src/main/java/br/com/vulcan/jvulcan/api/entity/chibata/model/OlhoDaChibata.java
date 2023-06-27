@@ -1,18 +1,17 @@
 package br.com.vulcan.jvulcan.api.entity.chibata.model;
 
+import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.staff.model.Staff;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
@@ -25,14 +24,13 @@ public class OlhoDaChibata
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JsonProperty("nome_novel")
-    private String novel;
+    @OneToOne
+    @JoinColumn(name = "novel_id")
+    private Novel novel;
 
-    @JsonProperty("ultima_postagem")
     @Column(name = "ultima_postagem")
     private String ultimaPostagem;
 
-    @JsonProperty("autor_ou_tradutor")
     @ManyToOne
     @JoinColumn(name  = "staff_id")
     private Staff autorOuTradutor;
