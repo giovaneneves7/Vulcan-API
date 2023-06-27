@@ -7,7 +7,7 @@ Repositório com código do plugin para Wordpress, client e API Spring Boot para
 O client é responsável por fornecer uma interface agradável para que o usuário posso registrar, obter e gerenciar dados presentes no banco de dados. O plugin, por sua vez, é a ferramenta que lida com eventos do website, como novas postagens, e reduz o trabalho manual e repetitivo.
 A API responde a requisições vindas tanto do client quanto do plugin e trata os dados recebidos antes de salvá-los na base de dados, assim como retorna os dados requisitados de maneira precisa, utilizando JSON como linguagem de comunicação.
 
-### ⚙ Ferrmentas e Linguagens Utilizadas:
+### ⚙ Ferramentas e Linguagens Utilizadas:
 ![Java](https://img.shields.io/badge/Java-orange?style=for-the-badge&logo=java-8&logoColor=white) 
 ![Azure](https://img.shields.io/badge/Azure-blue?style=for-the-badge&logo=microsoft-azure&logoColor=white) 
 ![Spring](https://img.shields.io/badge/Spring%20Boot-green?style=for-the-badge&logo=spring-boot&logoColor=white) 
