@@ -22,23 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @Slf4j
 @RequestMapping("/nekoyasha7/jvulcan-api/v1")
-public class ChibataController
-{
+public class ChibataController {
 
-    private final HashMap<String, String> errorResponses = new HashMap<>();
+    private HashMap<String, String> erros;
     private final String NOVEL_NOT_FOUND = "A novel requisitada não existe na base de dados";
 
     @Value("${api_key}")
     private String API_KEY;
 
     @PostMapping
-    public void init()
-    {
+    public void init() {
         log.info("Endpoint usando a chave de API: ".concat(API_KEY));
     }
 
@@ -47,22 +44,18 @@ public class ChibataController
 
     @PostMapping(path = "/olho-da-chibata/membros/membro")
     public ResponseEntity<?> cadastrar(@RequestBody OlhoDaChibata dadosChibata,
-                                       @RequestHeader("Api-Key") String chaveAPI)
-    {
+            @RequestHeader("Api-Key") String chaveAPI) {
 
-        log.info(dadosChibata.toString());
+        erros = new HashMap<String, String>();
 
-        if(!chaveAPI.equals(API_KEY))
-        {
-            if(!errorResponses.containsKey("Api_Permission_Error"))
-                errorResponses.put("Api_Permission_Error", "Você não tem permissão para acessar este recurso, bleh!");
+        if (!chaveAPI.equals(API_KEY)) {
 
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponses);
+            erros.put("Api_Permission_Error", "Você não tem permissão para acessar este recurso, bleh!");
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erros);
         }
 
         this.facade.cadastrarDadosChibata(dadosChibata);
-
-        log.info("Dados com o id %d cadastrados com sucesso!".formatted(dadosChibata.getId()));
 
         return ResponseEntity.status(HttpStatus.CREATED).body("Dados registrados com sucesso!");
 
@@ -70,12 +63,15 @@ public class ChibataController
 
     @GetMapping("/olho-da-chibata/membros")
     public ResponseEntity<?> listarTodos(@RequestHeader("Api-Key") String chaveAPI,
-                                         @RequestParam(value = "pageable", required = false) Pageable pageable)
-    {
+            @RequestParam(value = "pageable", required = false) Pageable pageable) {
 
-        if(!chaveAPI.equals(API_KEY))
-        {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Você não tem permissão para acessar este recurso, bleh!");
+        erros = new HashMap<String, String>();
+
+        if (!chaveAPI.equals(API_KEY)) {
+
+            erros.put("Api_Permission_Error", "Você não tem permissão para acessar este recurso, bleh!");
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erros);
         }
 
         List<OlhoDaChibata> dadosChibata = this.facade.listarOlhoDaChibata(pageable.toOptional());
@@ -88,15 +84,18 @@ public class ChibataController
 
     @PutMapping("/olho-da-chibata/membros/membro")
     public ResponseEntity<?> atualizar(@RequestBody OlhoDaChibata dadosChibata,
-                                       @RequestHeader("Api-Key") String chaveAPI)
-    {
-        if(!chaveAPI.equals(API_KEY))
-        {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Você não tem permissão para acessar este recurso, bleh!");
+            @RequestHeader("Api-Key") String chaveAPI) {
+
+        erros = new HashMap<String, String>();
+
+        if (!chaveAPI.equals(API_KEY)) {
+
+            erros.put("Api_Permission_Error", "Você não tem permissão para acessar este recurso, bleh!");
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erros);
         }
 
-        if(!this.facade.atualizarDadosChibata(dadosChibata))
-        {
+        if (!this.facade.atualizarDadosChibata(dadosChibata)) {
             throw new ObjectNotFoundException("Impossível atualizar um registro que não existe na base de dados.");
         }
 
@@ -105,11 +104,14 @@ public class ChibataController
     }
 
     @PostMapping("/olho-da-chibata/membros/cobranca")
-    public ResponseEntity<?> cobrarMembros(@RequestHeader("Api-Key") String chaveAPI)
-    {
-        if(!chaveAPI.equals(API_KEY))
-        {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Você não tem permissão para acessar este recurso, bleh!");
+    public ResponseEntity<?> cobrarMembros(@RequestHeader("Api-Key") String chaveAPI) {
+        erros = new HashMap<String, String>();
+
+        if (!chaveAPI.equals(API_KEY)) {
+
+            erros.put("Api_Permission_Error", "Você não tem permissão para acessar este recurso, bleh!");
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erros);
         }
 
         return (this.facade.descerAChibata())
