@@ -1,6 +1,7 @@
 package br.com.vulcan.jvulcan.api.entity.chibata.service;
 
 import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
+import br.com.vulcan.jvulcan.api.entity.chibata.model.dto.request.CadastrarDadosChibataDto;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -12,9 +13,9 @@ public interface IOlhoDaChibataService
     /**
      * Cadastra dados de staffs e novels na base de dados.
      *
-     * @param dadosChibata Os dados que serão cadastrados.
+     * @param dadosChibataDto Os dados que serão cadastrados.
      */
-    void cadastrarDadosChibata(OlhoDaChibata dadosChibata);
+    void cadastrarDadosChibata(CadastrarDadosChibataDto dadosChibataDto);
 
     /**
      * Lista todos os dados do Olho da Chibata.

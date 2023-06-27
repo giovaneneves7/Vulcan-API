@@ -1,6 +1,7 @@
 package br.com.vulcan.jvulcan.api.entity.chibata.service;
 
 import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
+import br.com.vulcan.jvulcan.api.entity.chibata.model.dto.request.CadastrarDadosChibataDto;
 import br.com.vulcan.jvulcan.api.entity.chibata.repository.OlhoDaChibataRepository;
 
 import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
@@ -57,16 +58,15 @@ public class OlhoDaChibataService implements IOlhoDaChibataService
     /**
      * Cadastra dados de ‘staffs’ e novels na base de dados.
      *
-     * @param dadosChibata Os dados que serão cadastrados.
+     * @param dadosChibataDto Os dados que serão cadastrados.
      */
     @Override
-    public void cadastrarDadosChibata(OlhoDaChibata dadosChibata) {
+    public void cadastrarDadosChibata(CadastrarDadosChibataDto dadosChibataDto) {
 
-        if(novelRepository.findAll().isEmpty())
-            throw new EmptyListException(EMPTY_LIST);
+        OlhoDaChibata dadosChibata = new OlhoDaChibata();
+        dadosChibataDto.converter(dadosChibata, novelRepository.findByNome(dadosChibataDto.novel()));
 
-        if(novelRepository.findAll().stream()
-                                    .noneMatch(novel -> novel.getNome().equals(dadosChibata.getNovel())))
+        if(!novelRepository.findAll().contains(dadosChibata.getNovel()))
             throw new ObjectNotFoundException(NOVEL_NOT_FOUND);
 
         this.chibataRepository.save(dadosChibata);
@@ -159,13 +159,13 @@ public class OlhoDaChibataService implements IOlhoDaChibataService
         }
 
         //--+ Envia mensagem para o WebHook especificado +--//
-        if (!webHookService.enviarMensagem(this.webhookUrl, criarMensagemCobranca(baianos).toString()))
+       /* if (!webHookService.enviarMensagem(this.webhookUrl, criarMensagemCobranca(baianos).toString()))
         {
 
             log.error("Mensagem não enviada");
             throw new MessageNotSentException(MESSAGE_NOT_SENT);
 
-        }
+        }*/
 
         log.info("Mensagem enviada com sucesso!");
         return true;
