@@ -4,6 +4,7 @@ import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 
+import br.com.vulcan.jvulcan.api.entity.servidores.repository.ServidorAutorRepository;
 import br.com.vulcan.jvulcan.api.entity.servidores.service.IServidorAutorService;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
@@ -39,6 +40,9 @@ public class PostService implements IPostService {
 
     @Value("${webhook_url}")
     private String webhookUrl;
+
+    @Autowired
+    ServidorAutorRepository servidorAutorRepository;
 
     @Autowired
     NovelRepository novelRepository;
@@ -85,7 +89,7 @@ public class PostService implements IPostService {
 
                 }
 
-                MensagemJson mensagem = new MensagemJson("🗞 | <@&%s> <@&863456249873825812>",
+                MensagemJson mensagem = new MensagemJson("🗞 | <@&%s> <@&863456249873825812>".formatted(cargoMarcado),
                                                              new ArrayList<>(
                                                                                 List.of(new Embeds(
                                                                                                     post.getTitulo(),
@@ -104,7 +108,7 @@ public class PostService implements IPostService {
                                                              )
                 );
 
-                if(!webHookMessageDelivererService.enviarMensagem("https://discord.com/api/webhooks/1109128565141798943/yLKCpYd7YBJhpAfHZ5jR8WRYks9t6IGLWoYcXIIhV2xbZmObnwGBpD1x9L6Wmb44g_HM", mensagem))
+                if(!webHookMessageDelivererService.enviarMensagem(this.webhookUrl, mensagem))
                     log.error("Erro ao enviar a mensagem ao webhook");
                 log.info("Mensagem enviada com sucesso!");
 
