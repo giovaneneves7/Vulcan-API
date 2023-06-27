@@ -2,6 +2,7 @@ package br.com.vulcan.jvulcan.api.controller.v1;
 
 import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
 
+import br.com.vulcan.jvulcan.api.entity.chibata.model.dto.request.CadastrarDadosChibataDto;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import br.com.vulcan.jvulcan.api.infrastructure.service.Facade;
 import lombok.extern.slf4j.Slf4j;
@@ -43,8 +44,8 @@ public class ChibataController {
     Facade facade;
 
     @PostMapping(path = "/olho-da-chibata/membros/membro")
-    public ResponseEntity<?> cadastrar(@RequestBody OlhoDaChibata dadosChibata,
-            @RequestHeader("Api-Key") String chaveAPI) {
+    public ResponseEntity<?> cadastrar(@RequestBody CadastrarDadosChibataDto dadosChibata,
+                                       @RequestHeader("Api-Key") String chaveAPI) {
 
         erros = new HashMap<String, String>();
 
