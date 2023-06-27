@@ -4,6 +4,7 @@ import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
 import br.com.vulcan.jvulcan.api.entity.banners.model.dto.CadastrarBannerDto;
 import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
+import br.com.vulcan.jvulcan.api.entity.chibata.model.dto.request.CadastrarDadosChibataDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.servidores.model.dto.CadastrarServidorAutorDto;
@@ -98,9 +99,9 @@ public interface IFacade {
 
     /**
      * Cadastra dados de ‘staffs’ e novels na base de dados.
-     * @param dadosChibata Os dados que serão cadastrados.
+     * @param dadosChibataDto Os dados que serão cadastrados.
      */
-    void cadastrarDadosChibata(OlhoDaChibata dadosChibata);
+    void cadastrarDadosChibata(CadastrarDadosChibataDto dadosChibataDto);
 
     /**
      * Lista todos os dados do Olho da Chibata.

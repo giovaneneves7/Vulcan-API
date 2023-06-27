@@ -5,6 +5,7 @@ import br.com.vulcan.jvulcan.api.entity.banners.model.dto.CadastrarBannerDto;
 import br.com.vulcan.jvulcan.api.entity.banners.service.IBannerService;
 import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
+import br.com.vulcan.jvulcan.api.entity.chibata.model.dto.request.CadastrarDadosChibataDto;
 import br.com.vulcan.jvulcan.api.entity.chibata.service.IOlhoDaChibataService;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.novel.service.INovelService;
@@ -182,12 +183,12 @@ public class Facade implements IFacade
     /**
      * Cadastra dados de ‘staffs’ e novels na base de dados.
      *
-     * @param dadosChibata Os dados que serão cadastrados.
+     * @param dadosChibataDto Os dados que serão cadastrados.
      */
     @Override
-    public void cadastrarDadosChibata(OlhoDaChibata dadosChibata)
+    public void cadastrarDadosChibata(CadastrarDadosChibataDto dadosChibataDto)
     {
-        this.chibataService.cadastrarDadosChibata(dadosChibata);
+        this.chibataService.cadastrarDadosChibata(dadosChibataDto);
     }
 
     /**
