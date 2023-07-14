@@ -41,9 +41,9 @@ public class NovelService implements INovelService
     }
 
     /**
-     * Salva uma novel na base de dados.
-     * @param novel A novel que será salva.
-     * @return 'true' caso a novel seja salva, 'false' caso contrário.
+     * Salva uma model na base de dados.
+     * @param novel A model que será salva.
+     * @return 'true' caso a model seja salva, 'false' caso contrário.
      */
     @Override
     @Transactional
@@ -69,7 +69,7 @@ public class NovelService implements INovelService
                 .anyMatch(n -> n.getSlug().equals(novel.getIndice()));
 
 
-        //--+ Organiza a novel de acordo com as views +--//
+        //--+ Organiza a model de acordo com as views +--//
         if(!slugExiste && !indiceExiste)
         {
             novels.add(novel);
@@ -88,8 +88,8 @@ public class NovelService implements INovelService
     }
 
     /**
-     * Deleta a novel com o ID passado por parâmetro.
-     * @param id O ID da novel a ser deletada.
+     * Deleta a model com o ID passado por parâmetro.
+     * @param id O ID da model a ser deletada.
      */
     @Override
     public void deletar(long id)
@@ -100,9 +100,9 @@ public class NovelService implements INovelService
     }
 
     /**
-     * Busca uma novel pelo slug passado.
-     * @param slug O slug da novel.
-     * @return A novel com o slug passado por parâmetro, 'null' caso ela não exista.
+     * Busca uma model pelo slug passado.
+     * @param slug O slug da model.
+     * @return A model com o slug passado por parâmetro, 'null' caso ela não exista.
      */
     @Override
     public Novel buscarPorSlug(String slug) {
