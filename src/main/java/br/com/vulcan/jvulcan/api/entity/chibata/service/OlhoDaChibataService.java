@@ -32,7 +32,7 @@ public class OlhoDaChibataService implements IOlhoDaChibataService
 {
 
     private final String MESSAGE_NOT_SENT = "Mensagem não enviada devido a conflitos com o provedor do serviço";
-    private final String NOVEL_NOT_FOUND = "A novel não relacionada ao membro da staff não existe na base de dados.";
+    private final String NOVEL_NOT_FOUND = "A model não relacionada ao membro da staff não existe na base de dados.";
     private final String EMPTY_LIST = "A lista de novels está vazia.";
     private final long SEMANA = 7;
     private final long MES = 30;
@@ -191,7 +191,7 @@ public class OlhoDaChibataService implements IOlhoDaChibataService
 
             if(diasSemPostar > 60)
             {
-                mensagemAviso = "Sua novel será colocada como dropada caso não haja novas postagens.";
+                mensagemAviso = "Sua model será colocada como dropada caso não haja novas postagens.";
             }
             mensagem.append
                             (
