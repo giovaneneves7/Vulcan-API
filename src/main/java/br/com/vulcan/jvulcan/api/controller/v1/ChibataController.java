@@ -30,7 +30,7 @@ import java.util.List;
 public class ChibataController {
 
     private HashMap<String, String> erros;
-    private final String NOVEL_NOT_FOUND = "A novel requisitada não existe na base de dados";
+    private final String NOVEL_NOT_FOUND = "A model requisitada não existe na base de dados";
 
     @Value("${api_key}")
     private String API_KEY;
