@@ -14,7 +14,7 @@ import java.util.Optional;
 public record CadastrarServidorAutorDto(@NotNull(message = "O webhook é obrigatório") @NotBlank @Size(min = 5, message = "O webhook deve ter mais de 5 caracteres") @JsonProperty(value = "webhook") String webhook,
                                         @NotNull(message = "A mensagem personalizada é obrigatória") @NotBlank @Size(min = 5, message = "A mensagem deve ter mais de 5 caracteres") @JsonProperty(value = "mensagem") String mensagem,
                                         @JsonProperty(value = "id_cargo") String idCargo,
-                                        @NotNull(message = "A novel é obrigatória") @JsonProperty(value = "novel") NovelServidorAutorDto novel) {
+                                        @NotNull(message = "A model é obrigatória") @JsonProperty(value = "model") NovelServidorAutorDto novel) {
 
     public void converterParaServidorAutor(ServidorAutor servidorAutor, Optional<Novel> novel)
     {
