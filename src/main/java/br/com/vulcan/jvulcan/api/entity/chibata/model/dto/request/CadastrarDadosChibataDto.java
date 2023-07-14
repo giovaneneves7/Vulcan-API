@@ -17,8 +17,8 @@ public record CadastrarDadosChibataDto(
 
   @NotBlank
   @NotNull
-  @Size(min = 1, message = "O nome da novel precisa ter ao menos um caracter")
-  @JsonProperty(value = "novel")
+  @Size(min = 1, message = "O nome da model precisa ter ao menos um caracter")
+  @JsonProperty(value = "model")
   String novel,
 
   @NotBlank
@@ -33,7 +33,7 @@ public record CadastrarDadosChibataDto(
    * Converte um record CadastrarDadosChibataDto para OlhoDaChibata.
    *
    * @param dadosChibata A instância de OlhoDaChibata que recebrá os dados.
-   * @param novel A novel associada aos dados chibata.
+   * @param novel A model associada aos dados chibata.
    */
   public void converter(OlhoDaChibata dadosChibata, Optional<Novel> novel)
   {
