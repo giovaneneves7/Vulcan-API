@@ -1,33 +1,53 @@
 package br.com.vulcan.jvulcan.api.entity.post.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.stereotype.Component;
+import lombok.NoArgsConstructor;
 
-@Component
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "api_posts")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Post {
 
-    @JsonProperty("post_id")
+    @Id
     private int postId;
 
-    @JsonProperty("nome_novel")
+    @Column(name = "nome_novel")
     private String nomeNovel;
 
-    @JsonProperty("categoria")
+    @Column(name = "categoria")
     private String categoria;
 
-    @JsonProperty("titulo_postagem")
+    @Column(name = "titulo_postagem")
     private String titulo;
 
-    @JsonProperty("autor_postagem")
+    @Column(name = "autor_postagem")
     private String autor;
 
-    @JsonProperty("link_postagem")
+    @Column(name = "link_postagem")
     private String link;
 
-    @JsonProperty("link_avatar_autor")
+    @Column(name = "link_avatar_autor")
     private String linkAvatarAutor;
 
-    private String cargoMarcado;
+    @Column(name = "data_postagem")
+    private LocalDateTime dataPostagem;
+
+    public Post(int postId, String nomeNovel, String categoria, String titulo, String autor, String link, String linkAvatarAutor) {
+        this.postId = postId;
+        this.nomeNovel = nomeNovel;
+        this.categoria = categoria;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.link = link;
+        this.linkAvatarAutor = linkAvatarAutor;
+    }
 }
