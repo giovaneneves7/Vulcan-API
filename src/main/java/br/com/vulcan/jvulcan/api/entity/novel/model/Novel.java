@@ -67,7 +67,7 @@ public class Novel {
     private String capa;
 
     /**
-     * Padrão de cadastro: sigla-nome-da-novel
+     * Padrão de cadastro: sigla-nome-da-model
      */
     @Column(name = "indice")
     @JsonProperty("indice")
