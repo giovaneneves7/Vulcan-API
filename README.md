@@ -63,17 +63,17 @@ Retorna uma array com todas as novels cadastradas no banco de dados e uma sub-ar
     "colocacao_mensal": 1,
     "visualizacoes_totais" : 2980477,
     "visualizacoes_mensais": 50610,
-    "slug"        : "ndn-nome-da-novel",
+    "slug"        : "ndn-nome-da-model",
     "nome_projeto": "Nome da Novel",
     "nacionalidade":"nacionalidade",
     "capa":"https://host.com.br/nome_da_novel.webp",
-    "indice":"ndn-nome-da-novel",
+    "indice":"ndn-nome-da-model",
     "autor_ou_tradutor":"Autor ou Tradutor",
     "cargo":"Cargo",
     "status_projeto":"status",
     "nota_media_projeto":"5.00",
     "data_criacao_indice":"2020-02-26 16:47:11",
-    "sinopse":"Sinopse da novel",
+    "sinopse":"Sinopse da model",
     "id_cargo":"id do cargo o Discord"
   }
 ]
