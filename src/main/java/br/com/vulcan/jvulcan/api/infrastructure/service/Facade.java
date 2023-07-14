@@ -14,6 +14,9 @@ import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.post.service.IPostService;
 import br.com.vulcan.jvulcan.api.entity.servidores.model.dto.CadastrarServidorAutorDto;
 import br.com.vulcan.jvulcan.api.entity.servidores.service.IServidorAutorService;
+import br.com.vulcan.jvulcan.api.entity.view.model.dto.request.IncrementarViewsDTO;
+import br.com.vulcan.jvulcan.api.entity.view.model.dto.response.IncrementarViewsDto;
+import br.com.vulcan.jvulcan.api.entity.view.service.INovelViewsService;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,9 @@ import java.util.Optional;
 @Service
 public class Facade implements IFacade
 {
+
+    @Autowired
+    INovelViewsService novelViewsService;
 
     @Autowired
     INovelService novelService;
@@ -65,9 +71,9 @@ public class Facade implements IFacade
     }
 
     /**
-     * Salva uma novel na base de dados.
-     * @param novel A novel que será salva.
-     * @return 'true' caso a novel seja salva, 'false' caso contrário.
+     * Salva uma model na base de dados.
+     * @param novel A model que será salva.
+     * @return 'true' caso a model seja salva, 'false' caso contrário.
      */
     @Override
     public boolean salvarNovel(Novel novel)
@@ -89,8 +95,8 @@ public class Facade implements IFacade
     }
 
     /**
-     * Deleta a novel com o ID passado por parâmetro.
-     * @param id O ID da novel a ser deletada.
+     * Deleta a model com o ID passado por parâmetro.
+     * @param id O ID da model a ser deletada.
      */
     @Override
     public void deletarNovelPorId(long id)
@@ -101,9 +107,9 @@ public class Facade implements IFacade
     }
 
     /**
-     * Busca uma novel pelo slug passado.
-     * @param slug O slug da novel.
-     * @return A novel com o slug passado por parâmetro, 'null' caso ela não exista.
+     * Busca uma model pelo slug passado.
+     * @param slug O slug da model.
+     * @return A model com o slug passado por parâmetro, 'null' caso ela não exista.
      */
     @Override
     public Novel buscarNovelPorSlug(String slug)
@@ -226,6 +232,19 @@ public class Facade implements IFacade
     public CadastrarServidorAutorDto cadastrarServidorAutor(CadastrarServidorAutorDto servidorAutorDto)
     {
         return this.servidorAutorService.cadastrarServidorAutor(servidorAutorDto);
+    }
+    //====================={ NOVEL VIEWS - METODOS }=====================//
+
+    /**
+     * Incrementa as views totais de uma novel.
+     *
+     * @param viewsDTO O DTO com dados da novel que terá as views incrementadas.
+     *
+     * @return Um DTO com os dados atualizados da novel.
+     */
+    @Override
+    public IncrementarViewsDto incrementarViews(IncrementarViewsDTO viewsDTO) {
+        return novelViewsService.incrementarViews(viewsDTO);
     }
 
 }
