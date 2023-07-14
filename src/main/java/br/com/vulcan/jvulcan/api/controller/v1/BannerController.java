@@ -38,15 +38,11 @@ import java.util.stream.IntStream;
 @RequestMapping(path = "nekoyasha7/jvulcan-api/v1")
 public class BannerController
 {
-
     private HashMap<String, String> erros;
-
     @Value("${api_key}")
     private String API_KEY;
-
     @Autowired
     IFacade facade;
-
     @PostConstruct
     public void init()
     {
@@ -63,7 +59,7 @@ public class BannerController
         if(!chaveApi.equals(API_KEY))
         {
 
-            erros.put("api_permission_erros", "Você não tem permissão para acessar este endpoint, bleh!");
+            erros.put("api_permission_error", "Você não tem permissão para acessar este endpoint, bleh!");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erros);
 
         }
