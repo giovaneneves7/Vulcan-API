@@ -90,7 +90,7 @@ public class NovelController
         return ResponseEntity.ok(this.facade.atualizarCargoDasNovels(cargos));
 
     }
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @CrossOrigin(origins = {"http://localhost:3000", "https://apill.vulcannovel.com.br"}, allowedHeaders = "Content-Type")
     @PostMapping("/novels/novel")
     public ResponseEntity<String> cadastrarNovel(@RequestBody Novel novel){
 
@@ -100,7 +100,7 @@ public class NovelController
 
         } else {
 
-            return ResponseEntity.badRequest().body("Houve um erro ao tentar salvar a novel na base de dados");
+            return ResponseEntity.badRequest().body("Houve um erro ao tentar salvar a model na base de dados");
 
         }
     }
