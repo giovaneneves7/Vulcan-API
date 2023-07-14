@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 @NoArgsConstructor
 public class BannerService implements IBannerService {
 
-    private final String NOVEL_NOT_FOUND = "A novel associada a este banner não existe na base de dados";
+    private final String NOVEL_NOT_FOUND = "A model associada a este banner não existe na base de dados";
     private final String BANNER_NOT_FOUND = "O banner requisitado não existe na base de dados";
     private final String ALREADY_EXISTS_BANNER = "Já existe um banner com este nome ou link na base de dados";
     private final String EMPTY_BANNER_LIST = "A lista de banners está vazia";
