@@ -1,5 +1,7 @@
 package br.com.vulcan.jvulcan.api.entity.post.service;
 
+import br.com.vulcan.jvulcan.api.entity.chibata.model.PostsNaSemana;
+import br.com.vulcan.jvulcan.api.entity.chibata.repository.PostsNaSemanaRepository;
 import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
@@ -23,6 +25,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,13 +36,16 @@ import java.util.Optional;
 @PropertySource("classpath:application.properties")
 public class PostService implements IPostService {
 
-    private final String NOVEL_NOT_FOUND = "A novel requisitada não existe na base de dados!";
+    private final String NOVEL_NOT_FOUND = "A model requisitada não existe na base de dados!";
     private final String MESSAGE_NOT_SENT = "A mensagem não foi enviada.";
 
     private int idUltimoPost = 0;
 
     @Value("${webhook_url}")
     private String webhookUrl;
+
+    @Autowired
+    PostsNaSemanaRepository postsNaSemanaRepository;
 
     @Autowired
     ServidorAutorRepository servidorAutorRepository;
@@ -55,7 +61,7 @@ public class PostService implements IPostService {
 
     @PostConstruct
     public void init() {
-        System.out.println("Conectado no WebHook: ".concat(webhookUrl));
+        log.info("Conectado no WebHook: {}", webhookUrl);
     }
 
     /**
@@ -70,14 +76,16 @@ public class PostService implements IPostService {
 
             try {
 
+
                 Optional<Novel> optionalNovel = novelRepository.findByNome(post.getCategoria());
 
                 String cargoMarcado = "ROLE_NOT_FOUND";
-                String capaUrl = "https://web.postman.co/workspace/My-Workspace~1108489f-00b6-4bb8-8ecd-c72277a45a1d/request/27286299-76eca593-a7dc-4afe-a73b-7d88aa307910";
+                String capaUrl = "https://vulcannovel.com.br";
+                Novel novel = new Novel();
                 var autor = "USERNAME_UNDEFINED";
 
                 if (optionalNovel.isPresent()) {
-                    Novel novel = optionalNovel.get();
+                    novel = optionalNovel.get();
 
                     cargoMarcado = novel.getIdCargo();
                     capaUrl = new Formatter().formatarUrlDeCapa(novel.getCapa());
@@ -112,6 +120,11 @@ public class PostService implements IPostService {
                     log.error("Erro ao enviar a mensagem ao webhook");
                 log.info("Mensagem enviada com sucesso!");
 
+                //--+ Salva o novo na base de dados +--//
+                Optional<PostsNaSemana> optionalPostsNaSemana = postsNaSemanaRepository.findByNovel(novel);
+                optionalPostsNaSemana.ifPresent(postsNaSemana -> salvarPost(post, postsNaSemana));
+
+                //--+ Notifica postagem em servidores de autores +--//
                 servidorAutorService.notificarEmServidoresDeAutor(post);
 
             } catch (Exception ex) {
@@ -122,5 +135,20 @@ public class PostService implements IPostService {
 
         }
 
+    }
+
+    /**
+     * Salva uma nova postagem.
+     *
+     * @param post A postagem a ser salva.
+     * @param postsNaSemana A lista de posts na semana relacionados à novel.
+     */
+    private void salvarPost(Post post, PostsNaSemana postsNaSemana){
+
+        post.setDataPostagem(LocalDateTime.now());
+        postsNaSemana.getPosts().add(post);
+        postsNaSemana.setTotalPosts(postsNaSemana.getPosts().size());
+
+        postsNaSemanaRepository.save(postsNaSemana);
     }
 }
