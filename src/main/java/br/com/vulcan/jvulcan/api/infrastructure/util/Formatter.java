@@ -5,7 +5,7 @@ public class Formatter {
     private final String pattern = "-\\\\d+x\\\\d+";
 
     /**
-     * Formata URL de capas de novel, removendo as dimensões para as imgens serem carregadas corretamente.
+     * Formata URL de capas de model, removendo as dimensões para as imgens serem carregadas corretamente.
      *
      * @param capaUrl A url da capa que será formatada.
      * @return url formatada.
