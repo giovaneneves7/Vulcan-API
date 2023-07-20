@@ -14,9 +14,6 @@ import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.post.service.IPostService;
 import br.com.vulcan.jvulcan.api.entity.servidores.model.dto.CadastrarServidorAutorDto;
 import br.com.vulcan.jvulcan.api.entity.servidores.service.IServidorAutorService;
-import br.com.vulcan.jvulcan.api.entity.view.model.dto.request.IncrementarViewsDTO;
-import br.com.vulcan.jvulcan.api.entity.view.model.dto.response.IncrementarViewsDto;
-import br.com.vulcan.jvulcan.api.entity.view.service.INovelViewsService;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,10 +26,6 @@ import java.util.Optional;
 @Service
 public class Facade implements IFacade
 {
-
-    @Autowired
-    INovelViewsService novelViewsService;
-
     @Autowired
     INovelService novelService;
 
@@ -234,18 +227,6 @@ public class Facade implements IFacade
         return this.servidorAutorService.cadastrarServidorAutor(servidorAutorDto);
     }
     //====================={ NOVEL VIEWS - METODOS }=====================//
-
-    /**
-     * Incrementa as views totais de uma novel.
-     *
-     * @param viewsDTO O DTO com dados da novel que terá as views incrementadas.
-     *
-     * @return Um DTO com os dados atualizados da novel.
-     */
-    @Override
-    public IncrementarViewsDto incrementarViews(IncrementarViewsDTO viewsDTO) {
-        return novelViewsService.incrementarViews(viewsDTO);
-    }
 
 }
 

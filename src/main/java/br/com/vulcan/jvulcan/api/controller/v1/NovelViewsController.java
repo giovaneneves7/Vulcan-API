@@ -1,6 +1,5 @@
 package br.com.vulcan.jvulcan.api.controller.v1;
 
-import br.com.vulcan.jvulcan.api.entity.view.model.dto.request.IncrementarViewsDTO;
 import br.com.vulcan.jvulcan.api.infrastructure.service.Facade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,6 @@ public class NovelViewsController {
     @PutMapping(path = "novels/novel/{categoria}/views/view")
     public ResponseEntity<?> incrementarViews(@RequestHeader(name = "Api-Key") String chaveApi,
                                               @PathVariable(name = "categoria") String novel,
-                                              @RequestBody IncrementarViewsDTO viewsDto,
                                               BindingResult result){
 
         erros = new HashMap<>();
@@ -52,6 +50,6 @@ public class NovelViewsController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erros);
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(facade.incrementarViews(viewsDto));
+        return ResponseEntity.status(HttpStatus.OK).body("heyyyyy");
     }
 }

@@ -8,8 +8,6 @@ import br.com.vulcan.jvulcan.api.entity.chibata.model.dto.request.CadastrarDados
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.servidores.model.dto.CadastrarServidorAutorDto;
-import br.com.vulcan.jvulcan.api.entity.view.model.dto.request.IncrementarViewsDTO;
-import br.com.vulcan.jvulcan.api.entity.view.model.dto.response.IncrementarViewsDto;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 
@@ -138,12 +136,5 @@ public interface IFacade {
     CadastrarServidorAutorDto cadastrarServidorAutor(CadastrarServidorAutorDto servidorAutorDto);
 
     //====================={ NOVEL VIEWS - METODOS }=====================//
-    /**
-     * Incrementa as views totais de uma novel.
-     *
-     * @param viewsDTO O DTO com dados da novel que terá as views incrementadas.
-     *
-     * @return Um DTO com os dados atualizados da novel.
-     */
-     IncrementarViewsDto incrementarViews(IncrementarViewsDTO viewsDTO);
+
 }
