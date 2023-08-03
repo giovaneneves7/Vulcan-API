@@ -8,6 +8,7 @@ import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
 import br.com.vulcan.jvulcan.api.entity.chibata.model.dto.request.CadastrarDadosChibataDto;
 import br.com.vulcan.jvulcan.api.entity.chibata.service.IOlhoDaChibataService;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
 import br.com.vulcan.jvulcan.api.entity.novel.service.INovelService;
 
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
@@ -65,13 +66,13 @@ public class Facade implements IFacade
 
     /**
      * Salva uma model na base de dados.
-     * @param novel A model que será salva.
+     * @param novelDto O DTO com dados da novel que será salva.
      * @return 'true' caso a model seja salva, 'false' caso contrário.
      */
     @Override
-    public boolean salvarNovel(Novel novel)
+    public Novel salvarNovel(CadastrarNovelDto novelDto)
     {
-        return this.novelService.salvar(novel);
+        return this.novelService.salvar(novelDto);
     }
 
     /**

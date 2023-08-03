@@ -6,6 +6,7 @@ import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
 import br.com.vulcan.jvulcan.api.entity.chibata.model.dto.request.CadastrarDadosChibataDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.servidores.model.dto.CadastrarServidorAutorDto;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
@@ -33,10 +34,10 @@ public interface IFacade {
 
     /**
      * Salva uma model na base de dados.
-     * @param novel A model que será salva.
+     * @param novelDto O DTO com dados da novel que será salva.
      * @return 'true' caso a model seja salva, 'false' caso contrário.
      */
-    boolean salvarNovel(Novel novel);
+    Novel salvarNovel(CadastrarNovelDto novelDto);
 
     /**
      * Atualiza o cargo das novels.
