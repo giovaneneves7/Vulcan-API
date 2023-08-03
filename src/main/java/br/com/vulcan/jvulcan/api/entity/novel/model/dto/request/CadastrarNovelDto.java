@@ -45,7 +45,12 @@ public record CadastrarNovelDto(
         @JsonProperty(value = "slug")
         @NotNull(message = "o slug não pode ser nulo")
         @NotBlank
-        String slug
+        String slug,
+
+        @JsonProperty(value = "indice")
+        @NotNull(message = "o indice não pode ser nulo")
+        @NotBlank
+        String indice
         ) {
 
         /**
@@ -65,7 +70,7 @@ public record CadastrarNovelDto(
                 novel.setAutor(this.staff);
                 novel.setEscritor(this.autor);
                 novel.setSlug(this.slug);
-
+                novel.setIndice(this.indice);
                 return novel;
         }
 }
