@@ -2,8 +2,10 @@ package br.com.vulcan.jvulcan.api.entity.novel.service;
 
 import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
 import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 
+import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectAlreadyExistsException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import java.util.Optional;
 @Service
 public class NovelService implements INovelService
 {
+
+    private final String OBJECT_ALREADY_EXISTS = "A novel já existe na base de dados";
 
     @Autowired
     NovelRepository novelRepository;
@@ -42,13 +46,15 @@ public class NovelService implements INovelService
 
     /**
      * Salva uma model na base de dados.
-     * @param novel A model que será salva.
+     * @param novelDto O DTO com dados da novel que será salva.
      * @return 'true' caso a model seja salva, 'false' caso contrário.
      */
     @Override
     @Transactional
-    public boolean salvar(Novel novel)
+    public Novel salvar(final CadastrarNovelDto novelDto)
     {
+
+        Novel novel = novelDto.converter();
 
         List<Novel> novels = this.novelRepository.findAll();
 
@@ -59,31 +65,28 @@ public class NovelService implements INovelService
             novel.setColocacaoMensal(1);
             novelRepository.save(novel);
 
-            return true;
+            return novel;
         }
 
+        // --+ Verifica se já há alguma novel com o slug na base de dados +--//
         boolean slugExiste = novels.stream()
                                       .anyMatch(n -> n.getSlug().equals(novel.getSlug()));
 
+        //--+ Verifica se já há alguma novel com o indice na base de dados +--//
         boolean indiceExiste = novels.stream()
                 .anyMatch(n -> n.getSlug().equals(novel.getIndice()));
 
 
-        //--+ Organiza a model de acordo com as views +--//
+        //--+ Organiza a novel de acordo com as views +--//
         if(!slugExiste && !indiceExiste)
         {
-            novels.add(novel);
+            this.novelRepository.save(novel);
 
-            //--+ Reordena a lista +--//
-            reorganizarPorViewsMensais(novels);
-            reorganizarPorViewsTotais(novels);
+            return novel;
+        } else{
 
-            this.novelRepository.saveAll(novels);
-
-            return true;
+            throw new ObjectAlreadyExistsException(OBJECT_ALREADY_EXISTS);
         }
-
-        return false;
 
     }
 

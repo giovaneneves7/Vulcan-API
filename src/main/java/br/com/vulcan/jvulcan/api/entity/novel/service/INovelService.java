@@ -2,6 +2,7 @@ package br.com.vulcan.jvulcan.api.entity.novel.service;
 
 import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
 
 import java.util.List;
 
@@ -22,10 +23,10 @@ public interface INovelService
 
     /**
      * Salva uma model na base de dados.
-     * @param novel A model que será salva.
+     * @param novelDto O DTO com dados da novel que será salva.
      * @return 'true' caso a model seja salva, 'false' caso contrário.
      */
-    boolean salvar(Novel novel);
+    Novel salvar(CadastrarNovelDto novelDto);
 
     /**
      * Deleta a model com o ID passado por parâmetro.
