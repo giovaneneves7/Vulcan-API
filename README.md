@@ -36,15 +36,14 @@ Todos os endpoints com ``v1`` são privados necessitam de um cabeçalho chamado 
 | Método   | Endpoint                                          | Parâmetros                                                                 | Body              |
 |----------|---------------------------------------------------|----------------------------------------------------------------------------|-------------------|
 | **GET**  |``/nekoyasha7/jvulcan-api/v1/novels``              | ``?nacionalidade`` [String - Opcional], <br> ``?tipo`` [String - Opcional] | --                |
-| **GET**  |``/nekoyasha7/jvulcan-api/v1/novels/novel/{slug}`` | ---                                                                        | --                |
 | **PUT**  |``/nekoyasha7/jvulcan-api/v1/novels/novel``        | ---                                                                        | --                |
- | **POST** |``/nekoyasha7/jvulcan-api/v1/novels/novel``        | ---                                                                        | NovelDTO [Object] |
+| **POST** |``/nekoyasha7/jvulcan-api/v1/novels/novel``        | ---                                                                        | NovelDTO [Object] |
 
 
-> **1.1.0 -** ``GET`` **/nekoyasha7/jvulcan-api/v1/novels**:
+- ### ``GET`` **/nekoyasha7/jvulcan-api/v1/novels**:
 Este endpoint retorna uma array com todas as novels cadastradas no banco de dados e uma sub-array com seus respectivos banners, se tiverem banner. <br>
 
-> ``?nacionalidade``: Filtro que retorna apenas novels com a nacionalidade especificada. Até o momento, na ``v1``, não é possível especificar mais de uma nacionalidade, caso precise de um filtro mais amplo, veja a seção **1.1.2**.   
+- ``?nacionalidade``: Filtro que retorna apenas novels com a nacionalidade especificada. Até o momento, na ``v1``, não é possível especificar mais de uma nacionalidade, caso precise de um filtro mais amplo, veja a seção **1.1.2**.   
 
 | Nacionalidades | Descrição  |
 |----------------|------------|
@@ -54,7 +53,7 @@ Este endpoint retorna uma array com todas as novels cadastradas no banco de dado
 | co             | Corenana   | 
 | br             | Brasileira |
 
-> ``?tipo``: Filtro que retorna apenas novels do tipo especificado. Os tipos são "traduções", que englobam as nacionalidades "oci", "jp", "ch" e "co", e "originais", que se limitam apenas às novels brasileiras (ver seção **1.1.1**).
+- ``?tipo``: Filtro que retorna apenas novels do tipo especificado. Os tipos são "traduções", que englobam as nacionalidades "oci", "jp", "ch" e "co", e "originais", que se limitam apenas às novels brasileiras (ver seção **1.1.1**).
 
 ### 2. Banners
 | Método     | Endpoint                                     | Parâmetros                                          | Body                                        |
