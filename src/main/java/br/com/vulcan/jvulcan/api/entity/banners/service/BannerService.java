@@ -1,26 +1,23 @@
 package br.com.vulcan.jvulcan.api.entity.banners.service;
 
 import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
-import br.com.vulcan.jvulcan.api.entity.banners.model.dto.BannerDto;
 import br.com.vulcan.jvulcan.api.entity.banners.model.dto.CadastrarBannerDto;
 import br.com.vulcan.jvulcan.api.entity.banners.repository.BannerRepository;
-import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.EmptyListException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectAlreadyExistsException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
-import br.com.vulcan.jvulcan.api.infrastructure.origin.OrigensAutorizadas;
+
 import jakarta.transaction.Transactional;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.List;
+import java.util.Random;
 
 @Slf4j
 @Service
