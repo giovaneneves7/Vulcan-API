@@ -1,6 +1,8 @@
 package br.com.vulcan.jvulcan.api.controller.v1;
 
 import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
+import br.com.vulcan.jvulcan.api.infrastructure.enums.Errors;
 import br.com.vulcan.jvulcan.api.infrastructure.service.IFacade;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 
@@ -8,10 +10,14 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -22,6 +28,8 @@ public class NovelController
 
     @Value("${api_key}")
     private String API_KEY;
+
+    private HashMap<String, String> erros;
 
     @PostConstruct
     public void init()
@@ -92,17 +100,30 @@ public class NovelController
     }
     @CrossOrigin(origins = {"http://localhost:3000", "https://apill.vulcannovel.com.br"}, allowedHeaders = "Content-Type")
     @PostMapping("/novels/novel")
-    public ResponseEntity<String> cadastrarNovel(@RequestBody Novel novel){
+    public ResponseEntity<?> cadastrarNovel(@RequestBody CadastrarNovelDto novelDto,
+                                            BindingResult result,
+                                            @RequestHeader(name = "API-KEY") String chaveApi){
 
-        if(this.facade.salvarNovel(novel))
-        {
-            return ResponseEntity.ok("Novel salva com sucesso!");
+        erros = new HashMap<>();
 
-        } else {
+        if(!chaveApi.equals(API_KEY)){
 
-            return ResponseEntity.badRequest().body("Houve um erro ao tentar salvar a model na base de dados");
+            erros.put(Errors.API_PERMISSION_ERROR.getKey(), Errors.API_PERMISSION_ERROR.getErro());
 
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erros);
         }
+
+        if(result.hasErrors()){
+
+            for(FieldError erro : result.getFieldErrors()){
+                erros.put(erro.getField(), erro.getDefaultMessage());
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erros);
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.facade.salvarNovel(novelDto));
+
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
