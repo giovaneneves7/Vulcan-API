@@ -27,8 +27,8 @@ public record CadastrarNovelDto(
         @NotBlank
         String tipo,
 
-        @JsonProperty(value = "autor")
-        @NotNull(message = "o autor não pode ser nulo")
+        @JsonProperty(value = "escritor")
+        @NotNull(message = "o escritor não pode ser nulo")
         @NotBlank
         String staff,
 
@@ -37,10 +37,13 @@ public record CadastrarNovelDto(
         @NotBlank
         String status,
 
-        @JsonProperty(value = "autor")
-        @NotNull(message = "O nome de autor original não pode ser nulo")
+        @JsonProperty(value = "escritor")
+        @NotNull(message = "O nome de escritor original não pode ser nulo")
         @NotBlank
-        String autor,
+        String escritor,
+
+        @JsonProperty(value = "avaliacao")
+        String estrelas,
 
         @JsonProperty(value = "slug")
         @NotNull(message = "o slug não pode ser nulo")
@@ -50,7 +53,10 @@ public record CadastrarNovelDto(
         @JsonProperty(value = "indice")
         @NotNull(message = "o indice não pode ser nulo")
         @NotBlank
-        String indice
+        String indice,
+
+        @JsonProperty(value = "generos")
+        String generos
         ) {
 
         /**
@@ -68,9 +74,12 @@ public record CadastrarNovelDto(
                 novel.setCargo(this.tipo);
                 novel.setStatus(this.status);
                 novel.setAutor(this.staff);
-                novel.setEscritor(this.autor);
+                novel.setEscritor(this.escritor);
+                novel.setEstrelas(this.estrelas);
                 novel.setSlug(this.slug);
                 novel.setIndice(this.indice);
+                novel.setGeneros(this.generos);
+
                 return novel;
         }
 }
