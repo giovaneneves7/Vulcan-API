@@ -7,6 +7,9 @@ import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectAlreadyExistsException;
 import jakarta.transaction.Transactional;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class NovelService implements INovelService
 {
 
@@ -54,6 +58,8 @@ public class NovelService implements INovelService
     public Novel salvar(final CadastrarNovelDto novelDto)
     {
 
+        log.info("Tentando salvar novel {}", novelDto.titulo());
+
         Novel novel = novelDto.converter();
 
         List<Novel> novels = this.novelRepository.findAll();
@@ -65,6 +71,7 @@ public class NovelService implements INovelService
             novel.setColocacaoMensal(1);
             novelRepository.save(novel);
 
+            log.info("A novel {} foi salva na base de dados", novel.getNome());
             return novel;
         }
 
@@ -84,7 +91,7 @@ public class NovelService implements INovelService
 
             return novel;
         } else{
-
+            log.error("Ocorreu um erro ao salvar a novel {} na base de dados", novel.getNome());
             throw new ObjectAlreadyExistsException(OBJECT_ALREADY_EXISTS);
         }
 
