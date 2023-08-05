@@ -49,9 +49,9 @@ public class NovelService implements INovelService
     }
 
     /**
-     * Salva uma model na base de dados.
+     * Salva uma novel na base de dados.
      * @param novelDto O DTO com dados da novel que será salva.
-     * @return 'true' caso a model seja salva, 'false' caso contrário.
+     * @return 'true' caso a novel seja salva, 'false' caso contrário.
      */
     @Override
     @Transactional
@@ -59,7 +59,6 @@ public class NovelService implements INovelService
     {
 
         log.info("Tentando salvar novel {}", novelDto.titulo());
-
         Novel novel = novelDto.converter();
 
         List<Novel> novels = this.novelRepository.findAll();
@@ -87,19 +86,23 @@ public class NovelService implements INovelService
         //--+ Organiza a novel de acordo com as views +--//
         if(!slugExiste && !indiceExiste)
         {
+            novel.setColocacao(novels.size() + 1);
+            novel.setColocacaoMensal(novels.size() + 1);
+            novel.setId(novels.size() + 1);
+            log.info("A novel {} será salva com a colocação total {} e colocação mensal {}", novel.getNome(), novel.getColocacao(), novel.getColocacaoMensal());
             this.novelRepository.save(novel);
 
             return novel;
         } else{
-            log.error("Ocorreu um erro ao salvar a novel {} na base de dados", novel.getNome());
+            log.error("A novel {} já existe na base de dados", novel.getNome());
             throw new ObjectAlreadyExistsException(OBJECT_ALREADY_EXISTS);
         }
 
     }
 
     /**
-     * Deleta a model com o ID passado por parâmetro.
-     * @param id O ID da model a ser deletada.
+     * Deleta a novel com o ID passado por parâmetro.
+     * @param id O ID da novel a ser deletada.
      */
     @Override
     public void deletar(long id)
@@ -110,9 +113,9 @@ public class NovelService implements INovelService
     }
 
     /**
-     * Busca uma model pelo slug passado.
-     * @param slug O slug da model.
-     * @return A model com o slug passado por parâmetro, 'null' caso ela não exista.
+     * Busca uma novel pelo slug passado.
+     * @param slug O slug da novel.
+     * @return A novel com o slug passado por parâmetro, 'null' caso ela não exista.
      */
     @Override
     public Novel buscarPorSlug(String slug) {
