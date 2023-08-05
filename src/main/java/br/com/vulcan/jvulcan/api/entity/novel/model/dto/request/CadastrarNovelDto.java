@@ -27,7 +27,7 @@ public record CadastrarNovelDto(
         @NotBlank
         String tipo,
 
-        @JsonProperty(value = "escritor")
+        @JsonProperty(value = "autor")
         @NotNull(message = "o escritor não pode ser nulo")
         @NotBlank
         String staff,
