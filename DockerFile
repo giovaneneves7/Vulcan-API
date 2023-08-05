@@ -1,9 +1,5 @@
-FROM maven:3.9.3-amazoncorretto-11 AS build
-COPY /src /app/src
-COPY /pom.xml /app
-RUN mvn -f /app/pom.xml clean package -Dmaven.test.skip
-
-FROM amazoncorretto:17.0.8-a12-native-jdk
-EXPOSE 80
-COPY --from=build /app/target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+FROM amazoncorretto:17-al2-generic-jdk
+WORKDIR /app
+COPY  . .
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "./JVulcan.jar"]
