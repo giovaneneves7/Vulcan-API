@@ -35,9 +35,9 @@ public class ServidorAutorService implements IServidorAutorService{
     IWebHookMessageDelivererService webHookMessageDelivererService;
 
     /**
-     * Cadastra um servidor de autor na base de dados.
+     * Cadastra um servidor de escritor na base de dados.
      *
-     * @param servidorAutorDto O servidor de autor a ser cadastrado.
+     * @param servidorAutorDto O servidor de escritor a ser cadastrado.
      * @return informações do servidor cadastrado.
      */
     @Override
