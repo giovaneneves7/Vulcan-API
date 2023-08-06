@@ -17,6 +17,9 @@ import br.com.vulcan.jvulcan.api.entity.servidores.model.dto.CadastrarServidorAu
 import br.com.vulcan.jvulcan.api.entity.servidores.service.IServidorAutorService;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
+
+import net.dv8tion.jda.api.JDA;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -77,14 +80,14 @@ public class Facade implements IFacade
 
     /**
      * Atualiza o cargo das novels.
-     * @param cargos A lista com cargos do servidor do discord da Vulcan.
+     * @param jda O objeto que permite a comunicação à API do Discord.
      * @return Lista com as novels na base de dados.
      */
     @Override
-    public List<Novel> atualizarCargoDasNovels(List<Cargo> cargos)
+    public List<Novel> atualizarCargoDasNovels(JDA jda)
     {
 
-        return this.novelService.atualizarCargo(cargos);
+        return this.novelService.atualizarCargo(jda);
 
     }
 

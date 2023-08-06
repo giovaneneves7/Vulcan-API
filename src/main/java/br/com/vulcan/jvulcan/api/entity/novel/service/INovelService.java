@@ -3,6 +3,8 @@ package br.com.vulcan.jvulcan.api.entity.novel.service;
 import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
+import net.dv8tion.jda.api.JDA;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -43,10 +45,10 @@ public interface INovelService
 
     /**
      * Atualiza o cargo das novels.
-     * @param cargos A lista com cargos do servidor do discord da Vulcan.
+     * @param jda O objeto que permite a comunicação à API do Discord.
      * @return Lista com as novels na base de dados.
      */
-    List<Novel> atualizarCargo(List<Cargo> cargos);
+    List<Novel> atualizarCargo(JDA jda);
 
     void atualizarViews(String slug);
 }

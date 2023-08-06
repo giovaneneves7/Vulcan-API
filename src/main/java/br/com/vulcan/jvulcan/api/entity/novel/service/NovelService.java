@@ -6,13 +6,17 @@ import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDt
 import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectAlreadyExistsException;
+import br.com.vulcan.jvulcan.bot.BotLauncher;
 import jakarta.transaction.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -128,28 +132,32 @@ public class NovelService implements INovelService
 
     /**
      * Atualiza o cargo das novels.
-     * @param cargos A lista com cargos do servidor do discord da Vulcan.
+     * @param jda O objeto que permite a comunicação à API do Discord.
      * @return Lista com as novels na base de dados.
      */
     @Override
     @Transactional
-    public List<Novel> atualizarCargo(List<Cargo> cargos)
+    public List<Novel> atualizarCargo(JDA jda)
     {
-        for(Cargo cargo : cargos)
-        {
 
-            Optional<Novel> optionalNovel = this.novelRepository.findByNome(cargo.getNome());
+        List<Novel> novelsSemCargo = novelRepository.findNovelWithNullIdCargo();
+        List<Novel> novelsAtualizadas = new ArrayList<>();
 
-            if(optionalNovel.isPresent())
-            {
-                Novel novel = optionalNovel.get();
-                novel.setIdCargo(cargo.getId());
+        for(Novel novel : novelsSemCargo){
 
-                this.novelRepository.save(novel);
+            List<Role> roles = jda.getRolesByName(novel.getNome(), true);
+
+            if(!roles.isEmpty() && roles.get(0).getName().equals(novel.getNome())){
+
+                log.info("Atualizando cargo da novel {}", novel.getNome());
+                novel.setIdCargo(roles.get(0).getId());
+                novelRepository.save(novel);
+                novelsAtualizadas.add(novel);
             }
+
         }
 
-        return this.novelRepository.findAll();
+        return novelsSemCargo;
 
     }
 
