@@ -47,7 +47,7 @@ public class BotLauncher extends ListenerAdapter
 
     public void registerSlashCommands(){
 
-        jda.upsertCommand("att-test", "a simple test")
+        jda.upsertCommand("atualizar-cargos", "a simple test")
                 .queue();
 
         jda.addEventListener(new AtualizarCargos());
