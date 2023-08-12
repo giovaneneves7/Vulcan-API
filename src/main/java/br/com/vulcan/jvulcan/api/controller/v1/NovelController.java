@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -103,14 +104,10 @@ public class NovelController
     @GetMapping(path = "/novels/novel/{slug}")
     public ResponseEntity<?> pegarNovelPorSlug(@PathVariable(name = "slug") String slug,
                                                @RequestHeader(name = "Api-Key") String chaveApi,
-                                               @RequestParam(name = "filter") String filtro){
+                                               @RequestParam(name = "filter") Optional<String> filtro){
 
-        if(filtro.isEmpty()){
-
-            return ResponseEntity.status(HttpStatus.OK).body("");
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(facade.buscarNovelPorSlug(slug));
+        log.info("Requisitando slug {} com filtro {}", slug, filtro);
+        return ResponseEntity.status(HttpStatus.OK).body(facade.buscarNovelPorSlug(slug, filtro));
 
     }
 
