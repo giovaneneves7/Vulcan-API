@@ -3,10 +3,12 @@ package br.com.vulcan.jvulcan.api.entity.novel.service;
 import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelResponseDto;
 import net.dv8tion.jda.api.JDA;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface INovelService
 {
@@ -41,7 +43,7 @@ public interface INovelService
      * @param slug O slug da model.
      * @return A model com o slug passado por parâmetro, 'null' caso ela não exista.
      */
-    Novel buscarPorSlug(String slug);
+    <DTO extends NovelResponseDto> DTO buscarPorSlug(String slug, Optional<String> filtro);
 
     /**
      * Atualiza o cargo das novels.

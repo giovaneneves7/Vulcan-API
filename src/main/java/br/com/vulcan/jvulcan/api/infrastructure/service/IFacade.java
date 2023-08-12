@@ -7,6 +7,7 @@ import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
 import br.com.vulcan.jvulcan.api.entity.chibata.model.dto.request.CadastrarDadosChibataDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelResponseDto;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.servidores.model.dto.CadastrarServidorAutorDto;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.MessageNotSentException;
@@ -55,11 +56,11 @@ public interface IFacade {
     void deletarNovelPorId(long id);
 
     /**
-     * Busca uma model pelo slug passado.
-     * @param slug O slug da model.
+     * Busca uma novel pelo slug passado.
+     * @param slug O slug da novel.
      * @return A model com o slug passado por parâmetro, 'null' caso ela não exista.
      */
-    Novel buscarNovelPorSlug(String slug);
+    <DTO extends NovelResponseDto> DTO buscarNovelPorSlug(String slug, Optional<String> filtro);
 
     //=========================={ BANNERS }==========================//
 

@@ -1,12 +1,12 @@
 package br.com.vulcan.jvulcan.api.entity.novel.service;
 
-import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComRankDto;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelResponseDto;
 import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectAlreadyExistsException;
-import br.com.vulcan.jvulcan.bot.BotLauncher;
 import jakarta.transaction.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +26,7 @@ public class NovelService implements INovelService
 {
 
     private final String OBJECT_ALREADY_EXISTS = "A novel já existe na base de dados";
+    private final String OBJECT_NOT_FOUND = "A novel requisitada não existe na base de dados";
 
     @Autowired
     NovelRepository novelRepository;
@@ -122,13 +123,54 @@ public class NovelService implements INovelService
      * @return A novel com o slug passado por parâmetro, 'null' caso ela não exista.
      */
     @Override
-    public Novel buscarPorSlug(String slug) {
+    public <DTO extends NovelResponseDto> DTO buscarPorSlug(String slug, Optional<String> filtro) {
 
         Optional<Novel> optionalNovel = this.novelRepository.findBySlug(slug);
 
-        return optionalNovel.orElse(null);
+        if(!optionalNovel.isPresent()){
+            throw new ObjectAlreadyExistsException(OBJECT_NOT_FOUND);
+        }
+
+        if(filtro.isEmpty()){
+
+            return (DTO) new NovelResponseDto(optionalNovel.get().getNome(), optionalNovel.get().getSlug());
+
+        }
+
+
+        if(filtro.get().equals("rank-total")){
+
+            List<Novel> novels = novelRepository.findAll();
+
+            if(!novels.isEmpty()){
+
+                reorganizarPorViewsMensais(novels);
+                reorganizarPorViewsTotais(novels);
+
+                log.info("Colocação reorganizadas");
+                novelRepository.saveAll(novels);
+                log.info("Novels salvas");
+
+                Optional<Novel> novel = novelRepository.findBySlug(slug);
+
+                return (DTO) new NovelComRankDto(novel.get());
+
+            }
+
+
+            optionalNovel.get().setColocacao(1);
+            optionalNovel.get().setColocacaoMensal(1);
+
+            return (DTO) new NovelComRankDto(optionalNovel.get());
+
+        }
+
+        log.info("Filtro vazio!");
+        return (DTO) new NovelResponseDto(optionalNovel.get().getNome(), optionalNovel.get().getSlug());
 
     }
+
+
 
     /**
      * Atualiza o cargo das novels.

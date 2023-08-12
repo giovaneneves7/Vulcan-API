@@ -9,6 +9,7 @@ import br.com.vulcan.jvulcan.api.entity.chibata.model.dto.request.CadastrarDados
 import br.com.vulcan.jvulcan.api.entity.chibata.service.IOlhoDaChibataService;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelResponseDto;
 import br.com.vulcan.jvulcan.api.entity.novel.service.INovelService;
 
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
@@ -109,10 +110,10 @@ public class Facade implements IFacade
      * @return A model com o slug passado por parâmetro, 'null' caso ela não exista.
      */
     @Override
-    public Novel buscarNovelPorSlug(String slug)
+    public <DTO extends NovelResponseDto> DTO buscarNovelPorSlug(String slug, Optional<String> filtro)
     {
 
-        return this.novelService.buscarPorSlug(slug);
+        return this.novelService.buscarPorSlug(slug, filtro);
 
     }
 
