@@ -1,6 +1,5 @@
 package br.com.vulcan.jvulcan.api.controller.v1;
 
-import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
 import br.com.vulcan.jvulcan.api.infrastructure.enums.Errors;
 import br.com.vulcan.jvulcan.api.infrastructure.service.IFacade;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -102,14 +100,28 @@ public class NovelController
 
     }
 
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping(path = "/novels/novel/{slug}")
+    public ResponseEntity<?> pegarNovelPorSlug(@PathVariable(name = "slug") String slug,
+                                               @RequestHeader(name = "Api-Key") String chaveApi,
+                                               @RequestParam(name = "filter") String filtro){
+
+        if(filtro.isEmpty()){
+
+            return ResponseEntity.status(HttpStatus.OK).body("");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(facade.buscarNovelPorSlug(slug));
+
+    }
+
+    /*@CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("novels/novel")
     public ResponseEntity<List<Novel>> atualizarCargo(@RequestBody List<Cargo> cargos)
     {
 
         return ResponseEntity.ok(this.facade.atualizarCargoDasNovels(cargos));
 
-    }
+    }*/
     @CrossOrigin(origins = {"http://localhost:3000", "https://apill.vulcannovel.com.br", "https://vulcannovel.com.br"}, allowedHeaders = "Content-Type")
     @PostMapping("/novels/novel")
     public ResponseEntity<?> cadastrarNovel(@RequestBody CadastrarNovelDto novelDto,
@@ -136,15 +148,6 @@ public class NovelController
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(this.facade.salvarNovel(novelDto));
-
-    }
-
-    @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @GetMapping(path = "/novels/novel/{slug}")
-    public ResponseEntity<Novel> buscarPorSlug(@PathVariable(name = "slug") String slug)
-    {
-
-        return ResponseEntity.ok(facade.buscarNovelPorSlug(slug));
 
     }
 }
