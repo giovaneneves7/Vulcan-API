@@ -8,7 +8,9 @@ import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
 import br.com.vulcan.jvulcan.api.entity.chibata.model.dto.request.CadastrarDadosChibataDto;
 import br.com.vulcan.jvulcan.api.entity.chibata.service.IOlhoDaChibataService;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarCargoNovelDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComCargoDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelResponseDto;
 import br.com.vulcan.jvulcan.api.entity.novel.service.INovelService;
 
@@ -90,6 +92,16 @@ public class Facade implements IFacade
 
         return this.novelService.atualizarCargo(jda);
 
+    }
+
+    /**
+     * Cadastra ou atualiza o cargo de uma novel.
+     * @param novelDto O DTO com os dados do cargo e da novel que será atualizada.
+     * @return um DTO com os dados da novel que teve o cargo cadastrado.
+     */
+    @Override
+    public NovelComCargoDto cadastrarCargoDaNovel(CadastrarCargoNovelDto novelDto) {
+        return this.novelService.cadastrarCargo(novelDto);
     }
 
     /**

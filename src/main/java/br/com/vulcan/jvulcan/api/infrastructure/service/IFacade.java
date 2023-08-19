@@ -6,7 +6,9 @@ import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
 import br.com.vulcan.jvulcan.api.entity.chibata.model.dto.request.CadastrarDadosChibataDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarCargoNovelDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComCargoDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelResponseDto;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.servidores.model.dto.CadastrarServidorAutorDto;
@@ -48,6 +50,14 @@ public interface IFacade {
      * @return Lista com as novels na base de dados.
      */
     List<Novel> atualizarCargoDasNovels(JDA jda);
+
+    /**
+     * Cadastra ou atualiza o cargo de uma novel.
+     * @param novelDto O DTO com os dados do cargo e da novel que será atualizada.
+     * @return um DTO com os dados da novel que teve o cargo cadastrado.
+     */
+    NovelComCargoDto cadastrarCargoDaNovel(CadastrarCargoNovelDto novelDto);
+
 
     /**
      * Deleta a model com o ID passado por parâmetro.
