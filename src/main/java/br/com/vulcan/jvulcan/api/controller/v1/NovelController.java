@@ -1,5 +1,6 @@
 package br.com.vulcan.jvulcan.api.controller.v1;
 
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarCargoNovelDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
 import br.com.vulcan.jvulcan.api.infrastructure.enums.Errors;
 import br.com.vulcan.jvulcan.api.infrastructure.service.IFacade;
@@ -145,6 +146,34 @@ public class NovelController
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(this.facade.salvarNovel(novelDto));
+
+    }
+
+    @PostMapping(path = "/novels/novel/cargo")
+    public ResponseEntity<?> cadastrarNovel(@RequestBody CadastrarCargoNovelDto novelDto,
+                                            BindingResult result,
+                                            @RequestHeader(name = "Api-Key") String chaveApi){
+
+        erros = new HashMap<>();
+
+        if(!chaveApi.equals(API_KEY)){
+
+            log.error("Acesso negado ao endpoint de cadastro de cargos!");
+            erros.put(Errors.API_PERMISSION_ERROR.getKey(), Errors.API_PERMISSION_ERROR.getErro());
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(erros);
+        }
+
+        if(result.hasErrors()){
+
+            for(FieldError erro : result.getFieldErrors()){
+                erros.put(erro.getField(), erro.getDefaultMessage());
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erros);
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.facade.cadastrarCargoDaNovel(novelDto));
 
     }
 }
