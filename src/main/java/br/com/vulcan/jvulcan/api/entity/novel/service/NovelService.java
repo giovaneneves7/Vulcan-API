@@ -1,12 +1,15 @@
 package br.com.vulcan.jvulcan.api.entity.novel.service;
 
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarCargoNovelDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComCargoDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComRankDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelResponseDto;
 import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectAlreadyExistsException;
+import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
@@ -201,6 +204,29 @@ public class NovelService implements INovelService
 
         return novelsSemCargo;
 
+    }
+
+    /**
+     * Cadastra ou atualiza o cargo de uma novel.
+     * @param novelDto O DTO com os dados do cargo e da novel que será atualizada.
+     * @return um DTO com os dados da novel que teve o cargo cadastrado.
+     */
+    @Override
+    public NovelComCargoDto cadastrarCargo(CadastrarCargoNovelDto novelDto) {
+
+        Optional<Novel> optionalNovel = novelRepository.findByNome(novelDto.cargo());
+
+        if(!optionalNovel.isPresent())
+            throw new ObjectNotFoundException(OBJECT_NOT_FOUND);
+
+        Novel novel = optionalNovel.get();
+        novel.setIdCargo(novelDto.id());
+
+        novelRepository.save(novel);
+
+        log.info("O cargo da novel {} foi atualizado para '{}'", novel.getNome(), novel.getIdCargo());
+
+        return new NovelComCargoDto(novel.getNome(), novel.getIdCargo());
     }
 
     @Override

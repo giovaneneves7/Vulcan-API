@@ -2,7 +2,9 @@ package br.com.vulcan.jvulcan.api.entity.novel.service;
 
 import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarCargoNovelDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComCargoDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelResponseDto;
 import net.dv8tion.jda.api.JDA;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,6 +53,14 @@ public interface INovelService
      * @return Lista com as novels na base de dados.
      */
     List<Novel> atualizarCargo(JDA jda);
+
+    /**
+     * Cadastra ou atualiza o cargo de uma novel.
+     * @param novelDto O DTO com os dados do cargo e da novel que será atualizada.
+     * @return um DTO com os dados da novel que teve o cargo cadastrado.
+     */
+    NovelComCargoDto cadastrarCargo(CadastrarCargoNovelDto novelDto);
+
 
     void atualizarViews(String slug);
 }
