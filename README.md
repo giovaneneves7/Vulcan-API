@@ -39,7 +39,7 @@ Todos os endpoints com ``v1`` são privados e necessitam de um cabeçalho chamad
 | **GET**  |``/nekoyasha7/jvulcan-api/v1/novels``              |  🟢   |``?nacionalidade`` [String - Opcional], <br> ``?tipo`` [String - Opcional] | --                              | --                       |
 | **PUT**  |``/nekoyasha7/jvulcan-api/v1/novels/novel``        |  🔴   |---                                                                        | --                              |--                        |   
 | **POST** |``/nekoyasha7/jvulcan-api/v1/novels/novel``        |  🟢   |---                                                                        | NovelDTO [Object]               |--                        |
-| **Post**  |``/nekoyasha7/jvulcan-api/v1/novels/novel/cargo`` |  🟢   |---                                                                       | [Ver RequestBody](README.md#1.2-requestbody)  |NovelComCargoDTO [Object] |
+| **Post**  |``/nekoyasha7/jvulcan-api/v1/novels/novel/cargo`` |  🟢   |---                                                                       | [Ver RequestBody](README.md#1-2-requestbody)  |NovelComCargoDTO [Object] |
 
 <hr>
 
@@ -62,7 +62,7 @@ Este endpoint retorna uma array com todas as novels cadastradas no banco de dado
 - ### 1.2 ``POST`` **/nekoyasha7/jvulcan-api/v1/novels/novel/cargo**:
 Endpoint para cadastrar cargos de novels, o nome do cargo precisa ser exatamente o mesmo da novel, caso contrário, será estourado a exceção "ObjectNotFound".
 
-<a href="1.2-requestbody"><h4> RequestBody: </h4></a>
+<a name="1-2-requestbody"><h4> RequestBody: </h4></a>
 
 ```json
 {
