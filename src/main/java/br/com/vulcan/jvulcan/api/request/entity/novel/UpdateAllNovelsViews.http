@@ -1,0 +1,4 @@
+PUT http://localhost:8080/nekoyasha7/jvulcan-api/v1/novels/views
+Accept: application/json
+
+###
