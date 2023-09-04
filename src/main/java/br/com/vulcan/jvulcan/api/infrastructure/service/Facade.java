@@ -11,6 +11,7 @@ import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarCargoNovelDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComCargoDto;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComRankingTotalAtualizadoDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelResponseDto;
 import br.com.vulcan.jvulcan.api.entity.novel.service.INovelService;
 
@@ -102,6 +103,25 @@ public class Facade implements IFacade
     @Override
     public NovelComCargoDto cadastrarCargoDaNovel(CadastrarCargoNovelDto novelDto) {
         return this.novelService.cadastrarCargo(novelDto);
+    }
+
+    /**
+     * Atualiza as views das novels.
+     *
+     */
+    @Override
+    public void atualizarViewsDasNovels() {
+        this.novelService.atualizarViews();
+    }
+
+    /**
+     * Atualiza o ranking total das novels.
+     *
+     * @return lista com informações das novels que tiveram o ranking atualizado.
+     */
+    @Override
+    public List<NovelComRankingTotalAtualizadoDto> atualizarRankingTotalDasNovels() {
+        return this.novelService.atualizarRankingTotal();
     }
 
     /**

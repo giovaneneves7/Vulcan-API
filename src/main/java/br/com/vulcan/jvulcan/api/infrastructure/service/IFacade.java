@@ -2,13 +2,13 @@ package br.com.vulcan.jvulcan.api.infrastructure.service;
 
 import br.com.vulcan.jvulcan.api.entity.banners.model.Banner;
 import br.com.vulcan.jvulcan.api.entity.banners.model.dto.CadastrarBannerDto;
-import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.chibata.model.OlhoDaChibata;
 import br.com.vulcan.jvulcan.api.entity.chibata.model.dto.request.CadastrarDadosChibataDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarCargoNovelDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComCargoDto;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComRankingTotalAtualizadoDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelResponseDto;
 import br.com.vulcan.jvulcan.api.entity.post.model.Post;
 import br.com.vulcan.jvulcan.api.entity.servidores.model.dto.CadastrarServidorAutorDto;
@@ -58,6 +58,18 @@ public interface IFacade {
      */
     NovelComCargoDto cadastrarCargoDaNovel(CadastrarCargoNovelDto novelDto);
 
+    /**
+     * Atualiza as views das novels.
+     *
+     */
+    void atualizarViewsDasNovels();
+
+    /**
+     * Atualiza o ranking total das novels.
+     *
+     * @return lista com informações das novels que tiveram o ranking atualizado.
+     */
+    List<NovelComRankingTotalAtualizadoDto> atualizarRankingTotalDasNovels();
 
     /**
      * Deleta a model com o ID passado por parâmetro.
