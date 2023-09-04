@@ -5,17 +5,26 @@ import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarCargoNo
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComCargoDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComRankDto;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComRankingTotalAtualizadoDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelResponseDto;
 import br.com.vulcan.jvulcan.api.entity.novel.repository.NovelRepository;
 
+import br.com.vulcan.jvulcan.api.entity.view.model.View;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectAlreadyExistsException;
 import br.com.vulcan.jvulcan.api.infrastructure.exception.ObjectNotFoundException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import jakarta.transaction.Transactional;
 
 import lombok.extern.slf4j.Slf4j;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Role;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -230,46 +239,132 @@ public class NovelService implements INovelService
     }
 
     @Override
-    public void atualizarViews(String slug)
+    @Transactional
+    public void atualizarViews()
     {
 
-        Optional<Novel> optionalNovel = novelRepository.findBySlug(slug);
+        List<Novel> novels = novelRepository.findAll();
 
-        if(!optionalNovel.isPresent())
-        {
-            System.out.println("Novel não encontrada");
+        if(novels.isEmpty())
             return;
+
+        OkHttpClient client = new OkHttpClient();
+
+        int tamanhoDoLote = 20;
+        int totalNovels = novels.size();
+
+        for(int comecoLote = 0; comecoLote < totalNovels; comecoLote += tamanhoDoLote){
+            int fimLote = Math.min(comecoLote + tamanhoDoLote, totalNovels);
+
+            for(int i = comecoLote; i < fimLote; i++){
+
+                Request request = new Request.Builder()
+                        .url("https://vulcannovel.com.br/wp-json/nekoyasha7/jvulcan-api/v1/novels/novel/views?novel=".concat(novels.get(i).getSlug()))
+                        .build();
+
+                try{
+                    Response response = client.newCall(request).execute();
+
+                    if(response.isSuccessful()){
+                        String responseBody = response.body().string();
+
+                        log.info("Atualizando views para: {}", novels.get(i).getNome());
+
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        View views;
+                        try{
+                            views = objectMapper.readValue(responseBody, View.class);
+                            if(views.getSuccess()){
+                                novels.get(i).setViewsTotais(views.getData().getTotalViews());
+                            }
+
+                        }catch(UnrecognizedPropertyException ex){
+                            log.warn("Erro: {}", ex.getMessage());
+                        }
+
+                    } else{
+                        log.warn("Erro ao tentar fazer a requisição. Código: {}\nErro: {}", response.code(), response.message());
+                    }
+
+
+                } catch (Exception ex){
+
+                    ex.printStackTrace();
+
+                }
+
+            }
+
+            novelRepository.saveAll(novels.subList(comecoLote, fimLote));
+            log.info("Lote atualizado!");
         }
 
-        Novel novel = optionalNovel.get();
 
+        reorganizarPorViewsTotais(novels);
+        novelRepository.saveAll(novels);
+        log.info("As colocações das novels foram atualizadas com sucesso!");
+
+
+
+    }
+
+    /**
+     * Atualiza o ranking total das novels.
+     *
+     * @return lista com informações das novels que tiveram o ranking atualizado.
+     */
+    @Override
+    @Transactional
+    public List<NovelComRankingTotalAtualizadoDto> atualizarRankingTotal() {
+
+        List<Novel> novels = this.novelRepository.findAll();
+
+        List<NovelComRankingTotalAtualizadoDto> novelsDto = reorganizarPorViewsTotais(novels);
+        this.novelRepository.saveAll(novels);
+        log.info("Rankings das novels atualizados com sucesso!");
+
+        return novelsDto;
     }
 
     /**
      * Reorganiza uma lista de novels pelo total de views mensais.
      * @param novels A lista com as novels que serão reorganizadas.
+     *
+     * @return lista com informações de novels que tiveram os seus rankings atualizados com sucesso.
      */
-    private void reorganizarPorViewsMensais(List<Novel> novels)
+    private List<NovelComRankingTotalAtualizadoDto> reorganizarPorViewsMensais(List<Novel> novels)
     {
+        List<NovelComRankingTotalAtualizadoDto> novelsDto = new ArrayList<>();
+
         novels.sort((n1, n2) -> Integer.compare(n2.getViewsMensais(), n1.getViewsMensais()));
 
         for(int i = 0; i < novels.size(); i++)
         {
             novels.get(i).setColocacaoMensal(i + 1);
+            novelsDto.add(new NovelComRankingTotalAtualizadoDto(novels.get(i).getNome(), novels.get(i).getColocacao()));
         }
+
+        return novelsDto;
     }
 
     /**
      * Reorganiza uma lista de novels pela quantidade de views totais.
      * @param novels A lista de novels que será reorganizada.
+     *
+     * @return lista com informações de novels que tiveram os seus rankings atualizados com sucesso.
      */
-    private void reorganizarPorViewsTotais(List<Novel> novels)
+    private List<NovelComRankingTotalAtualizadoDto> reorganizarPorViewsTotais(List<Novel> novels)
     {
-        novels.sort((n1, n2) -> Integer.compare(n2.getViewsTotais(), n1.getViewsTotais()));
+
+        List<NovelComRankingTotalAtualizadoDto> novelsDto = new ArrayList<>();
+        novels.sort((n1, n2) -> Long.compare(n2.getViewsTotais(), n1.getViewsTotais()));
 
         for(int i = 0; i < novels.size(); i++)
         {
             novels.get(i).setColocacao((i + 1));
+            novelsDto.add(new NovelComRankingTotalAtualizadoDto(novels.get(i).getNome(), novels.get(i).getColocacao()));
         }
+
+        return novelsDto;
     }
 }

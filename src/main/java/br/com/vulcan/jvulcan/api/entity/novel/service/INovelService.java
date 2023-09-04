@@ -1,15 +1,12 @@
 package br.com.vulcan.jvulcan.api.entity.novel.service;
 
-import br.com.vulcan.jvulcan.api.entity.cargo.model.Cargo;
 import br.com.vulcan.jvulcan.api.entity.novel.model.Novel;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarCargoNovelDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.request.CadastrarNovelDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComCargoDto;
+import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComRankingTotalAtualizadoDto;
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelResponseDto;
 import net.dv8tion.jda.api.JDA;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
 import java.util.Optional;
@@ -69,4 +66,12 @@ public interface INovelService
      *
      */
     void atualizarViews();
+
+    /**
+     * Atualiza o ranking total das novels.
+     *
+     * @return lista com informações das novels que tiveram o ranking atualizado.
+     */
+    List<NovelComRankingTotalAtualizadoDto> atualizarRankingTotal();
+
 }
