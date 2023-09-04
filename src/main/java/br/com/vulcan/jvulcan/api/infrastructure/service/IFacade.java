@@ -38,6 +38,15 @@ public interface IFacade {
     List<Novel> listarTodasNovels(String nacionalidade);
 
     /**
+     * Pega informações de uma novel na base de dados pelo Slug passado por parâmetro.
+     *
+     * @param slug O slug da novel que será buscada na base de dados.
+     * @param filtros Os filtros com as informações da novel que devem ser retornadas na resposta.
+     * @return um DTO com informações da novel encontrada na base de dados.
+     */
+    NovelResponseDto pegarNovelPorSlug(String slug, List<String> filtros);
+
+    /**
      * Salva uma model na base de dados.
      * @param novelDto O DTO com dados da novel que será salva.
      * @return 'true' caso a model seja salva, 'false' caso contrário.

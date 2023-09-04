@@ -72,6 +72,18 @@ public class Facade implements IFacade
     }
 
     /**
+     * Pega informações de uma novel na base de dados pelo Slug passado por parâmetro.
+     *
+     * @param slug O slug da novel que será buscada na base de dados.
+     * @param filtros Os filtros com as informações da novel que devem ser retornadas na resposta.
+     * @return um DTO com informações da novel encontrada na base de dados.
+     */
+    @Override
+    public NovelResponseDto pegarNovelPorSlug(String slug, List<String> filtros) {
+        return this.novelService.pegarNovelPorSlug(slug, filtros);
+    }
+
+    /**
      * Salva uma model na base de dados.
      * @param novelDto O DTO com dados da novel que será salva.
      * @return 'true' caso a model seja salva, 'false' caso contrário.

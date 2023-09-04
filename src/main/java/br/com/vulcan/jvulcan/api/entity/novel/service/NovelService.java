@@ -66,6 +66,38 @@ public class NovelService implements INovelService
     }
 
     /**
+     * Pega informações de uma novel na base de dados pelo Slug passado por parâmetro.
+     *
+     * @param slug O slug da novel que será buscada na base de dados.
+     * @param filtros Os filtros com as informações da novel que devem ser retornadas na resposta.
+     * @return um DTO com informações da novel encontrada na base de dados.
+     */
+    @Override
+    public NovelResponseDto pegarNovelPorSlug(String slug, List<String> filtros) {
+
+        Optional<Novel> optNovel = this.novelRepository.findBySlug(slug);
+
+        if(!optNovel.isPresent())
+            throw new ObjectNotFoundException(OBJECT_NOT_FOUND);
+
+        Novel novel = optNovel.get();
+        NovelResponseDto novelDto = new NovelResponseDto();
+        novelDto.setNome(novel.getNome());
+
+        for(String f : filtros){
+
+            switch (f) {
+                case "ranking_total" -> novelDto.setRankTotal(novel.getColocacao());
+                case "views_totais" -> novelDto.setViewsTotais(novel.getViewsTotais());
+            }
+
+        }
+
+        return novelDto;
+
+    }
+
+    /**
      * Salva uma novel na base de dados.
      * @param novelDto O DTO com dados da novel que será salva.
      * @return 'true' caso a novel seja salva, 'false' caso contrário.
