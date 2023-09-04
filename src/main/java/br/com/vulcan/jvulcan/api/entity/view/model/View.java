@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
 
@@ -12,14 +13,15 @@ import lombok.extern.jackson.Jacksonized;
 @Builder
 @Jacksonized
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class ResponseData {
+public class View {
 
-    @JsonProperty(value = "category")
-    String category;
+    @JsonProperty(value  ="success")
+    Boolean success;
 
-    @JsonProperty(value  ="total_views")
-    Long totalViews;
+    @JsonProperty(value ="data")
+    ResponseData data;
 
 }
