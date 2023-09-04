@@ -1,0 +1,4 @@
+GET http://localhost:8080/nekoyasha7/jvulcan-api/v1/novels/novel/br-koc-knight-of-chaos?filtros=views_totais&filtros=ranking_total
+Accept: application/json
+Api-Key: CHAVE_DA_API
+###
