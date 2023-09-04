@@ -30,7 +30,7 @@ public class Novel {
     private int colocacaoMensal;
 
     @Column(name = "total")
-    private int viewsTotais;
+    private long viewsTotais;
 
     @Column(name = "no_mes")
     private int viewsMensais;
