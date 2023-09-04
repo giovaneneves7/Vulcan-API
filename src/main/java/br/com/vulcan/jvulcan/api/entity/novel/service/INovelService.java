@@ -8,6 +8,8 @@ import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelComCargoDt
 import br.com.vulcan.jvulcan.api.entity.novel.model.dto.response.NovelResponseDto;
 import net.dv8tion.jda.api.JDA;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.List;
 import java.util.Optional;
@@ -62,5 +64,9 @@ public interface INovelService
     NovelComCargoDto cadastrarCargo(CadastrarCargoNovelDto novelDto);
 
 
-    void atualizarViews(String slug);
+    /**
+     * Atualiza as views das novels.
+     *
+     */
+    void atualizarViews();
 }
