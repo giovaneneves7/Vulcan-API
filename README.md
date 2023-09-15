@@ -46,7 +46,7 @@ Todos os endpoints com ``v1`` são privados e necessitam de um cabeçalho chamad
 <hr>
 
 - ### 1.1 ``GET`` **/nekoyasha7/jvulcan-api/v1/novels**:
-Este endpoint retorna uma array com todas as novels cadastradas no banco de dados e uma sub-array com seus respectivos banners, se tiverem banner. <br>
+Este endpoint retorna uma array com todas as novels cadastradas na base de dados<br>
 
 <a name="1-1-params"><h4>Parâmetros:</h4></a>
 - ``?nacionalidade``: Filtro que retorna apenas novels com a nacionalidade especificada. Até o momento, na ``v1``, não é possível especificar mais de uma nacionalidade, caso precise de um filtro mais amplo, veja a seção **1.1.2**.   
@@ -60,6 +60,20 @@ Este endpoint retorna uma array com todas as novels cadastradas no banco de dado
 | br             | Brasileira |
 
 - ``?tipo``: Filtro que retorna apenas novels do tipo especificado. Os tipos são "traduções", que englobam as nacionalidades "oci", "jp", "ch" e "co", e "originais", que se limitam apenas às novels brasileiras (ver seção **1.1.1**).
+
+
+
+<a name="1-1-responsebody"><h4> ResponseBody (NovelComCargoDto): </h4></a>
+*Os dados a seguir são apenas exemplos de resposta da requisição.*
+
+```json
+{
+
+  "cargo" : "Sonhos de Outro Mundo",
+  "id" : "98765323111394"
+
+}
+```
 
 - ### 1.2 ``PUT`` **/nekoyasha7/jvulcan-api/v1/novels/views**:
 Endpoint que atualiza as visualizações totais de todas as novels cadastradas na base de dados.
@@ -80,6 +94,7 @@ Endpoint que chama o serviço para reorganizar o "colocação total" das novels 
 
 
 <a name="1-3-responsebody"><h4> ResponseBody (List< NovelComRankingTotalAtualizadoDto >): </h4></a>
+*Os dados a seguir são apenas exemplos de resposta da requisição.*
 
 ```json
 [
@@ -104,26 +119,28 @@ Endpoint que chama o serviço para reorganizar o "colocação total" das novels 
 ```
 
 - ### 1.4 ``POST`` **/nekoyasha7/jvulcan-api/v1/novels/novel/cargo**:
-Endpoint para cadastrar cargos de novels, o nome do cargo precisa ser exatamente o mesmo da novel, caso contrário, será estourado a exceção "ObjectNotFound".
+Endpoint para cadastrar cargos de novels, o nome do cargo precisa ser exatamente o mesmo da novel, caso contrário, será lançada a exceção "ObjectNotFound".
 
 <a name="1-4-requestbody"><h4> RequestBody (CadastrarNovelDto): </h4></a>
+*Os dados a seguir são apenas exemplos de resposta da requisição.*
 
 ```json
 {
 
-  "cargo" : "CARGO_DA_NOVEL",
-  "id" : "ID_DO_CARGO_DA_NOVEL"
+  "cargo" : "Sonhos de Outro Mundo",
+  "id" : "98765323111394"
 
 }
 ```
 
 <a name="1-4-responsebody"><h4> ResponseBody (NovelComCargoDto): </h4></a>
+*Os dados a seguir são apenas exemplos de resposta da requisição.*
 
 ```json
 {
 
-  "cargo" : "CARGO_DA_NOVEL",
-  "id" : "ID_DO_CARGO_DA_NOVEL"
+  "cargo" : "Sonhos de Outro Mundo",
+  "id" : "98765323111394"
 
 }
 ```
