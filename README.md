@@ -37,10 +37,11 @@ Todos os endpoints com ``v1`` são privados e necessitam de um cabeçalho chamad
 | Método   | Endpoint                                          | Status | Parâmetros                             | RequestBody                                  | ResponseBody            |
 |----------|---------------------------------------------------|--------|----------------------------------------|-----------------------------------------------| ------------------------|
 | **GET**  |``/nekoyasha7/jvulcan-api/v1/novels``              |  🟢   |[Ver Parâmetros](README.MD#1-1-params)  | --                                            | --                       |
+| **PUT**  |``/nekoyasha7/jvulcan-api/v1/novels/views``        |  🟢    |---                                    |---                                            |[Ver ResponseBody](README.MD#1-2-responsebody) |
 | **PUT**  |``/nekoyasha7/jvulcan-api/v1/novels/novel``        |  🔴   |---                                     | --                                            |--                        |   
 | **POST** |``/nekoyasha7/jvulcan-api/v1/novels/novel``        |  🟢   |---                                     | NovelDTO [Object]                             |--                        |
-| **Post**  |``/nekoyasha7/jvulcan-api/v1/novels/novel/cargo`` |  🟢   |---                                     | [Ver RequestBody](README.md#1-2-requestbody)  | [Ver ResponseBody](README.MD#1-2-responsebody) |
-
+| **POST**  |``/nekoyasha7/jvulcan-api/v1/novels/novel/cargo`` |  🟢   |---                                     | [Ver RequestBody](README.md#1-3-requestbody)  | [Ver ResponseBody](README.MD#1-3-responsebody) |
+ 
 <hr>
 
 - ### 1.1 ``GET`` **/nekoyasha7/jvulcan-api/v1/novels**:
@@ -59,10 +60,24 @@ Este endpoint retorna uma array com todas as novels cadastradas no banco de dado
 
 - ``?tipo``: Filtro que retorna apenas novels do tipo especificado. Os tipos são "traduções", que englobam as nacionalidades "oci", "jp", "ch" e "co", e "originais", que se limitam apenas às novels brasileiras (ver seção **1.1.1**).
 
-- ### 1.2 ``POST`` **/nekoyasha7/jvulcan-api/v1/novels/novel/cargo**:
+- ### 1.2 ``PUT`` **/nekoyasha7/jvulcan-api/v1/novels/views**:
+Endpoint que atualiza as visualizações totais de todas as novels cadastradas na base de dados.
+
+
+<a name="1-2-responsebody"><h4> ResponseBody (String): </h4></a>
+
+```json
+{
+
+"response": "Novels atualizadas com sucesso!"
+
+}
+```
+
+- ### 1.3 ``POST`` **/nekoyasha7/jvulcan-api/v1/novels/novel/cargo**:
 Endpoint para cadastrar cargos de novels, o nome do cargo precisa ser exatamente o mesmo da novel, caso contrário, será estourado a exceção "ObjectNotFound".
 
-<a name="1-2-requestbody"><h4> RequestBody (CadastrarNovelDto): </h4></a>
+<a name="1-3-requestbody"><h4> RequestBody (CadastrarNovelDto): </h4></a>
 
 ```json
 {
@@ -73,7 +88,7 @@ Endpoint para cadastrar cargos de novels, o nome do cargo precisa ser exatamente
 }
 ```
 
-<a name="1-2-responsebody"><h4> ResponseBody (NovelComCargoDto): </h4></a>
+<a name="1-3-responsebody"><h4> ResponseBody (NovelComCargoDto): </h4></a>
 
 ```json
 {
