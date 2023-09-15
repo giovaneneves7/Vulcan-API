@@ -67,12 +67,30 @@ Este endpoint retorna uma array com todas as novels cadastradas na base de dados
 *Os dados a seguir são apenas exemplos de resposta da requisição.*
 
 ```json
-{
-
-  "cargo" : "Sonhos de Outro Mundo",
-  "id" : "98765323111394"
-
-}
+[
+  {
+    "id": 1,
+    "colocacao": 1,
+    "colocacaoMensal": 2,
+    "viewsTotais": 3355365,
+    "viewsMensais": 50610,
+    "slug": "ch-tlm-o-lendario-mecanico",
+    "nome": "O Lend\u00E1rio Mec\u00E2nico",
+    "nacionalidade": "ch",
+    "capa": "https://vulcannovel.com.br/wp-content/uploads/2022/05/O-Lendario-Mecanico-Capa-Vulcan-225x300.jpg",
+    "indice": "tlm-o-lendario-mecanico",
+    "autor": "Asu",
+    "quantidadeCapitulos": "1463",
+    "cargo": "Tradutor",
+    "status": "completo",
+    "generos": "[\"acao\",\"aventura\",\"comedia\",\"fantasia\",\"mecha\",\"sci-fi\",\"sobrenatural\"]",
+    "escritor": "chocolion",
+    "estrelas": "4.83",
+    "dataCriacaoIndice": "1019-02-26 16:47:11",
+    "sinopse": "O Lend\u00E1rio Mec\u00E2nico\n\n\n\nO que voc\u00EA faz quando acorda e se encontra dentro do pr\u00F3prio jogo que voc...",
+    "idCargo": "944186423051968553"
+  }
+]
 ```
 
 - ### 1.2 ``PUT`` **/nekoyasha7/jvulcan-api/v1/novels/views**:
