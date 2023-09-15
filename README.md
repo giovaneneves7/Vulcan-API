@@ -36,11 +36,12 @@ Todos os endpoints com ``v1`` são privados e necessitam de um cabeçalho chamad
 
 | Método   | Endpoint                                          | Status | Parâmetros                             | RequestBody                                  | ResponseBody            |
 |----------|---------------------------------------------------|--------|----------------------------------------|-----------------------------------------------| ------------------------|
-| **GET**  |``/nekoyasha7/jvulcan-api/v1/novels``              |  🟢   |[Ver Parâmetros](README.MD#1-1-params)  | --                                            | --                       |
-| **PUT**  |``/nekoyasha7/jvulcan-api/v1/novels/views``        |  🟢    |---                                    |---                                            |[Ver ResponseBody](README.MD#1-2-responsebody) |
-| **PUT**  |``/nekoyasha7/jvulcan-api/v1/novels/novel``        |  🔴   |---                                     | --                                            |--                        |   
-| **POST** |``/nekoyasha7/jvulcan-api/v1/novels/novel``        |  🟢   |---                                     | NovelDTO [Object]                             |--                        |
-| **POST**  |``/nekoyasha7/jvulcan-api/v1/novels/novel/cargo`` |  🟢   |---                                     | [Ver RequestBody](README.md#1-3-requestbody)  | [Ver ResponseBody](README.MD#1-3-responsebody) |
+| **GET**  |``/nekoyasha7/jvulcan-api/v1/novels``               |  🟢   |[Ver Parâmetros](README.MD#1-1-params)  | --                                            | --                       |
+| **PUT**  |``/nekoyasha7/jvulcan-api/v1/novels/views``         |  🟢   |---                                    |---                                            |[Ver ResponseBody](README.MD#1-2-responsebody) |
+| **PUT**  |``/nekoyasha7/jvulcan-api/v1/novels/rankings/total``|  🟢   |---                                    |---                                            |[Ver ResponseBody](README.MD#1-3-responsebody) |
+| **PUT**  |``/nekoyasha7/jvulcan-api/v1/novels/novel``         |  🔴   |---                                     | --                                            |--                        |   
+| **POST** |``/nekoyasha7/jvulcan-api/v1/novels/novel``         |  🟢   |---                                     | NovelDTO [Object]                             |--                        |
+| **POST**  |``/nekoyasha7/jvulcan-api/v1/novels/novel/cargo``  |  🟢   |---                                     | [Ver RequestBody](README.md#1-4-requestbody)  | [Ver ResponseBody](README.MD#1-4-responsebody) |
  
 <hr>
 
@@ -74,10 +75,38 @@ Endpoint que atualiza as visualizações totais de todas as novels cadastradas n
 }
 ```
 
-- ### 1.3 ``POST`` **/nekoyasha7/jvulcan-api/v1/novels/novel/cargo**:
+- ### 1.3 ``PUT`` **/nekoyasha7/jvulcan-api/v1/novels/rankings/total**:
+Endpoint que chama o serviço para reorganizar o "colocação total" das novels cadastradas na base de dados segundo as suas views totais.
+
+
+<a name="1-3-responsebody"><h4> ResponseBody (List< NovelComRankingTotalAtualizadoDto >): </h4></a>
+
+```json
+[
+  {
+   "nome": "O Lendário Mecânico",
+   "colocacao_total" : 1
+  }
+
+  {
+   "nome": "Meu Sistema Ocioso",
+   "colocacao_total" : 33
+  }
+
+
+  {
+   "nome": "Sistema de Alta Tecnologia do Gênio",
+   "colocacao_total" : 59
+  }
+
+]
+
+```
+
+- ### 1.4 ``POST`` **/nekoyasha7/jvulcan-api/v1/novels/novel/cargo**:
 Endpoint para cadastrar cargos de novels, o nome do cargo precisa ser exatamente o mesmo da novel, caso contrário, será estourado a exceção "ObjectNotFound".
 
-<a name="1-3-requestbody"><h4> RequestBody (CadastrarNovelDto): </h4></a>
+<a name="1-4-requestbody"><h4> RequestBody (CadastrarNovelDto): </h4></a>
 
 ```json
 {
@@ -88,7 +117,7 @@ Endpoint para cadastrar cargos de novels, o nome do cargo precisa ser exatamente
 }
 ```
 
-<a name="1-3-responsebody"><h4> ResponseBody (NovelComCargoDto): </h4></a>
+<a name="1-4-responsebody"><h4> ResponseBody (NovelComCargoDto): </h4></a>
 
 ```json
 {
