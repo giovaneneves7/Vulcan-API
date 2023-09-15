@@ -87,7 +87,7 @@ Este endpoint retorna uma array com todas as novels cadastradas na base de dados
     "escritor": "chocolion",
     "estrelas": "4.83",
     "dataCriacaoIndice": "1019-02-26 16:47:11",
-    "sinopse": "O Lend\u00E1rio Mec\u00E2nico\n\n\n\nO que voc\u00EA faz quando acorda e se encontra dentro do pr\u00F3prio jogo que voc...",
+    "sinopse": "O Lendá1rio Mecânico. O que você faz quando acorda e se encontra dentro do próprio jogo que voc...",
     "idCargo": "944186423051968553"
   }
 ]
