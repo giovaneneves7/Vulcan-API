@@ -75,7 +75,7 @@ Este endpoint retorna uma array com todas as novels cadastradas na base de dados
     "viewsTotais": 3355365,
     "viewsMensais": 50610,
     "slug": "ch-tlm-o-lendario-mecanico",
-    "nome": "O Lend\u00E1rio Mec\u00E2nico",
+    "nome": "O Lendário Mecânico",
     "nacionalidade": "ch",
     "capa": "https://vulcannovel.com.br/wp-content/uploads/2022/05/O-Lendario-Mecanico-Capa-Vulcan-225x300.jpg",
     "indice": "tlm-o-lendario-mecanico",
